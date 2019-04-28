@@ -1,12 +1,19 @@
 <template>
-  <h1>Projectia</h1>
+  <div>
+    <h1>Projectia</h1>
+    <Hyojin></Hyojin>
+  </div>
 </template>
 
 <script>
+import Hyojin from './Hyojin'
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  components: {
+    Hyojin
   }
 }
 </script>
