@@ -1,12 +1,20 @@
 <template>
-  <h1>Projectia</h1>
+  <div>
+    <h1>Projectia</h1>
+    <EuicheonTodo></EuicheonTodo>
+  </div>
 </template>
 
 <script>
+import EuicheonTodo from './EuicheonTodo.vue'
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  components: {
+    EuicheonTodo
   }
 }
 </script>
