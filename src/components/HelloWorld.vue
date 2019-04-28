@@ -1,12 +1,21 @@
 <template>
-  <h1>Projectia</h1>
+  <div>
+
+    <h1>Projectia</h1>
+    <Yejun></Yejun>
+  </div>
 </template>
 
 <script>
+import Yejun from './Yejun';
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  components: {
+    Yejun
   }
 }
 </script>
