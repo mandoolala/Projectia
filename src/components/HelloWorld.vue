@@ -8,6 +8,8 @@
 
 <script>
 import Yejun from './Yejun';
+import MinJoo from './MinJoo';
+
 
 export default {
   name: 'HelloWorld',
@@ -15,7 +17,8 @@ export default {
     msg: String
   },
   components: {
-    Yejun
+    Yejun,
+    MinJoo
   }
 }
 </script>
