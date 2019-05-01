@@ -1,19 +1,27 @@
 <template>
   <div>
+
     <h1>Projectia</h1>
     <Hyojin></Hyojin>
+    <Yejun></Yejun>
+
   </div>
 </template>
 
 <script>
-import Hyojin from './Hyojin'
+
+import Hyojin from './Hyojin';
+import Yejun from './Yejun';
+
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   },
   components: {
-    Hyojin
+    Hyojin,
+    Yejun
   }
 }
 </script>
