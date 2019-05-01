@@ -1,16 +1,20 @@
 <template>
   <div>
     <h1>Projectia</h1>
+    <Hyojin></Hyojin>
     <Yejun></Yejun>
+    <MinJoo></MinJoo>
     <EuicheonTodo></EuicheonTodo>
   </div>
 </template>
 
 <script>
 
+import Hyojin from './Hyojin';
 import EuicheonTodo from './EuicheonTodo.vue'
 import Yejun from './Yejun';
 import MinJoo from './MinJoo';
+
 
 export default {
   name: 'HelloWorld',
@@ -18,7 +22,8 @@ export default {
     msg: String
   },
   components: {
-    EuicheonTodo
+    Hyojin,
+    EuicheonTodo,
     Yejun,
     MinJoo
   }
