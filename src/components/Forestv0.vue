@@ -131,42 +131,52 @@ window.onload = function () {
     Game.run(context);
 };
 
+
+///
 var map = {
     cols: 8,
     rows: 8,
     tsize: 64,
-    tiles: [
-        1, 3, 3, 3, 1, 1, 3, 1,
-        1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 2, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 2, 1, 1, 1, 1,
-        1, 1, 1, 1, 2, 1, 1, 1,
-        1, 1, 1, 1, 5, 1, 1, 1,
-        1, 1, 1, 1, 2, 1, 1, 1
-    ],
-    getTile: function (col, row) {
-        return this.tiles[row * map.cols + col];
+    layers: [[
+        3, 3, 3, 3, 3, 3, 3, 3,
+        3, 1, 1, 1, 1, 1, 1, 3,
+        3, 1, 1, 1, 1, 2, 1, 3,
+        3, 1, 1, 1, 1, 1, 1, 3,
+        3, 1, 1, 2, 1, 1, 1, 3,
+        3, 1, 1, 1, 2, 1, 1, 3,
+        3, 1, 1, 1, 2, 1, 1, 3,
+        3, 3, 3, 1, 2, 3, 3, 3
+    ], [
+        4, 3, 3, 3, 3, 3, 3, 4,
+        4, 0, 0, 0, 0, 0, 0, 4,
+        4, 0, 0, 0, 0, 0, 0, 4,
+        4, 0, 0, 5, 0, 0, 0, 4,
+        4, 0, 0, 0, 0, 0, 0, 4,
+        4, 0, 0, 0, 0, 0, 0, 4,
+        4, 4, 4, 0, 5, 4, 4, 4,
+        0, 3, 3, 0, 0, 3, 3, 3
+    ]],
+    getTile: function (layer, col, row) {
+        return this.layers[layer][row * map.cols + col];
     }
 };
-// console.log(map)
+
 Game.load = function () {
     return [
-        Loader.loadImage('tiles', require('../assets/tiles.png'))
+        Loader.loadImage('tiles', require('../assets/tiles.png')),
+        Loader.loadImage('character', require('../assets/character.png'))
     ];
 };
 
 Game.init = function () {
     this.tileAtlas = Loader.getImage('tiles');
+    this.hero = {x: 128, y: 384, image: Loader.getImage('character')};
 };
 
-Game.update = function (delta) {
-};
-
-Game.render = function () {
+Game._drawLayer = function (layer) {
     for (var c = 0; c < map.cols; c++) {
         for (var r = 0; r < map.rows; r++) {
-            var tile = map.getTile(c, r);
+            var tile = map.getTile(layer, c, r);
             if (tile !== 0) { // 0 => empty tile
                 this.ctx.drawImage(
                     this.tileAtlas, // image
@@ -181,9 +191,18 @@ Game.render = function () {
                 );
             }
         }
-}
+    }
+};
 
-}
+Game.render = function () {
+    // draw map background layer
+    this._drawLayer(0);
+    // draw game sprites
+    this.ctx.drawImage(this.hero.image, this.hero.x, this.hero.y);
+    // draw map top layer
+    this._drawLayer(1);
+};
+
 export default {
     name: 'forestv',
     data() {
