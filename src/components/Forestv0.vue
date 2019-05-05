@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button v-on:click="change">change</button>
+        <button v-on:click="grow">grow all</button>
         <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
         <canvas id="demo" width="512" height="512"></canvas>
     </div>
@@ -227,11 +227,13 @@ export default {
                 this.img_src.push(this.icon)
             }
         },
-        change: function(event){
+        grow: function(event){
             for (var i=0;i<map.layers.length;i++){
                 for (var j=0;j<8;j++){
                     for (var k=0;k<8;k++){
-                        map.setTile(i,j,k,(map.getTile(i,j,k)+1)%5)
+                        if (map.getTile(i,j,k) != 0) {
+                            map.setTile(i,j,k,(map.getTile(i,j,k)+1)%5)
+                        }
                     }
                 }
             }
