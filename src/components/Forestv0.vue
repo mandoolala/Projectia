@@ -238,11 +238,16 @@ export default {
             }
         },
         plant: function(event){
+            var cnt = 0;
             while(true){
+                cnt += 1;
                 var col = Math.floor(Math.random() * 8);
                 var row = Math.floor(Math.random() * 8);
                 if (map.getTile(1,col,row) == 0){
                     map.setTile(1,col,row,1)
+                    break;
+                }
+                if (cnt > 64){
                     break;
                 }
             }
