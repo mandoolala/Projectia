@@ -1,6 +1,7 @@
 <template>
     <div>
         <button v-on:click="grow">grow all</button>
+        <button v-on:click="plant">plant</button>
         <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
         <canvas id="demo" width="512" height="512"></canvas>
     </div>
@@ -231,10 +232,20 @@ export default {
             for (var i=0;i<map.layers.length;i++){
                 for (var j=0;j<8;j++){
                     for (var k=0;k<8;k++){
-                        if (map.getTile(i,j,k) != 0) {
-                            map.setTile(i,j,k,(map.getTile(i,j,k)+1)%5)
+                        if ((map.getTile(i,j,k) != 0)&&(map.getTile(i,j,k)<4)) {
+                            map.setTile(i,j,k,(map.getTile(i,j,k)+1))
                         }
                     }
+                }
+            }
+        },
+        plant: function(event){
+            while(true){
+                var col = Math.floor(Math.random() * 8);
+                var row = Math.floor(Math.random() * 8);
+                if (map.getTile(1,col,row) == 0){
+                    map.setTile(1,col,row,1)
+                    break;
                 }
             }
         }
