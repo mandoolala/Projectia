@@ -1,6 +1,19 @@
 <template>
   <div id="app" class="main">
     <div class="sidebar">
+      <div style="padding: 1rem; height: 20rem; color: white;">
+        <img style="width: 13rem;" src="./assets/profile.png">
+        <div style="margin-top: 1rem">
+          <h2>Karl</h2>
+          working from home
+        </div>
+      </div>
+      <div style="padding-top: 1rem;">
+        <h2 style="color: white; margin: 1rem;">Projects</h2>
+        <div style="background-color: #FFFFFF; padding: 1rem; font-size: 1.5rem;">
+          build-my-great-...
+        </div>
+      </div>
     </div>
     <div class="projectContainer">
 
@@ -30,8 +43,40 @@ export default {
   components: {
     PullRequestList,
     forestv
+  },
+  data() {
+    return {
+      garden: {
+        plants: [
+          {
+            type: "cherry_blossom",
+            owner: "samantha",
+            level: "grown",
+            position: { x: 10, y: 10 }
+          }
+        ]
+      }
+    }
   }
 };
+
+const plantRepr = {
+  "cherry_blossom": {
+    tileSource: "../assets/asdf.png",
+    levels: [
+      {
+        terrain: 0,
+        tile: 4
+      },
+      {
+        terrain: 0,
+        tile: 5
+      },
+      6,
+      7
+    ],
+  }
+}
 </script>
 
 <style scoped>
