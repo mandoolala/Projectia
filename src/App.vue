@@ -20,8 +20,10 @@
         username/build-my-great-website
       </h1>
       <div class="fore">
-        <forestv></forestv>
+        <forestv v-bind:plants="garden.plants" v-on:click="plant"></forestv>
       </div>
+      <button v-on:click="grow">GRRRROWWWW!!!</button>
+      <button v-on:click="plant">PLANT!!!</button>
       <h1>
         Pull Requests
       </h1>
@@ -35,6 +37,7 @@ import PullRequestList from "./components/PullRequestList.vue";
 import forestv from "./components/Forestv0.vue"
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import {getMaxLevel} from "./plants";
 
 
 export default {
@@ -50,32 +53,40 @@ export default {
           {
             type: "cherry_blossom",
             owner: "samantha",
-            level: "grown",
-            position: { x: 10, y: 10 }
+            level: 0,
+            position: { x: 4, y: 4 }
           }
         ]
       }
     }
+  },
+  methods: {
+    grow() {
+      this.garden.plants = this.garden.plants.map(plant => {
+        return {
+          ...plant,
+          // lvl <= max
+          level: Math.min(plant.level + 1, getMaxLevel(plant.type))
+        }
+      });
+    },
+    findPlantInPosition(px, py) {
+      return this.garden.plants.find(({ position: { x, y }}) => (x === px) && (y === py));
+    },
+    plant(x, y) {
+      console.log(x, y);
+      if (this.findPlantInPosition(x, y)) return;
+
+      this.garden.plants.push({
+        type: "cherry_blossom",
+        owner: "samantha",
+        level: 0,
+        position: { x, y }
+      })
+    }
   }
 };
 
-const plantRepr = {
-  "cherry_blossom": {
-    tileSource: "../assets/asdf.png",
-    levels: [
-      {
-        terrain: 0,
-        tile: 4
-      },
-      {
-        terrain: 0,
-        tile: 5
-      },
-      6,
-      7
-    ],
-  }
-}
 </script>
 
 <style scoped>
