@@ -1,8 +1,9 @@
 <template>
     <div>
         <button v-on:click="grow">grow all</button>
-        <button v-on:click="plant">plant</button>
+        <button v-on:click="plant" >plant</button>
         <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
+        <transition><img id="water" v-if="watering" src="../assets/watering.png"></transition>
         <canvas id="demo" width="512" height="512"></canvas>
     </div>
 </template>
@@ -139,14 +140,14 @@ var map = {
     rows: 8,
     tsize: 64,
     layers: [[
-        6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6,
-        6, 6, 6, 6, 6, 6, 6, 6
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0
     ], [
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
@@ -212,7 +213,8 @@ export default {
     data() {
         return{
             img_src:[],
-            icon:require('../assets/logo.png')
+            icon:require('../assets/logo.png'),
+            watering: false
         }
     },
     methods : {
@@ -231,22 +233,54 @@ export default {
         grow: function(event){
             for (var j=0;j<8;j++){
                 for (var k=0;k<8;k++){
-                    if ((map.getTile(1,j,k) != 0)&&(map.getTile(1,j,k)<4)) {
+                    if ((map.getTile(1,j,k) != 0)&&(map.getTile(1,j,k)<6)) {
                         map.setTile(1,j,k,(map.getTile(1,j,k)+1))
                     }
                 }
             }
         },
         plant: function(event){
+            var cnt = 0;
+            watering = !watering
             while(true){
+                cnt += 1;
                 var col = Math.floor(Math.random() * 8);
                 var row = Math.floor(Math.random() * 8);
                 if (map.getTile(1,col,row) == 0){
                     map.setTile(1,col,row,1)
                     break;
                 }
+                if (cnt > 64){
+                    break;
+                }
             }
         }
     }
+    
 }
 </script>
+<style>
+@keyframes watering_plant{
+    0% { 
+        opacity:0
+        rotate(0deg)
+    }
+
+    50%{
+        opacity:1
+        rotate(50deg)
+    }
+
+    100% {
+        opacity:0
+        rotate(0deg)
+    }
+}
+
+#water{
+    width: 100px;
+    height: 100px;
+    position: relative;
+    animation-name: watering_plant;
+    animation-duration: 4s;
+}
