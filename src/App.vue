@@ -5,7 +5,7 @@
     <div class="projectContainer">
 
       <h1>
-        build-my-great-website
+        username/build-my-great-website
       </h1>
       <div class="fore">
         <forestv></forestv>
@@ -46,6 +46,7 @@ export default {
   display: flex;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -54,7 +55,10 @@ export default {
 }
 
 .projectContainer {
-  padding: 1rem;
+  padding: 4rem;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .fore {
