@@ -2,8 +2,11 @@
   <div id="app" class="main">
     <div class="sidebar">
     </div>
-    <div class="projectContainer">
 
+    <div class="projectContainer">
+      <div>
+        <githubcontroller></githubcontroller>
+      </div>
       <h1>
         build-my-great-website
       </h1>
@@ -13,13 +16,15 @@
       <h1>
         Pull Requests
       </h1>
-      <PullRequestList />
+      <PullRequestList></PullRequestList>
     </div>
+
   </div>
 </template>
 
 <script>
 import PullRequestList from "./components/PullRequestList.vue";
+import githubcontroller from "./components/GithubController";
 import forestv from "./components/Forestv0.vue"
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -27,9 +32,15 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export default {
   name: "app",
+  data:function() {
+    return {
+        showModal : false
+      };
+    },
   components: {
     PullRequestList,
-    forestv
+    forestv,
+    githubcontroller
   }
 };
 </script>
