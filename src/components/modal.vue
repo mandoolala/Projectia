@@ -12,7 +12,8 @@
 
                     <div class="modal-body">
                         <slot name="body">
-<!--                            default body-->
+                            <p>This is mock-up GitHub controller for testing.</p>
+<!--                            <span style="white-space: pre-line"></span>-->
                             <input v-model="message">
                             <button v-on:click="pull">pull request</button>
                             <button v-on:click="merge">merge</button>
@@ -77,7 +78,7 @@
     }
 
     .modal-container {
-        width: 300px;
+        width: 500px;
         margin: 0px auto;
         padding: 20px 30px;
         background-color: #fff;

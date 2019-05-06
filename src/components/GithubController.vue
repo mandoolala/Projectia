@@ -7,7 +7,7 @@
               you can use custom content here to overwrite
               default content
             -->
-            <h3 slot="header">Controller</h3>
+            <h3 slot="header">GitHub Controller</h3>
         </modal>
 <!--        <input v-model="message">-->
 <!--        <button v-on:click="pull">pull request</button>-->
