@@ -16,7 +16,7 @@
       <h1>
         Pull Requests
       </h1>
-      <PullRequestList></PullRequestList>
+<!--      <PullRequestList></PullRequestList>-->
     </div>
 
   </div>
