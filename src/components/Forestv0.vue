@@ -1,8 +1,9 @@
 <template>
     <div>
         <button v-on:click="grow">grow all</button>
-        <button v-on:click="plant">plant</button>
+        <button v-on:click="plant" >plant</button>
         <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
+        <div class="water" v-if="watering" ><img src="../assets/watering.png"></div>
         <canvas id="demo" width="512" height="512"></canvas>
     </div>
 </template>
@@ -139,6 +140,15 @@ var map = {
     rows: 8,
     tsize: 64,
     layers: [[
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1
+    ],  [
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
@@ -205,6 +215,7 @@ Game.render = function () {
     this.ctx.drawImage(this.hero.image, this.hero.x, this.hero.y);
     // draw map top layer
     this._drawLayer(1);
+    this._drawLayer(2);
 };
 
 export default {
@@ -212,7 +223,8 @@ export default {
     data() {
         return{
             img_src:[],
-            icon:require('../assets/logo.png')
+            icon:require('../assets/logo.png'),
+            watering: false
         }
     },
     methods : {
@@ -229,10 +241,17 @@ export default {
             }
         },
         grow: function(event){
+            this.watering = !this.watering
             for (var j=0;j<8;j++){
                 for (var k=0;k<8;k++){
-                    if ((map.getTile(1,j,k) != 0)&&(map.getTile(1,j,k)<6)) {
-                        map.setTile(1,j,k,(map.getTile(1,j,k)+1))
+                    if (map.getTile(2,j,k)+1 == 4) {
+                        map.setTile(0,j,k,7);
+                        map.setTile(1,j,k,9);
+                    }else if(map.getTile(2,j,k)+1 == 6){
+                        map.setTile(0,j,k,8);
+                    }
+                    if ((map.getTile(2,j,k) != 0)&&(map.getTile(2,j,k)<6)) {
+                        map.setTile(2,j,k,(map.getTile(2,j,k)+1))
                     }
                 }
             }
@@ -243,8 +262,8 @@ export default {
                 cnt += 1;
                 var col = Math.floor(Math.random() * 8);
                 var row = Math.floor(Math.random() * 8);
-                if (map.getTile(1,col,row) == 0){
-                    map.setTile(1,col,row,1)
+                if (map.getTile(2,col,row) == 0){
+                    map.setTile(2,col,row,2)
                     break;
                 }
                 if (cnt > 64){
@@ -253,5 +272,30 @@ export default {
             }
         }
     }
+    
 }
 </script>
+<style>
+.water {
+	animation: rotate-90-bl-ccw 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards;
+    position: absolute;
+    left: 1000px;
+}
+
+@keyframes rotate-90-bl-ccw {
+  0% {
+    transform: rotate(0);
+    transform-origin: 0% 100%;
+  }
+  70% {
+    transform: rotate(-90deg);
+    transform-origin: 0% 100%;
+  }
+  100%{
+    transform: rotate(10deg);
+    transform-origin: 0% 100%;
+    opacity:0;
+  }
+}
+
+</style>
