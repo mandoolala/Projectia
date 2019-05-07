@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button id="show-modal" @click="showModal = true">Show Modal</button>
+        <button id="show-modal" @click="showModal = true">Go to GitHub</button>
         <!-- use the modal component, pass in the prop -->
         <modal v-if="showModal" @close="showModal = false">
             <!--
