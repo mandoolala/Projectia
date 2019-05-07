@@ -3,24 +3,38 @@
   <div id="pull-request">
 
       <div class="filters" style="display:flex">
-          <button class="button" :class="{ selected: visibility == 'all' }">All</button>
-          <button class="button" :class="{ selected: visibility == 'onProgress' }">On Progress</button>
-          <button class="button" :class="{ selected: visibility == 'merged' }">Merged</button>
+          <button class="button" v-on:click="visibility = 'all'" :class="{ selected: visibility === 'all' }">All</button>
+          <button class="button" v-on:click="visibility = 'onProgress'" :class="{ selected: visibility === 'onProgress' }">On Progress</button>
+          <button class="button" v-on:click="visibility = 'merged'" :class="{ selected: visibility === 'merged' }">Merged</button>
       </div>
 
     <div>
         <div class="pullrequestcard"
                 v-bind:key="index"
-                v-for="(pullrequest, index) in filteredPullRequests">
+                v-bind:reward="pullrequest.reward"
+                v-for="(pullrequest, index) in filteredPullRequests"
+                >
 
-            <div class="title" v-bind:class="{ titleblur: pullrequest.collect_status === 'collected'}">
+            <div class="title" v-bind:class="{ titleblur: pullrequest.status === 'closed'}">
                 <img class="logo" src="../assets/GitHub-Mark-120px-plus.png">
-                <a class="issue" v-bind:href="pullrequest.url">{{pullrequest.name}}</a>
+                <a class="issue">{{pullrequest.name}}</a>
             </div>
 
-            <div class="status" v-bind:class="{ statusblur: pullrequest.collect_status === 'collected'}">
+            <div class="status">
                 <img v-bind:class=pullrequest.status v-bind:src="pullrequest.src">
-                <button class="collectbutton" v-bind:class=pullrequest.collect_status >Collect</button>
+                <div v-if="pullrequest.status !== 'new'">
+                    <button v-on:click="waterForest" class="collectbutton" v-bind:class=pullrequest.collect_status> {{pullrequest.collect_status}}</button>
+                </div>
+                <div v-else>
+                <b-button v-b-modal.modal-sm class="collectbutton" v-bind:class=pullrequest.collect_status> {{pullrequest.collect_status}}</b-button>
+                <b-modal id="modal-sm" size="sm" title="Congratulations!" @ok="collectItem" hide-header-close>
+                    <h6>You have earned {{pullrequest.reward}} 씨앗! </h6>
+                    <img class="reward" v-bind:src="pullrequest.reward_src">
+                    <template slot="modal-footer" slot-scope="{ ok }">
+                        <b-button size="m" @click="$bvModal.hide('modal-sm')"> Let's grow the plant! </b-button>
+                    </template>
+                </b-modal>
+                </div>
             </div>
 
         </div>
@@ -38,13 +52,13 @@ var filters = {
         return pullrequests
     },
     onProgress: function (pullrequests) {
-        return pullrequests.filter(function (pullrequests) {
-            return pullrequests.onprogress
+        return pullrequests.filter(function (pullrequest) {
+            return !pullrequest.isMerged
         })
     },
     merged: function (pullrequests) {
-        return pullrequests.filter(function (pullrequests) {
-            return pullrequests.merged
+        return pullrequests.filter(function (pullrequest) {
+            return pullrequest.isMerged
         })
     }
 }
@@ -57,32 +71,50 @@ export default {
             pullRequests: [
                 {
                     name: "fix pullrequestlist.vue",
-                    status: "merged",
-                    collect_status: "collected",
+                    isPulled:  true,
+                    isMerged:  true,
                     src: require("../assets/merged.png"),
-                    contributor: "",
-                    url: ""
+                    status: "closed",
+                    collect_status: "Watered",
+                    reward: "yanguibi",
+                    reward_src: require("../assets/rewards/yanguibi.png")
                 },
                 {
-                    name: "fix 2",
-                    status: "merged",
-                    collect_status: "collect",
+                    name: "fix pullrequestlist.vue",
+                    isPulled:  true,
+                    isMerged:  true,
                     src: require("../assets/merged.png"),
-                    contributor: "",
-                    url: ""
+                    status: "merged",
+                    collect_status: "Water",
+                    reward: "yanguibi",
+                    reward_src: require("../assets/rewards/yanguibi.png")
                 },
                 {
-                    name: "fixx",
-                    status: "progress",
-                    collect_status: "collect-disabled",
+                    name: "fix pullrequestlist.vue",
+                    isPulled:  true,
+                    isMerged:  false,
                     src: require("../assets/progress.png"),
-                    contributor: "",
-                    url: ""
+                    status: "progress",
+                    collect_status: "Collected",
+                    reward: "yanguibi",
+                    reward_src: require("../assets/rewards/yanguibi.png")
                 },
+                {
+                    name: "fix pullrequestlist.vue",
+                    isPulled:  true,
+                    isMerged:  false,
+                    src: require("../assets/new.png"),
+                    status: "new",
+                    collect_status: "Collect",
+                    reward: "yanguibi",
+                    reward_src: require("../assets/rewards/yanguibi.png")
+                },
+
             ],
 
             new: '',
             visibility: 'all',
+            modalShow: false
         }
     },
     computed: {
@@ -91,16 +123,24 @@ export default {
         }
     },
     methods: {
-        // AddRequest: function(){
-        //     this.pullRequests.push({
-        //
-        //     })
-        // },
-        //
-        // UpdateRequest: function(request){
-        //     this.pullRequests.status = "merged";
-        //     this.pullRequests.collect_status = "collected";
-        // }
+
+        collectItem: function(request){
+            request.status = "progress"
+            request.collect_status = "Collected"
+            request.src = require("../assets/progress.png")
+            //move collected reward to container
+        },
+        mergeItem: function(request){
+            request.status = "merged";
+            request.isMerged = "true";
+            request.collect_status = "Water";
+            request.src = require("../assets/merged.png")
+        },
+        waterForest: function(request){
+            request.status = "closed"
+            request.collect_status = "Watered"
+            //water forest
+        }
 
     },
 
@@ -214,22 +254,32 @@ export default {
   justify-content: space-between;
 }
 
+.closed{
+    height: 25px;
+    margin-top:12px;
+    margin-left: 12px;
+    opacity:0.6;
+}
+
+.merged{
+    height: 25px;
+    margin-top:12px;
+    margin-left: 12px;
+}
+
 .progress{
-    height: 23px;
+    height: 27px;
     margin-top: 12px;
     margin-left: 12px;
 
 }
 
-.merged{
-    height: 21px;
-    margin-top:12px;
-    margin-left: 12px;
+.new{
+    height: 35px;
+    margin-top: 12px;
+    margin-left: 5px;
 }
 
-.statusblur{
-    opacity:0.6;
-}
 
 
 .collectbutton{
@@ -237,37 +287,62 @@ export default {
     line-height: 1;
     white-space: nowrap;
     cursor: pointer;
-    background: #fff;
-    border: 1px solid #dcdfe6;
     text-align: center;
     box-sizing: border-box;
     outline: none;
     transition: .1s;
     font-weight: 500;
     padding: 10px 18px;
-    font-size: 14px;
+    font-size: 16px;
     border-radius: 4px;
     margin-right: 15px;
 }
 
-.collect-disabled {
+
+
+.Watered {
+    color: #fff;
+    background-color: #72cce5;
+    border-color:  #72cce5;
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.Water:focus, .Water:active, .Water:hover {
+    //z-index: 1;
+    background-color: #72cce5;
+    border-color:  #72cce5;
+    opacity: 0.6;
+}
+
+.Water{
+    color: #fff;
+    background-color: #72cce5;
+    border-color:  #72cce5;
+}
+
+.Collected{
     color: #fff;
     background-color: #b3e19d;
     border-color: #b3e19d;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
-.collect {
+.Collect:focus, .Collect:active, .Collect:hover {
+    //z-index: 1;
+    background-color: #b3e19d;
+    border-color: #b3e19d;
+    opacity: 0.6;
+}
+
+.Collect {
     color: #fff;
     background-color: #67c23a;
     border-color:#67c23a;
+    margin-top: 8px;
 }
-
-.collected{
-    color: #fff;
-    background-color: #c8c9cc;
-    border-color: #c8c9cc;
-}
-
 
 .reward{
     width:200px;
