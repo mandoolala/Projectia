@@ -4,7 +4,7 @@
         <button v-on:click="plant" >plant</button>
         <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
         <div class="water" v-if="watering" ><img src="../assets/watering.png"></div>
-        <canvas id="demo" width="512" height="512"></canvas>
+        <canvas v-on:click="click" id="demo" width="512" height="512"></canvas>
     </div>
 </template>
 
@@ -12,6 +12,9 @@
 //
 // Asset loader
 //
+import {plantRepresentation} from "../plants";
+import {createArrayWithNum} from "../utils";
+
 console.log("!!!")
 var Loader = {
     images: {}
@@ -172,6 +175,13 @@ var map = {
     },
     setTile: function(layer,col,row,v){
         this.layers[layer][row * map.cols + col] = v
+    },
+    initTiles: function() {
+      const dirtLayer = createArrayWithNum(this.cols * this.rows, 1);
+      const invisibleLayer = createArrayWithNum(this.cols * this.rows, 0);
+      this.layers[0] = dirtLayer;
+      this.layers[1] = invisibleLayer;
+      this.layers[2] = [...invisibleLayer];
     }
 };
 
@@ -220,6 +230,7 @@ Game.render = function () {
 
 export default {
     name: 'forestv',
+    props: ['plants'],
     data() {
         return{
             img_src:[],
@@ -227,6 +238,27 @@ export default {
             watering: false
         }
     },
+  watch: {
+      plants: function (newPlants) {
+
+        map.initTiles();
+
+        const layers = map.layers;
+        newPlants.forEach(plant => {
+          const repr = plantRepresentation[plant.type];
+          const { x, y } = plant.position;
+
+          repr.levels[plant.level].forEach((tile, layerIndex) => {
+            const newLayer = layers[layerIndex] || [];
+            // TODO:: Custom source
+            newLayer[map.cols * y + x] = tile.index;
+            layers[layerIndex] = newLayer;
+          });
+        });
+
+        Game.render();
+      }
+  },
     methods : {
         gogo: function() {
             if (event){
@@ -250,7 +282,8 @@ export default {
                     }else if(map.getTile(2,j,k)+1 == 6){
                         map.setTile(0,j,k,8);
                     }
-                    if ((map.getTile(2,j,k) != 0)&&(map.getTile(2,j,k)<6)) {
+                    if ((map.getTile(2,j,k) !=
+                      0)&&(map.getTile(2,j,k)<6)) {
                         map.setTile(2,j,k,(map.getTile(2,j,k)+1))
                     }
                 }
@@ -270,6 +303,14 @@ export default {
                     break;
                 }
             }
+        },
+        click: function(event) {
+          const elem = document.getElementById('demo');
+          const offsetX = (event.pageX - elem.offsetLeft);
+          const offsetY = event.pageY - elem.offsetTop;
+          const xTile = Math.floor(map.cols * (offsetX / elem.width));
+          const yTile = Math.floor(map.rows * (offsetY / elem.height));
+          this.$emit('click', xTile, yTile);
         }
     }
     
