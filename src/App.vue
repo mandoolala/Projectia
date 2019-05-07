@@ -20,10 +20,11 @@
         username/build-my-great-website
       </h1>
       <div class="fore">
-        <forestv v-bind:plants="garden.plants" v-on:click="plant"></forestv>
+        <forestv canvasId="hi" v-bind:plants="garden.availablePlants" v-on:click="pick"></forestv>
+        <forestv canvasId="hello" v-bind:plants="garden.plants" v-on:click="plant"></forestv>
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
-      <button v-on:click="plant">PLANT!!!</button>
+      <!-- <button v-on:click="plant">PLANT!!!</button> -->
       <h1>
         Pull Requests
       </h1>
@@ -50,11 +51,19 @@ export default {
     return {
       garden: {
         plants: [
+          // {
+          //   type: "cherry_blossom",
+          //   owner: "samantha",
+          //   level: 0,
+          //   position: { x: 4, y: 4 }
+          // }
+        ],
+        availablePlants: [
           {
             type: "cherry_blossom",
             owner: "samantha",
             level: 0,
-            position: { x: 4, y: 4 }
+            position: { x: 0, y: 0 }
           }
         ]
       }
@@ -70,6 +79,13 @@ export default {
         }
       });
     },
+    // pick(a, b) {
+    //   if (!this.findPlantInPosition(a, b)) return;
+    //   this.garden.availablePlants = this.garden.availablePlants.map(plant => {
+    //     if () return;
+    //     console.log("hi")
+    //   })
+    // },
     findPlantInPosition(px, py) {
       return this.garden.plants.find(({ position: { x, y }}) => (x === px) && (y === py));
     },
