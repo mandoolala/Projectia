@@ -5,26 +5,53 @@
                 <div class="modal-container">
 
                     <div class="modal-header">
-                        <slot name="header">
-<!--                            default header-->
-                        </slot>
+                        <h1>
+                            <img
+                                    src="../assets/GitHub-Mark-120px-plus.png"
+                                    style="width: 50px; height: 50px; margin-right:5px; align-items: center;"
+                            >
+                            GitHub
+                        </h1>
+                        <p>This is mock-up GitHub controller for testing.</p>
                     </div>
 
                     <div class="modal-body">
                         <slot name="body">
-                            <p>This is mock-up GitHub controller for testing.</p>
 <!--                            <span style="white-space: pre-line"></span>-->
-                            <input v-model="message">
-                            <button v-on:click="pull">pull request</button>
-                            <button v-on:click="merge">merge</button>
+<!--                            <button v-on:click="merge">merge</button>-->
+<!--                            <p>Branches List</p>-->
+
+<!--                            <input type="text" v-model="input" @keydown.enter="addBracnch" />-->
+<!--                            <button @keydown.enter="addBracnch" >Add Branch</button>-->
+<!--                            <ul>-->
+<!--                                <li v-bind:key="branch.id" v-for="branch in branchList" v-text="branch.text">-->
+<!--&lt;!&ndash;                                    <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <input v-model="message">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <button v-on:click="pull">pull request</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--                                </li>-->
+<!--                            </ul>-->
+                            <table>
+                                <tr v-bind:key = "branch.id" v-for="branch in branchList">
+                                    <td v-if ="!branch.isPulled" v-text="branch.text">
+                                    </td>
+                                    <button v-on:click="pull(key)">Pull Request
+                                    </button>
+                                </tr>
+                                <hr>
+                                <tr v-for="pullRequest in pullRequestList" v-bind:key="pullRequest.id">
+                                    <td v-if="!pullRequest.isMerged" v-text="pullRequest.text">
+                                    </td>
+                                    <button v-on:click="merge(key)">Merge
+                                    </button>
+                                </tr>
+                            </table>
                         </slot>
                     </div>
-
                     <div class="modal-footer">
                         <slot name="footer">
-<!--                            default footer-->
                             <button class="modal-default-button" @click="$emit('close')">
-                                OK
+                                Back To Projectia
                             </button>
                         </slot>
                     </div>
@@ -39,21 +66,64 @@
         name: "modal",
         data: function() {
             return {
-                pullRequestList:[]
-                    };
+                input: '',
+                todos: [],
+                count: 0,
+                branchList:[
+                    {
+                        id:1,
+                        text:"this is first branch",
+                        isPulled: false,
+                        isMerged: false
+                    },
+                    {
+                        id:2,
+                        text:"this is second branch",
+                        isPulled: false,
+                        isMerged: false
+                    }
+                ],
+                pullRequestList:[
+
+                ],
+                mergeList:[
+
+                ]
+            };
             },
         methods: {
-            pull: function(){
-                let newRequest = {
-                    message: this.message,
-                    collected: false,
-                    merged: false
-                }
-                this.pullRequestList.push(newRequest)
-                console.log(this.pullRequestList)
+            addBracnch: function(){
+                this.branchList.push({
+                    id: this.count,
+                    text: this.input,
+                    isDone: false,
+                });
+                this.input = '';
+                this.count = this.count + 1;
             },
-            merge: function(){
-
+            pull: function(key){
+                for (var i in this.branchList){
+                    if(this.branchList[i].key === key){
+                        this.branchList[i].isPulled = true;
+                        const idx = this.branchList.indexOf(this.branchList[i]);
+                        if (idx > -1) {
+                            this.pullRequestList.push(this.branchList[idx]);
+                            this.branchList.splice(idx, 1)
+                        }
+                    }
+                }
+            },
+            merge: function(key){
+                for (var i in this.pullRequestList){
+                    if(this.pullRequestList[i].key === key){
+                        this.pullRequestList[i].isMerged = true;
+                        const idx = this.pullRequestList.indexOf(this.pullRequestList[i]);
+                        if (idx > -1) {
+                            this.mergeList.push(this.pullRequestList[idx]);
+                            this.pullRequestList.splice(idx, 1)
+                        }
+                    }
+                }
             }
         }
     }
@@ -78,7 +148,7 @@
     }
 
     .modal-container {
-        width: 500px;
+        width: 90%;
         margin: 0px auto;
         padding: 20px 30px;
         background-color: #fff;
@@ -88,9 +158,9 @@
         font-family: Helvetica, Arial, sans-serif;
     }
 
-    .modal-header h3 {
-        margin-top: 0;
-        color: #42b983;
+    .modal-header p {
+        margin: 20px 0;
+        color: #ff0000;
     }
 
     .modal-body {
@@ -110,13 +180,6 @@
      * these styles.
      */
 
-    .modal-enter {
-        opacity: 0;
-    }
-
-    .modal-leave-active {
-        opacity: 0;
-    }
 
     .modal-enter .modal-container,
     .modal-leave-active .modal-container {
