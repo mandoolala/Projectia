@@ -12,38 +12,39 @@
                             >
                             GitHub
                         </h1>
-                        <p>This is mock-up GitHub controller for testing.</p>
+                        <p><b>This is mock-up GitHub controller for testing.</b></p>
                     </div>
 
                     <div class="modal-body">
                         <slot name="body">
-<!--                            <span style="white-space: pre-line"></span>-->
-<!--                            <button v-on:click="merge">merge</button>-->
-<!--                            <p>Branches List</p>-->
-
-<!--                            <input type="text" v-model="input" @keydown.enter="addBracnch" />-->
-<!--                            <button @keydown.enter="addBracnch" >Add Branch</button>-->
-<!--                            <ul>-->
-<!--                                <li v-bind:key="branch.id" v-for="branch in branchList" v-text="branch.text">-->
-<!--&lt;!&ndash;                                    <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <input v-model="message">&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <button v-on:click="pull">pull request</button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                                </li>-->
-<!--                            </ul>-->
                             <table>
+                                <h4 style="color: #6aa73d;">
+                                    <img
+                                            src="../assets/git-branch-512.png"
+                                            style="width: 18px; height: 28px; color: #6aa73d;"
+                                    >
+                                    Branches
+                                </h4>
                                 <tr v-bind:key = "branch.id" v-for="branch in branchList">
-                                    <td v-if ="!branch.isPulled" v-text="branch.text">
+                                    <td style="width: 430px" v-if="!branch.isPulled" v-text="branch.title">
                                     </td>
-                                    <button v-on:click="pull(key)">Pull Request
+                                    <button v-on:click="pull(branch.id)" v-if="!branch.isPulled">Pull Request
                                     </button>
                                 </tr>
                                 <hr>
-                                <tr v-for="pullRequest in pullRequestList" v-bind:key="pullRequest.id">
-                                    <td v-if="!pullRequest.isMerged" v-text="pullRequest.text">
-                                    </td>
-                                    <button v-on:click="merge(key)">Merge
+                                <h4 style="color: #28a745;">
+                                    <img
+                                            src="../assets/git-pull-request-512.png"
+                                            style="width: 20px; height: 28px; color: #6aa73d;"
+                                    >
+                                    Pull Requests
+                                </h4>
+                                <tr v-for="pullRequest in branchList" v-bind:key="pullRequest.id">
+                                    <td v-if="!pullRequest.isMerged && pullRequest.isPulled">
+                                    <input style="width: 300px" v-if="!pullRequest.isMerged && pullRequest.isPulled" placeholder="type your merge message" v-model="pullRequest.name">
+                                    <button v-on:click="merge(pullRequest.id)" v-if="!pullRequest.isMerged && pullRequest.isPulled">Merge
                                     </button>
+                                    </td>
                                 </tr>
                             </table>
                         </slot>
@@ -72,15 +73,23 @@
                 branchList:[
                     {
                         id:1,
-                        text:"this is first branch",
+                        title:"this is first branch",
+                        name:"",
                         isPulled: false,
-                        isMerged: false
+                        isMerged: false,
+                        status:"new",
+                        isCollected:false,
+                        // src:require("../assets/new.png")
                     },
                     {
                         id:2,
-                        text:"this is second branch",
+                        title:"this is second branch",
+                        name:"",
                         isPulled: false,
-                        isMerged: false
+                        isMerged: false,
+                        status:"new",
+                        isCollected:false,
+                        // src:require("../assets/new.png")
                     }
                 ],
                 pullRequestList:[
@@ -92,36 +101,28 @@
             };
             },
         methods: {
-            addBracnch: function(){
-                this.branchList.push({
-                    id: this.count,
-                    text: this.input,
-                    isDone: false,
-                });
-                this.input = '';
-                this.count = this.count + 1;
-            },
             pull: function(key){
+                console.log(key)
                 for (var i in this.branchList){
-                    if(this.branchList[i].key === key){
+                    if(this.branchList[i].id === key){
                         this.branchList[i].isPulled = true;
-                        const idx = this.branchList.indexOf(this.branchList[i]);
-                        if (idx > -1) {
-                            this.pullRequestList.push(this.branchList[idx]);
-                            this.branchList.splice(idx, 1)
-                        }
+                        // const idx = this.branchList.indexOf(this.branchList[i]);
+                        // if (idx > -1) {
+                        //     this.pullRequestList.push(this.branchList[idx]);
+                        //     this.branchList.splice(idx, 1)
+                        // }
                     }
                 }
             },
             merge: function(key){
-                for (var i in this.pullRequestList){
-                    if(this.pullRequestList[i].key === key){
-                        this.pullRequestList[i].isMerged = true;
-                        const idx = this.pullRequestList.indexOf(this.pullRequestList[i]);
-                        if (idx > -1) {
-                            this.mergeList.push(this.pullRequestList[idx]);
-                            this.pullRequestList.splice(idx, 1)
-                        }
+                for (var i in this.branchList){
+                    if(this.branchList[i].id === key){
+                        this.branchList[i].isMerged = true;
+                        // const idx = this.pullRequestList.indexOf(this.pullRequestList[i]);
+                        // if (idx > -1) {
+                        //     this.mergeList.push(this.pullRequestList[idx]);
+                        //     this.pullRequestList.splice(idx, 1)
+                        // }
                     }
                 }
             }
