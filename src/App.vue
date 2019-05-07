@@ -16,9 +16,7 @@
       </div>
     </div>
     <div class="projectContainer">
-      <div>
         <githubcontroller></githubcontroller>
-      </div>
       <h1>
         username/build-my-great-website
       </h1>
@@ -30,7 +28,7 @@
       <h1>
         Pull Requests
       </h1>
-	  <PullRequestList />
+      <PullRequestList></PullRequestList>
     </div>
 
   </div>
@@ -47,17 +45,14 @@ import {getMaxLevel} from "./plants";
 
 export default {
   name: "app",
-  data:function() {
-    return {
-        showModal : false
-      };
-    },
   components: {
     PullRequestList,
-    forestv
+    forestv,
+    githubcontroller
   },
   data() {
     return {
+      showModal : false,
       garden: {
         plants: [
           {
