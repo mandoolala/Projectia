@@ -1,9 +1,10 @@
 <template>
     <div>
         <button v-on:click="grow">grow all</button>
-        <button v-on:click="plant">plant</button>
+        <button v-on:click="plant" >plant</button>
         <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
-        <canvas id="demo" width="512" height="512"></canvas>
+        <div class="water" v-if="watering" ><img src="../assets/watering.png"></div>
+        <canvas v-on:click="click" id="demo" width="512" height="512"></canvas>
     </div>
 </template>
 
@@ -11,6 +12,9 @@
 //
 // Asset loader
 //
+import {plantRepresentation} from "../plants";
+import {createArrayWithNum} from "../utils";
+
 console.log("!!!")
 var Loader = {
     images: {}
@@ -139,12 +143,21 @@ var map = {
     rows: 8,
     tsize: 64,
     layers: [[
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1
+    ],  [
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 2, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0
     ], [
@@ -153,7 +166,7 @@ var map = {
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 7, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0
     ]],
@@ -162,6 +175,13 @@ var map = {
     },
     setTile: function(layer,col,row,v){
         this.layers[layer][row * map.cols + col] = v
+    },
+    initTiles: function() {
+      const dirtLayer = createArrayWithNum(this.cols * this.rows, 1);
+      const invisibleLayer = createArrayWithNum(this.cols * this.rows, 0);
+      this.layers[0] = dirtLayer;
+      this.layers[1] = invisibleLayer;
+      this.layers[2] = [...invisibleLayer];
     }
 };
 
@@ -205,16 +225,40 @@ Game.render = function () {
     this.ctx.drawImage(this.hero.image, this.hero.x, this.hero.y);
     // draw map top layer
     this._drawLayer(1);
+    this._drawLayer(2);
 };
 
 export default {
     name: 'forestv',
+    props: ['plants'],
     data() {
         return{
             img_src:[],
-            icon:require('../assets/logo.png')
+            icon:require('../assets/logo.png'),
+            watering: false
         }
     },
+  watch: {
+      plants: function (newPlants) {
+
+        map.initTiles();
+
+        const layers = map.layers;
+        newPlants.forEach(plant => {
+          const repr = plantRepresentation[plant.type];
+          const { x, y } = plant.position;
+
+          repr.levels[plant.level].forEach((tile, layerIndex) => {
+            const newLayer = layers[layerIndex] || [];
+            // TODO:: Custom source
+            newLayer[map.cols * y + x] = tile.index;
+            layers[layerIndex] = newLayer;
+          });
+        });
+
+        Game.render();
+      }
+  },
     methods : {
         gogo: function() {
             if (event){
@@ -229,10 +273,18 @@ export default {
             }
         },
         grow: function(event){
+            this.watering = !this.watering
             for (var j=0;j<8;j++){
                 for (var k=0;k<8;k++){
-                    if ((map.getTile(1,j,k) != 0)&&(map.getTile(1,j,k)<4)) {
-                        map.setTile(1,j,k,(map.getTile(1,j,k)+1))
+                    if (map.getTile(2,j,k)+1 == 4) {
+                        map.setTile(0,j,k,7);
+                        map.setTile(1,j,k,9);
+                    }else if(map.getTile(2,j,k)+1 == 6){
+                        map.setTile(0,j,k,8);
+                    }
+                    if ((map.getTile(2,j,k) !=
+                      0)&&(map.getTile(2,j,k)<6)) {
+                        map.setTile(2,j,k,(map.getTile(2,j,k)+1))
                     }
                 }
             }
@@ -243,15 +295,48 @@ export default {
                 cnt += 1;
                 var col = Math.floor(Math.random() * 8);
                 var row = Math.floor(Math.random() * 8);
-                if (map.getTile(1,col,row) == 0){
-                    map.setTile(1,col,row,1)
+                if (map.getTile(2,col,row) == 0){
+                    map.setTile(2,col,row,2)
                     break;
                 }
                 if (cnt > 64){
                     break;
                 }
             }
+        },
+        click: function(event) {
+          const elem = document.getElementById('demo');
+          const offsetX = (event.pageX - elem.offsetLeft);
+          const offsetY = event.pageY - elem.offsetTop;
+          const xTile = Math.floor(map.cols * (offsetX / elem.width));
+          const yTile = Math.floor(map.rows * (offsetY / elem.height));
+          this.$emit('click', xTile, yTile);
         }
     }
+    
 }
 </script>
+<style>
+.water {
+	animation: rotate-90-bl-ccw 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards;
+    position: absolute;
+    left: 1000px;
+}
+
+@keyframes rotate-90-bl-ccw {
+  0% {
+    transform: rotate(0);
+    transform-origin: 0% 100%;
+  }
+  70% {
+    transform: rotate(-90deg);
+    transform-origin: 0% 100%;
+  }
+  100%{
+    transform: rotate(10deg);
+    transform-origin: 0% 100%;
+    opacity:0;
+  }
+}
+
+</style>

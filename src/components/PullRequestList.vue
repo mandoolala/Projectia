@@ -1,120 +1,211 @@
 <template>
   <!-- import CSS -->
-  <div id="pullrequest">
-    <div style="display:flex">
-      <el-button-group id="filter">
-        <el-button type="default">All</el-button>
-        <el-button type="default">On progress</el-button>
-        <el-button type="default">Closed</el-button>
-      </el-button-group>
-    </div>
+  <div id="pull-request">
+
+      <div class="filters" style="display:flex">
+          <button class="button" :class="{ selected: visibility == 'all' }">All</button>
+          <button class="button" :class="{ selected: visibility == 'onProgress' }">On Progress</button>
+          <button class="button" :class="{ selected: visibility == 'merged' }">Merged</button>
+      </div>
+
     <div>
-      <el-card class="pullrequestcard">
-        <div class="title">
-          <img
-            src="../assets/GitHub-Mark-120px-plus.png"
-            style="width: 25px; height: 25px; margin-right:5px; opacity: 0.3;"
-          >
-          <el-link
-            class="issue"
-            href="https://github.com"
-            target="_blank"
-            style="opacity: 0.3;"
-          >fix pullrequestlist.vue</el-link>
+        <div class="pullrequestcard"
+                v-bind:key="index"
+                v-for="(pullrequest, index) in filteredPullRequests">
+
+            <div class="title" v-bind:class="{ titleblur: pullrequest.collect_status === 'collected'}">
+                <img class="logo" src="../assets/GitHub-Mark-120px-plus.png">
+                <a class="issue" v-bind:href="pullrequest.url">{{pullrequest.name}}</a>
+            </div>
+
+            <div class="status" v-bind:class="{ statusblur: pullrequest.collect_status === 'collected'}">
+                <img v-bind:class=pullrequest.status v-bind:src="pullrequest.src">
+                <button class="collectbutton" v-bind:class=pullrequest.collect_status >Collect</button>
+            </div>
+
         </div>
-        <div class="status">
-          <img
-            src="../assets/merged.png"
-            style="width: 19%; height: 19%; opacity: 0.5; margin-top:13px;"
-          >
-          <el-button class="collect" type="info" disabled>Collected</el-button>
-        </div>
-      </el-card>
-      <el-card class="pullrequestcard">
-        <div class="title">
-          <img
-            src="../assets/GitHub-Mark-120px-plus.png"
-            style="width: 25px; height: 25px; margin-right:5px;"
-          >
-          <el-link class="issue" href="https://github.com" target="_blank">fix pullrequestlist.vue</el-link>
-        </div>
-        <div class="status">
-          <img src="../assets/merged.png" style="width: 19%; height: 19%; margin-top:13px;">
-          <el-button class="collect" type="success" @click="centerDialogVisible = true">Collect</el-button>
-          <el-dialog :visible.sync="centerDialogVisible" width="30%" center>
-            <h3>....You have earned Yanguibi!!!</h3>
-            <img src="../assets/yanguibi.png" style="width:200px; height:200px; margin-left:30px;">
-            <span slot="footer" class="dialog-footer">
-              <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>
-            </span>
-          </el-dialog>
-        </div>
-      </el-card>
-      <el-card class="pullrequestcard">
-        <div class="title">
-          <img
-            src="../assets/GitHub-Mark-120px-plus.png"
-            style="width: 25px; height: 25px; margin-right:5px;"
-          >
-          <el-link class="issue" href="https://github.com" target="_blank">copy merged logo image</el-link>
-        </div>
-        <div class="status">
-          <img class="progress" src="../assets/onprogress.png">
-          <el-button class="collect" type="success" disabled>Collect</el-button>
-        </div>
-      </el-card>
+
     </div>
   </div>
 </template>
 
+
 <script>
+
+
+var filters = {
+    all: function (pullrequests) {
+        return pullrequests
+    },
+    onProgress: function (pullrequests) {
+        return pullrequests.filter(function (pullrequests) {
+            return pullrequests.onprogress
+        })
+    },
+    merged: function (pullrequests) {
+        return pullrequests.filter(function (pullrequests) {
+            return pullrequests.merged
+        })
+    }
+}
+
+
 export default {
-  el: "#pullrequest",
-  data: function() {
-    return {
-      visible: false,
-      centerDialogVisible: false
-    };
-  }
-};
+    el: "#pullrequest",
+    data(){
+        return {
+            pullRequests: [
+                {
+                    name: "fix pullrequestlist.vue",
+                    status: "merged",
+                    collect_status: "collected",
+                    src: require("../assets/merged.png"),
+                    contributor: "",
+                    url: ""
+                },
+                {
+                    name: "fix 2",
+                    status: "merged",
+                    collect_status: "collect",
+                    src: require("../assets/merged.png"),
+                    contributor: "",
+                    url: ""
+                },
+                {
+                    name: "fixx",
+                    status: "progress",
+                    collect_status: "collect-disabled",
+                    src: require("../assets/progress.png"),
+                    contributor: "",
+                    url: ""
+                },
+            ],
+
+            new: '',
+            visibility: 'all',
+        }
+    },
+    computed: {
+        filteredPullRequests: function () {
+            return filters[this.visibility](this.pullRequests)
+        }
+    },
+    methods: {
+        // AddRequest: function(){
+        //     this.pullRequests.push({
+        //
+        //     })
+        // },
+        //
+        // UpdateRequest: function(request){
+        //     this.pullRequests.status = "merged";
+        //     this.pullRequests.collect_status = "collected";
+        // }
+
+    },
+
+}
+
 </script>
 
 
 <style scoped>
+
 #pull_request {
   display: flex;
   flex-direction: column;
 }
 
-.filter {
-  margin: 10px;
-  margin-left: 20px;
+.filters {
+    box-sizing: border-box;
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+.filters>.button{
+    float: left;
+    position: relative;
+    border: 1px solid #DCDFE6;
+    background: #FFF;
+    color: #606266;
+    outline: 0;
+    margin: 0;
+    display: inline-block;
+    font-weight: 500;
+    line-height: 0.8;
+    white-space: nowrap;
+    padding: 10px 40px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .1s;
+    transition-property: all;
+    transition-duration: 0.1s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+
+.filters>.button:focus, .filters>.button:active, .filters>.button:hover {
+    z-index: 1;
+    background-color: #e7e7e7;
+}
+
+
+.filters>.button:not(:first-child){
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: -1px;
+}
+
+.filters>.button:first-child{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.filters>.button:not(:last-child){
+    margin-right:-1px;
+}
+
+.filters>.button:not(:first-child):not(:last-child) {
+    border-radius: 0;
 }
 
 .pullrequestcard {
-  width: 400px;
-  height: 120px;
-  margin: 10px;
-  font-size: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+    width: 400px;
+    height: 120px;
+    margin: 10px;
+    font-size: 20px;
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
+    border-radius: 4px;
+    border: 1px solid #ebeef5;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
 }
 
 .title {
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: flex-start;
-}
-.issue {
-  align-self: flex-start;
-  font-size: 18px;
+    margin-left: 12px;
+    display: flex;
+    justify-content: flex-start;
 }
 
-.progress {
-  width: 29%;
-  height: 29%;
-  margin-top: 12px;
+.logo{
+    width: 25px;
+    height: 25px;
+    margin-right:5px;
+}
+
+.issue {
+    color: #555555;
+    font-size: 18px;
+}
+
+.titleblur{
+    opacity:0.4;
 }
 
 .status {
@@ -123,13 +214,67 @@ export default {
   justify-content: space-between;
 }
 
-collect {
-  color: #67c23a;
-  padding: 3px 0;
+.progress{
+    height: 23px;
+    margin-top: 12px;
+    margin-left: 12px;
+
 }
 
-disabled {
-  color: #909399;
-  padding: 3px 0;
+.merged{
+    height: 21px;
+    margin-top:12px;
+    margin-left: 12px;
 }
+
+.statusblur{
+    opacity:0.6;
+}
+
+
+.collectbutton{
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    transition: .1s;
+    font-weight: 500;
+    padding: 10px 18px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+.collect-disabled {
+    color: #fff;
+    background-color: #b3e19d;
+    border-color: #b3e19d;
+}
+
+.collect {
+    color: #fff;
+    background-color: #67c23a;
+    border-color:#67c23a;
+}
+
+.collected{
+    color: #fff;
+    background-color: #c8c9cc;
+    border-color: #c8c9cc;
+}
+
+
+.reward{
+    width:200px;
+    height:200px;
+    margin-left:30px;
+}
+
+
+
 </style>
