@@ -23,15 +23,15 @@
             <div class="status">
                 <img v-bind:class=pullrequest.status v-bind:src="pullrequest.src">
                 <div v-if="pullrequest.status !== 'new'">
-                    <button v-on:click="waterForest" class="collectbutton" v-bind:class=pullrequest.collect_status> {{pullrequest.collect_status}}</button>
+                    <button v-on:click="waterForest(pullrequest)" class="collectbutton" v-bind:class=pullrequest.collect_status> {{pullrequest.collect_status}}</button>
                 </div>
                 <div v-else>
                 <b-button v-b-modal.modal-sm class="collectbutton" v-bind:class=pullrequest.collect_status> {{pullrequest.collect_status}}</b-button>
-                <b-modal id="modal-sm" size="sm" title="Congratulations!" @ok="collectItem" hide-header-close>
+                <b-modal id="modal-sm" size="sm" title="Congratulations!" hide-header-close>
                     <h6>You have earned {{pullrequest.reward}} 씨앗! </h6>
                     <img class="reward" v-bind:src="pullrequest.reward_src">
                     <template slot="modal-footer" slot-scope="{ ok }">
-                        <b-button size="m" @click="$bvModal.hide('modal-sm')"> Let's grow the plant! </b-button>
+                        <b-button class="Collect" size="m" @click="$bvModal.hide('modal-sm')" v-on:click="collectItem(pullrequest)"> Let's grow the plant! </b-button>
                     </template>
                 </b-modal>
                 </div>
@@ -70,6 +70,8 @@ export default {
         return {
             pullRequests: [
                 {
+                    id: 1,
+                    branch: "",
                     name: "fix pullrequestlist.vue",
                     isPulled:  true,
                     isMerged:  true,
@@ -298,7 +300,14 @@ export default {
     margin-right: 15px;
 }
 
+.Water:focus, .Water:hover .Collect:focus, .Collect:hover {
+    //z-index: 1;
+    background-color: #e7e7e7;
+    border-color: #e7e7e7;
+    /*background-color: #72cce5;*/
+    /*border-color:  #72cce5;*/
 
+}
 
 .Watered {
     color: #fff;
@@ -309,12 +318,6 @@ export default {
     pointer-events: none;
 }
 
-.Water:focus, .Water:active, .Water:hover {
-    //z-index: 1;
-    background-color: #72cce5;
-    border-color:  #72cce5;
-    opacity: 0.6;
-}
 
 .Water{
     color: #fff;
@@ -328,13 +331,6 @@ export default {
     border-color: #b3e19d;
     cursor: not-allowed;
     pointer-events: none;
-}
-
-.Collect:focus, .Collect:active, .Collect:hover {
-    //z-index: 1;
-    background-color: #b3e19d;
-    border-color: #b3e19d;
-    opacity: 0.6;
 }
 
 .Collect {
