@@ -66,55 +66,9 @@ var filters = {
 
 export default {
     el: "#pullrequest",
+    props: ['pullRequests'],
     data(){
         return {
-            pullRequests: [
-                {
-                    id: 1,
-                    branch: "",
-                    name: "fix pullrequestlist.vue",
-                    isPulled:  true,
-                    isMerged:  true,
-                    src: require("../assets/merged.png"),
-                    status: "closed",
-                    collect_status: "Watered",
-                    reward: "yanguibi",
-                    reward_src: require("../assets/rewards/yanguibi.png")
-                },
-                {
-                    name: "fix pullrequestlist.vue",
-                    isPulled:  true,
-                    isMerged:  true,
-                    src: require("../assets/merged.png"),
-                    status: "merged",
-                    collect_status: "Water",
-                    reward: "yanguibi",
-                    reward_src: require("../assets/rewards/yanguibi.png")
-                },
-                {
-                    name: "fix pullrequestlist.vue",
-                    isPulled:  true,
-                    isMerged:  false,
-                    src: require("../assets/progress.png"),
-                    status: "progress",
-                    collect_status: "Collected",
-                    reward: "yanguibi",
-                    reward_src: require("../assets/rewards/yanguibi.png")
-                },
-                {
-                    name: "fix pullrequestlist.vue",
-                    isPulled:  true,
-                    isMerged:  false,
-                    src: require("../assets/new.png"),
-                    status: "new",
-                    collect_status: "Collect",
-                    reward: "yanguibi",
-                    reward_src: require("../assets/rewards/yanguibi.png")
-                },
-
-            ],
-
-            new: '',
             visibility: 'all',
             modalShow: false
         }

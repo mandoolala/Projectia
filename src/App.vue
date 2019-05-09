@@ -28,7 +28,7 @@
       <h1>
         Pull Requests
       </h1>
-      <PullRequestList></PullRequestList>
+      <PullRequestList v-bind:pullRequests="branchList"></PullRequestList>
     </div>
 
   </div>
@@ -53,28 +53,30 @@ export default {
   data() {
     return {
       branchList:[
-        {
-          id:1,
-          branch:"this is first branch",
-          name:"",
-          isPulled: false,
-          isMerged: false,
-          status: "new",
-          collect_status:"collect",
-          reward: "yanguibi",
-          src:require("./assets/rewards/yanguibi.png")
-        },
-        {
-          id:2,
-          branch:"this is second branch",
-          name:"",
-          isPulled: false,
-          isMerged: false,
-          status: "new",
-          collect_status:"collect",
-          reward: "yanguibi",
-          src:require("./assets/rewards/yanguibi.png")
-        }
+          {
+              id: 1,
+              branch: "this is first branch",
+              name: "fix pullrequestlist.vue",
+              isPulled: false,
+              isMerged: false,
+              src: require("./assets/new.png"),
+              status: "new",
+              collect_status:"Collect",
+              reward: "yanguibi",
+              reward_src: require("./assets/rewards/yanguibi.png")
+          },
+          {
+              id: 2,
+              branch:"this is second branch",
+              name:"fix GitHubController.vue",
+              isPulled: true,
+              isMerged: false,
+              src: require("./assets/merged.png"),
+              status: "merged",
+              collect_status: "Water",
+              reward: "yanguibi",
+              reward_src:require("./assets/rewards/yanguibi.png")
+          },
       ],
       garden: {
         plants: [
@@ -89,6 +91,8 @@ export default {
     }
   },
   methods: {
+
+
     grow() {
       this.garden.plants = this.garden.plants.map(plant => {
         return {
