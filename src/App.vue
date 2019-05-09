@@ -20,8 +20,8 @@
         username/build-my-great-website
       </h1>
       <div class="fore">
-        <forestv canvasId="hi" v-bind:plants="garden.availablePlants" v-on:click="pick"></forestv>
-        <forestv canvasId="hello" v-bind:plants="garden.plants" v-on:click="plant"></forestv>
+        <forestv len="3" canvasId="hi" v-bind:plants="garden.availablePlants" v-on:click="pick"></forestv> 
+        <forestv len="8" canvasId="hello" v-bind:plants="garden.plants" v-on:click="plant"></forestv>
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
       <!-- <button v-on:click="plant">PLANT!!!</button> -->
@@ -133,8 +133,11 @@ export default {
 }
 
 .fore {
-  width: 30%;
-  margin: 0 auto
+  /* width: 30%;
+  margin: 0 auto; */
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
 }
 
 .profile {

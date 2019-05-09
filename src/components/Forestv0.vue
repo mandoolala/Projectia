@@ -4,7 +4,7 @@
         <!-- <button v-on:click="plant" >plant</button> -->
         <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
         <div class="water" v-if="watering" ><img src="../assets/watering.png"></div>
-        <canvas v-on:click="click" v-bind:id="canvasId" width="512" height="512"></canvas>
+        <canvas v-on:click="click" v-bind:id="canvasId" v-bind:width="len*64" v-bind:height="len*64"></canvas>
     </div>
 </template>
 
@@ -14,6 +14,7 @@
 //
 import {plantRepresentation} from "../plants";
 import {createArrayWithNum} from "../utils";
+// import { PerformanceObserver } from 'perf_hooks';
 
 console.log("!!!")
 var Loader = {
@@ -55,10 +56,10 @@ Loader.getImage = function (key) {
 //     Game.run(context);
 // };
 
-function newMap() {
+function newMap(len) {
     return {
-        cols: 8,
-        rows: 8,
+        cols: len,
+        rows: len,
         tsize: 64,
         layers: [[
             1, 1, 1, 1, 1, 1, 1, 1,
@@ -233,11 +234,11 @@ function Game() {
 
 export default {
     name: 'forestv',
-    props: ['plants','canvasId'],
+    props: ['plants','canvasId','len'],
     data() {
         return{
             game: new Game(),
-            map: newMap(),
+            map: newMap(this.len),
             img_src:[],
             icon:require('../assets/logo.png'),
             watering: false
