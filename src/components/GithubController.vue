@@ -2,7 +2,7 @@
     <div>
         <button id="show-modal" @click="showModal = true">Go to GitHub</button>
         <!-- use the modal component, pass in the prop -->
-        <modal v-if="showModal" @close="showModal = false">
+        <modal v-bind:branchList="branchList" v-if="showModal" @close="showModal = false">
             <!--
               you can use custom content here to overwrite
               default content
@@ -21,6 +21,7 @@
 
     export default {
         name: 'githubcontroller',
+        props:["branchList"],
         data: function() {
             return {
                     showModal:false

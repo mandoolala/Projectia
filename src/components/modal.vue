@@ -3,7 +3,6 @@
         <div class="modal-mask">
             <div class="modal-wrapper">
                 <div class="modal-container">
-
                     <div class="modal-header">
                         <h1>
                             <img
@@ -14,7 +13,6 @@
                         </h1>
                         <p><b>This is mock-up GitHub controller for testing.</b></p>
                     </div>
-
                     <div class="modal-body">
                         <slot name="body">
                             <table>
@@ -26,7 +24,7 @@
                                     Branches
                                 </h4>
                                 <tr v-bind:key = "branch.id" v-for="branch in branchList">
-                                    <td style="width: 430px" v-if="!branch.isPulled" v-text="branch.title">
+                                    <td style="width: 430px" v-if="!branch.isPulled" v-text="branch.branch">
                                     </td>
                                     <button v-on:click="pull(branch.id)" v-if="!branch.isPulled">Pull Request
                                     </button>
@@ -41,9 +39,11 @@
                                 </h4>
                                 <tr v-for="pullRequest in branchList" v-bind:key="pullRequest.id">
                                     <td v-if="!pullRequest.isMerged && pullRequest.isPulled">
-                                    <input style="width: 300px" v-if="!pullRequest.isMerged && pullRequest.isPulled" placeholder="type your merge message" v-model="pullRequest.name">
-                                    <button v-on:click="merge(pullRequest.id)" v-if="!pullRequest.isMerged && pullRequest.isPulled">Merge
-                                    </button>
+                                        <h5 v-text="pullRequest.id + '. ' + pullRequest.branch">.</h5>
+                                        <input style="width: 300px" v-if="!pullRequest.isMerged && pullRequest.isPulled" placeholder="type your merge message" v-model="pullRequest.name">
+                                        <button v-on:click="merge(pullRequest.id)" v-if="!pullRequest.isMerged && pullRequest.isPulled">Merge
+                                        </button>
+                                        <p></p>
                                     </td>
                                 </tr>
                             </table>
@@ -65,52 +65,18 @@
 <script>
     export default {
         name: "modal",
-        data: function() {
-            return {
-                input: '',
-                todos: [],
-                count: 0,
-                branchList:[
-                    {
-                        id:1,
-                        title:"this is first branch",
-                        name:"",
-                        isPulled: false,
-                        isMerged: false,
-                        status:"new",
-                        isCollected:false,
-                        // src:require("../assets/new.png")
-                    },
-                    {
-                        id:2,
-                        title:"this is second branch",
-                        name:"",
-                        isPulled: false,
-                        isMerged: false,
-                        status:"new",
-                        isCollected:false,
-                        // src:require("../assets/new.png")
-                    }
-                ],
-                pullRequestList:[
-
-                ],
-                mergeList:[
-
-                ]
-            };
-            },
+        props: ['branchList'],
+        // data: function() {
+        //     return {
+        //
+        //     };
+        //     },
         methods: {
             pull: function(key){
-                console.log(key)
+                // console.log(key)
                 for (var i in this.branchList){
                     if(this.branchList[i].id === key){
                         this.branchList[i].isPulled = true;
-                        // const idx = this.branchList.indexOf(this.branchList[i]);
-                        // if (idx > -1) {
-                        //     this.pullRequestList.push(this.branchList[idx]);
-                        //     this.branchList.splice(idx, 1)
-                        // }
                     }
                 }
             },
@@ -118,11 +84,6 @@
                 for (var i in this.branchList){
                     if(this.branchList[i].id === key){
                         this.branchList[i].isMerged = true;
-                        // const idx = this.pullRequestList.indexOf(this.pullRequestList[i]);
-                        // if (idx > -1) {
-                        //     this.mergeList.push(this.pullRequestList[idx]);
-                        //     this.pullRequestList.splice(idx, 1)
-                        // }
                     }
                 }
             }
