@@ -1,48 +1,54 @@
 <template>
   <div id="app" class="main">
     <div class="sidebar">
-      <div style="padding: 1rem; height: 20rem; color: white;">
-        <img style="width: 13rem;" src="./assets/profile.png">
-        <div style="margin-top: 1rem">
+      <div class="profile">
+        <img class="image" src="./assets/profile.png">
+        <div class="title">
           <h2>Karl</h2>
           working from home
         </div>
       </div>
-      <div style="padding-top: 1rem;">
-        <h2 style="color: white; margin: 1rem;">Projects</h2>
-        <div style="background-color: #FFFFFF; padding: 1rem; font-size: 1.5rem;">
+      <div class="project-list">
+        <h2 class="title">Projects</h2>
+        <div class="item">
           build-my-great-...
         </div>
       </div>
     </div>
     <div class="projectContainer">
-
+        <githubcontroller></githubcontroller>
       <h1>
         username/build-my-great-website
       </h1>
       <div class="fore">
-        <forestv></forestv>
+        <forestv v-bind:plants="garden.plants" v-on:click="plant"></forestv>
       </div>
+      <button v-on:click="grow">GRRRROWWWW!!!</button>
+      <button v-on:click="plant">PLANT!!!</button>
       <h1>
         Pull Requests
       </h1>
-      <PullRequestList />
+      <PullRequestList></PullRequestList>
     </div>
+
   </div>
 </template>
 
 <script>
 import PullRequestList from "./components/PullRequestList.vue";
+import githubcontroller from "./components/GithubController";
 import forestv from "./components/Forestv0.vue"
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import {getMaxLevel} from "./plants";
 
 
 export default {
   name: "app",
   components: {
     PullRequestList,
-    forestv
+    forestv,
+    githubcontroller
   },
   data() {
     return {
@@ -51,32 +57,40 @@ export default {
           {
             type: "cherry_blossom",
             owner: "samantha",
-            level: "grown",
-            position: { x: 10, y: 10 }
+            level: 0,
+            position: { x: 4, y: 4 }
           }
         ]
       }
     }
+  },
+  methods: {
+    grow() {
+      this.garden.plants = this.garden.plants.map(plant => {
+        return {
+          ...plant,
+          // lvl <= max
+          level: Math.min(plant.level + 1, getMaxLevel(plant.type))
+        }
+      });
+    },
+    findPlantInPosition(px, py) {
+      return this.garden.plants.find(({ position: { x, y }}) => (x === px) && (y === py));
+    },
+    plant(x, y) {
+      console.log(x, y);
+      if (this.findPlantInPosition(x, y)) return;
+
+      this.garden.plants.push({
+        type: "cherry_blossom",
+        owner: "samantha",
+        level: 0,
+        position: { x, y }
+      })
+    }
   }
 };
 
-const plantRepr = {
-  "cherry_blossom": {
-    tileSource: "../assets/asdf.png",
-    levels: [
-      {
-        terrain: 0,
-        tile: 4
-      },
-      {
-        terrain: 0,
-        tile: 5
-      },
-      6,
-      7
-    ],
-  }
-}
 </script>
 
 <style scoped>
@@ -111,4 +125,27 @@ const plantRepr = {
   margin: 0 auto
 }
 
+.profile {
+    padding: 1rem;
+    height: 20rem;
+    color: white;
+}
+  .profile .image {
+    width: 13rem;
+  }
+  .profile .title {
+    margin-top: 1rem;
+  }
+
+  .project-list {
+    padding-top: 1rem;
+  }
+
+  .project-list .title {
+    color: white; margin: 1rem;
+  }
+
+  .project-list .item {
+    background-color: #FFFFFF; padding: 1rem; font-size: 1.5rem;
+  }
 </style>
