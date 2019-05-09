@@ -102,7 +102,7 @@ export default {
       return this.garden.plants.find(({ position: { x, y }}) => (x === px) && (y === py));
     },
     plant(x, y) {
-      console.log(x, y);
+      // console.log(x, y);
       if (this.findPlantInPosition(x, y)) return;
 
       this.garden.plants.push({

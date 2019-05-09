@@ -73,7 +73,7 @@
         //     },
         methods: {
             pull: function(key){
-                console.log(key)
+                // console.log(key)
                 for (var i in this.branchList){
                     if(this.branchList[i].id === key){
                         this.branchList[i].isPulled = true;

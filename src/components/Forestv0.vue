@@ -15,7 +15,7 @@
 import {plantRepresentation} from "../plants";
 import {createArrayWithNum} from "../utils";
 
-console.log("!!!")
+// console.log("!!!")
 var Loader = {
     images: {}
 };
