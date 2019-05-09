@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="projectContainer">
-        <githubcontroller></githubcontroller>
+        <githubcontroller v-bind:branchList="branchList"></githubcontroller>
       <h1>
         username/build-my-great-website
       </h1>
@@ -52,6 +52,30 @@ export default {
   },
   data() {
     return {
+      branchList:[
+        {
+          id:1,
+          branch:"this is first branch",
+          name:"",
+          isPulled: false,
+          isMerged: false,
+          status: "new",
+          collect_status:"collect",
+          reward: "yanguibi",
+          src:require("./assets/rewards/yanguibi.png")
+        },
+        {
+          id:2,
+          branch:"this is second branch",
+          name:"",
+          isPulled: false,
+          isMerged: false,
+          status: "new",
+          collect_status:"collect",
+          reward: "yanguibi",
+          src:require("./assets/rewards/yanguibi.png")
+        }
+      ],
       garden: {
         plants: [
           {
