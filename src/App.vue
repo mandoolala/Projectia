@@ -71,9 +71,9 @@ export default {
               isMerged: false,
               collect_status:"Collect",
               water_status: "Water",
-              reward: "yanguibi",
+              reward: "Cherry Blossom",
               status_src: require("./assets/open.png"),
-              reward_src: require("./assets/rewards/yanguibi.png")
+              reward_src: require("./assets/rewards/cherryblossom.png")
           },
           {
               id: 2,
@@ -83,9 +83,9 @@ export default {
               isMerged: false,
               collect_status:"Collect",
               water_status: "Water",
-              reward: "yanguibi",
+              reward: "Dottori",
               status_src: require("./assets/open.png"),
-              reward_src:require("./assets/rewards/yanguibi.png")
+              reward_src:require("./assets/rewards/dottoritree.png")
           }
       ],
       garden: {
