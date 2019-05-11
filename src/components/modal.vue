@@ -39,12 +39,13 @@
                                     Pull Requests
                                 </h4>
                                 <tr v-for="pullRequest in branchList" v-bind:key="pullRequest.id">
-                                    <td v-if="!pullRequest.isMerged && pullRequest.isPulled">
+                                    <td v-if="pullRequest.isPulled">
                                         <div class="wrrrper">
                                             <div><span class="branch_name" v-text="pullRequest.branch">.</span></div>
                                             <div><span v-text="pullRequest.name"></span></div>
-                                            <div><button class="merge" v-on:click="merge(pullRequest.id)" v-if="!pullRequest.isMerged && pullRequest.isPulled">Merge
+                                            <div v-if="!pullRequest.isMerged"><button class="merge" v-on:click="merge(pullRequest.id)" v-if="!pullRequest.isMerged && pullRequest.isPulled">Merge
                                             </button></div>
+                                            <div v-if="pullRequest.isMerged"><img src="/img/merged.6482b49e.png" style="height: 30px; width: 80px;"></div>
                                         </div>
                                         <p></p>
                                     </td>
@@ -125,7 +126,7 @@
     .modal-header{
         display: flex;
         justify-content: flex-start;
-        font-family: Roboto;
+        font-family: Helvetica;
         font-weight: 900;
         background-color: black;
         color: white;
@@ -161,7 +162,7 @@
         background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%);
         color: #24292e;
         float: left;
-        font-size: 18px;
+        font-size: 14px;
         line-height: 20px;
         padding: 3px 10px;
         background-position: -1px -1px;
@@ -171,7 +172,7 @@
         border-radius: .25em;
         cursor: pointer;
         display: inline-block;
-        font-weight: 300;
+        font-weight: 600;
         position: relative;
         user-select: none;
         vertical-align: middle;
@@ -180,10 +181,11 @@
 
     .merge {
         background-color: #2cbe4e;
+        font-size: 14px;
         background-image: linear-gradient(-180deg, #2cbe4e, #00aa26 90%);
         color: #fff;
         display: inline-block;
-        font-weight: 300;
+        font-weight: 600;
         line-height: 20px;
         padding: 4px 8px;
         text-align: center;
