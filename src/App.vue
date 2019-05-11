@@ -2,7 +2,7 @@
   <div id="app" class="main">
     <div class="sidebar">
       <div class="profile">
-        <img class="image" src="./assets/profile.png">
+        <img class="image" src="./assets/user1.png">
         <div class="title">
           <h2>Karl</h2>
           working from home
@@ -11,16 +11,24 @@
       <div class="project-list">
         <h2 class="title">Projects</h2>
         <div class="item">
-          build-my-great-...
+          Projectia
         </div>
       </div>
     </div>
     <div class="projectContainer">
       <button @click="$bvModal.show('plant-book')">Plant Book</button>
       <plant-book></plant-book>
-      <h1>
-        username/build-my-great-website
+      <h1 id="project-title">
+        Code-Avengers/Projectia
       </h1>
+
+      <div class="users">
+        <img class="user" src="./assets/user1.png">
+        <img class="user" src="./assets/user2.png">
+        <img class="user" src="./assets/user3.png">
+        <img class="user" src="./assets/user4.png">
+      </div>
+
       <div class="fore">
         <forestv len="3" :plants="garden.availablePlants" @click="pick"></forestv>
         <!-- <div class="water" v-on:watering ="watered" v-if="watering" ><img src="./assets/watering.png"></div> -->
@@ -63,28 +71,26 @@ export default {
           {
               id: 1,
               branch: "Euicheon-branch",
-              name: "",
+              name: "Fix bugs in PullRequestList.vue",
               isPulled: false,
               isMerged: false,
-              src: require("./assets/new.png"),
-              status: "new",
               collect_status:"Collect",
               water_status: "Water",
-              reward: "yanguibi",
-              reward_src: require("./assets/rewards/yanguibi.png")
+              reward: "Cherry Blossom",
+              status_src: require("./assets/open.png"),
+              reward_src: require("./assets/rewards/cherryblossom.png")
           },
           {
               id: 2,
               branch:"Minjoo-branch",
-              name:"Fix GitHubController.vue",
+              name:"",
               isPulled: false,
               isMerged: false,
-              src: require("./assets/new.png"),
-              status: "new",
               collect_status:"Collect",
               water_status: "Water",
-              reward: "yanguibi",
-              reward_src:require("./assets/rewards/yanguibi.png")
+              reward: "Dottori",
+              status_src: require("./assets/open.png"),
+              reward_src:require("./assets/rewards/dottoritree.png")
           }
       ],
       garden: {
@@ -212,6 +218,26 @@ export default {
   overflow-y: scroll;
 }
 
+#project-title:hover{
+  color: #0366d6;
+  cursor: pointer;
+}
+
+.users{
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 50px;
+}
+
+.user{
+  height: 120px;
+  margin-right: 50px;
+  border-color: black;
+  border-width: thick;
+}
+
+
 .fore {
   /* width: 30%;
   margin: 0 auto; */
@@ -219,6 +245,7 @@ export default {
   justify-content: space-around;
   align-items: flex-end;
 }
+
 
 .profile {
     padding: 1rem;
