@@ -38,6 +38,7 @@
 </script>
 
 <style>
+    @import url('https://fonts.googleapis.com/css?family=Roboto');
 
     #show-modal{
         margin-right: 300px;
@@ -45,7 +46,7 @@
         padding-top: 5px;
         font-size: 18px;
         font-weight: 900;
-        font-family: Roboto;
+        font-family: 'Roboto', sans-serif;
         color: white;
         border-radius: 5px;
         background-color: black;

@@ -72,7 +72,7 @@ export default {
           {
               id: 2,
               branch:"Minjoo-branch",
-              name:"Fix GitHubController.vue",
+              name:"",
               isPulled: false,
               isMerged: false,
               src: require("./assets/new.png"),
