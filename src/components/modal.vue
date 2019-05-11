@@ -17,15 +17,18 @@
                                 <h4 style="color: #6aa73d; font-weight: bold">
                                     <img
                                             src="../assets/git-branch-512.png"
-                                            style="width: 18px; height: 28px; color: #6aa73d;"
+                                            style="width: 20px; height: 28px; color: #6aa73d;"
                                     >
                                     Branches
                                 </h4>
                                 <tr v-bind:key = "branch.id" v-for="branch in branchList">
-                                    <td style="width: 430px" v-if="!branch.isPulled" v-text="branch.branch">
+                                    <td style="width: 600px" v-if="!branch.isPulled">
+                                        <div class="wrrrper">
+                                            <div><span class="branch_name" v-text="branch.branch"></span></div>
+                                            <div><input style="width: 300px" v-if="!branch.isPulled" placeholder="type your pull request message" v-model="branch.name"></div>
+                                            <div><button class="pull" v-on:click="pull(branch.id)" v-if="!branch.isPulled">Pull Request</button></div>
+                                        </div>
                                     </td>
-                                    <button v-on:click="pull(branch.id)" v-if="!branch.isPulled">Pull Request
-                                    </button>
                                 </tr>
                                 <hr>
                                 <h4 style="color: #28a745; font-weight: bold">
@@ -37,10 +40,12 @@
                                 </h4>
                                 <tr v-for="pullRequest in branchList" v-bind:key="pullRequest.id">
                                     <td v-if="!pullRequest.isMerged && pullRequest.isPulled">
-                                        <h5 v-text="pullRequest.id + '. ' + pullRequest.branch">.</h5>
-                                        <input style="width: 300px" v-if="!pullRequest.isMerged && pullRequest.isPulled" placeholder="type your merge message" v-model="pullRequest.name">
-                                        <button v-on:click="merge(pullRequest.id)" v-if="!pullRequest.isMerged && pullRequest.isPulled">Merge
-                                        </button>
+                                        <div class="wrrrper">
+                                            <div><span class="branch_name" v-text="pullRequest.branch">.</span></div>
+                                            <div><span v-text="pullRequest.name"></span></div>
+                                            <div><button class="merge" v-on:click="merge(pullRequest.id)" v-if="!pullRequest.isMerged && pullRequest.isPulled">Merge
+                                            </button></div>
+                                        </div>
                                         <p></p>
                                     </td>
                                 </tr>
@@ -97,7 +102,7 @@
 
     .modal-wrapper {
         display: table-cell;
-        vertical-align: middle;
+        /*vertical-align: middle;*/
     }
 
     .modal-container {
@@ -105,8 +110,9 @@
         margin: 0px auto;
         padding: 20px 30px;
         background-color: #fff;
-        border-radius: 2px;
+        border-radius: 4px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+        /*position: relative;*/
         transition: all .3s ease;
         font-family: Helvetica, Arial, sans-serif;
     }
@@ -127,7 +133,7 @@
     }
 
     .modal-body {
-        margin: 20px 0;
+        margin: 0px 0;
     }
 
     .modal-default-button {
@@ -137,6 +143,53 @@
         padding-right: 15px;
     }
 
+    .wrrrper {
+        display: grid;
+        grid-template-columns: 200px 350px 200px;
+    }
+
+    .branch_name {
+        color: #0366d6;
+        background-color: #eaf5ff;
+        border-radius: 3px;
+        font: 16px SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+        padding: 2px 6px;
+    }
+
+    .pull {
+        background-color: #eff3f6;
+        background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%);
+        color: #24292e;
+        float: left;
+        font-size: 18px;
+        line-height: 20px;
+        padding: 3px 10px;
+        background-position: -1px -1px;
+        background-repeat: repeat-x;
+        background-size: 110% 110%;
+        border: 1px solid rgba(27,31,35,.2);
+        border-radius: .25em;
+        cursor: pointer;
+        display: inline-block;
+        font-weight: 300;
+        position: relative;
+        user-select: none;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .merge {
+        background-color: #2cbe4e;
+        background-image: linear-gradient(-180deg, #2cbe4e, #00aa26 90%);
+        color: #fff;
+        display: inline-block;
+        font-weight: 300;
+        line-height: 20px;
+        padding: 4px 8px;
+        text-align: center;
+        border: 1px solid rgba(27,31,35,.2);
+        border-radius: .25em;
+    }
     /*
      * The following styles are auto-applied to elements with
      * transition="modal" when their visibility is toggled
@@ -149,7 +202,7 @@
 
     .modal-enter .modal-container,
     .modal-leave-active .modal-container {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
+        -webkit-transform: scale(1);
+        transform: scale(1);
     }
 </style>
