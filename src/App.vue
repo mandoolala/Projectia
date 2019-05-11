@@ -57,7 +57,7 @@ export default {
           {
               id: 1,
               branch: "Euicheon-branch",
-              name: "Fix PullRequestList.vue",
+              name: "",
               isPulled: false,
               isMerged: false,
               src: require("./assets/new.png"),
