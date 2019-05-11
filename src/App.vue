@@ -16,11 +16,11 @@
       </div>
     </div>
     <div class="projectContainer">
-      <button @click="$bvModal.show('plant-book')">Plant Book</button>
-      <plant-book></plant-book>
       <h1 id="project-title">
+
         Code-Avengers/Projectia
       </h1>
+      <plant-book></plant-book>
 
       <div class="users">
         <img class="user" src="./assets/user1.png">
@@ -30,16 +30,20 @@
       </div>
 
       <div class="fore">
-        <forestv len="3" :plants="garden.availablePlants" @click="pick"></forestv>
-        <!-- <div class="water" v-on:watering ="watered" v-if="watering" ><img src="./assets/watering.png"></div> -->
-        <forestv len="8" :plants="garden.plants" @click="plant"></forestv>
+        <div style="display:flex; flex-direction: column; ">
+          <forestv class="forestv" len="3" :plants="garden.availablePlants" @click="pick"></forestv>
+          <button id="plantbook" @click="$bvModal.show('plant-book')">Plant Book</button>
+        </div>
+        →
+        <forestv class="forestv" len="8" :plants="garden.plants" @click="plant"></forestv>
       </div>
-      <button v-on:click="grow">GRRRROWWWW!!!</button>
-      <button v-on:click="plant">PLANT!!!</button>
+
       <div style="display: flex; justify-content: space-between; margin-top: 50px;">
         <h1>Pull Requests</h1>
         <githubcontroller v-bind:branchList="branchList"></githubcontroller>
       </div>
+      <button v-on:click="grow">GRRRROWWWW!!!</button>
+      <button v-on:click="plant">PLANT!!!</button>
       <PullRequestList v-bind:pullRequests="branchList"></PullRequestList>
     </div>
 
@@ -228,11 +232,13 @@ export default {
   flex-direction: row;
   justify-content: flex-start;
   margin-bottom: 50px;
+  margin-left: 100px;
 }
 
 .user{
   height: 120px;
   margin-right: 50px;
+  margin-top: 0px;
   border-color: black;
   border-width: thick;
 }
@@ -242,10 +248,21 @@ export default {
   /* width: 30%;
   margin: 0 auto; */
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: flex-end;
+  color: green;
+  font-size: 100px;
 }
 
+#plantbook{
+  font-size: 20px;
+  background-color: green;
+}
+
+.forestv{
+  margin-right: 30px;
+  margin-left: 30px;
+}
 
 .profile {
     padding: 1rem;
