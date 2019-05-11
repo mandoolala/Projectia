@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="projectContainer">
-        <githubcontroller v-bind:branchList="branchList"></githubcontroller>
+
       <h1>
         username/build-my-great-website
       </h1>
@@ -25,9 +25,10 @@
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
       <button v-on:click="plant">PLANT!!!</button>
-      <h1>
-        Pull Requests
-      </h1>
+      <div style="display: flex; justify-content: flex-start;">
+        <h1>Pull Requests</h1>
+        <githubcontroller v-bind:branchList="branchList"></githubcontroller>
+      </div>
       <PullRequestList v-bind:pullRequests="branchList"></PullRequestList>
     </div>
 
@@ -55,7 +56,7 @@ export default {
       branchList:[
           {
               id: 1,
-              branch: "this is first branch",
+              branch: "Euicheon-branch",
               name: "fix pullrequestlist.vue",
               isPulled: false,
               isMerged: false,
@@ -67,7 +68,7 @@ export default {
           },
           {
               id: 2,
-              branch:"this is second branch",
+              branch:"Minjoo-branch",
               name:"fix GitHubController.vue",
               isPulled: true,
               isMerged: false,

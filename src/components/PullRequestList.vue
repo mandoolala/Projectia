@@ -16,7 +16,7 @@
                 >
 
             <div class="title" v-bind:class="{ titleblur: pullrequest.status === 'closed'}">
-                <img class="logo" src="../assets/GitHub-Mark-120px-plus.png">
+                <img class="logo" src="../assets/git-branch-512.png">
                 <a class="issue">{{pullrequest.name}}</a>
             </div>
 
@@ -190,8 +190,10 @@ export default {
 }
 
 .logo{
-    width: 25px;
-    height: 25px;
+
+    height: 21px;
+    width: 16px;
+    margin-top: 2px;
     margin-right:5px;
 }
 

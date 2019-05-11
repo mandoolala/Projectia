@@ -3,20 +3,18 @@
         <div class="modal-mask">
             <div class="modal-wrapper">
                 <div class="modal-container">
+                    <button class="modal-default-button" @click="$emit('close')"> X </button>
+                    <h4><b> ※ This is a mock-up GitHub controller for testing. </b></h4>
+
                     <div class="modal-header">
-                        <h1>
-                            <img
-                                    src="../assets/GitHub-Mark-120px-plus.png"
-                                    style="width: 50px; height: 50px; margin-right:5px; align-items: center;"
-                            >
-                            GitHub
-                        </h1>
-                        <p><b>This is mock-up GitHub controller for testing.</b></p>
+                        <img src="../assets/githublogoblack.png"
+                             style="width: 40px; height: 40px; margin-right:5px; align-items: center;">
+                        <h2>GitHub</h2>
                     </div>
                     <div class="modal-body">
                         <slot name="body">
                             <table>
-                                <h4 style="color: #6aa73d;">
+                                <h4 style="color: #6aa73d; font-weight: bold">
                                     <img
                                             src="../assets/git-branch-512.png"
                                             style="width: 18px; height: 28px; color: #6aa73d;"
@@ -30,7 +28,7 @@
                                     </button>
                                 </tr>
                                 <hr>
-                                <h4 style="color: #28a745;">
+                                <h4 style="color: #28a745; font-weight: bold">
                                     <img
                                             src="../assets/git-pull-request-512.png"
                                             style="width: 20px; height: 28px; color: #6aa73d;"
@@ -47,13 +45,6 @@
                                     </td>
                                 </tr>
                             </table>
-                        </slot>
-                    </div>
-                    <div class="modal-footer">
-                        <slot name="footer">
-                            <button class="modal-default-button" @click="$emit('close')">
-                                Back To Projectia
-                            </button>
                         </slot>
                     </div>
                 </div>
@@ -120,9 +111,19 @@
         font-family: Helvetica, Arial, sans-serif;
     }
 
-    .modal-header p {
+    .modal-container h4 {
         margin: 20px 0;
         color: #ff0000;
+    }
+
+    .modal-header{
+        display: flex;
+        justify-content: flex-start;
+        font-family: Roboto;
+        font-weight: 900;
+        background-color: black;
+        color: white;
+        line-height: 0.8;
     }
 
     .modal-body {
@@ -131,6 +132,9 @@
 
     .modal-default-button {
         float: right;
+        font-size: 30px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     /*
