@@ -172,7 +172,7 @@ export default {
 }
 
 .pullrequestcard {
-    width: 750px;
+    width: 850px;
     height: 80px;
     margin: 10px;
     padding: 10px;
