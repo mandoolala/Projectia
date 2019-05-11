@@ -1,11 +1,14 @@
 <template>
-    <div>
-        <!-- <button v-on:click="grow">grow all</button> -->
-        <!-- <button v-on:click="plant" >plant</button> -->
-        <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
-        <div class="water" v-if="watering" ><img src="../assets/watering.png"></div>
-        <canvas v-on:click="click" v-bind:id="canvasId" v-bind:width="len*64" v-bind:height="len*64"></canvas>
-    </div>
+    <canvas
+            ref="canvas"
+            @click="click"
+            @mouseenter="$emit('mouseenter')"
+            @mouseleave="$emit('mouseleave')"
+            @mousemove="mousemove"
+            :width="len*64"
+            :height="len*64"
+    >
+    </canvas>
 </template>
 
 <script>
@@ -13,10 +16,8 @@
 // Asset loader
 //
 import {plantRepresentation} from "../plants";
-import {createArrayWithNum} from "../utils";
-// import { PerformanceObserver } from 'perf_hooks';
+    import {createArrayWithNum} from "../utils";
 
-// console.log("!!!")
 var Loader = {
     images: {}
 };
@@ -42,19 +43,6 @@ Loader.loadImage = function (key, src) {
 Loader.getImage = function (key) {
     return (key in this.images) ? this.images[key] : null;
 };
-
-
-
-// console.log("??")
-
-// start up function
-//
-
-// window.onload = function () {
-//     var context = document.getElementById(this.canvasId).getContext('2d');
-//     // console.log("context")
-//     Game.run(context);
-// };
 
 function newMap(len) {
     return {
@@ -105,54 +93,6 @@ function newMap(len) {
     }
 }
 
-///
-// var map = {
-//     cols: 8,
-//     rows: 8,
-//     tsize: 64,
-//     layers: [[
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1
-//     ],  [
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0
-//     ], [
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0
-//     ]],
-//     getTile: function (layer, col, row) {
-//         return this.layers[layer][row * map.cols + col];
-//     },
-//     setTile: function(layer,col,row,v){
-//         this.layers[layer][row * map.cols + col] = v
-//     },
-//     initTiles: function() {
-//       const dirtLayer = createArrayWithNum(this.cols * this.rows, 1);
-//       const invisibleLayer = createArrayWithNum(this.cols * this.rows, 0);
-//       this.layers[0] = dirtLayer;
-//       this.layers[1] = invisibleLayer;
-//       this.layers[2] = [...invisibleLayer];
-//     }
-// };
-
 function Game() {
         
     // override these methods to create the demo
@@ -162,8 +102,6 @@ function Game() {
     this.render = function () {
         // draw map background layer
         this._drawLayer(0);
-        // draw game sprites
-        this.ctx.drawImage(this.hero.image, this.hero.x, this.hero.y);
         // draw map top layer
         this._drawLayer(1);
         this._drawLayer(2);
@@ -172,13 +110,11 @@ function Game() {
     this.load = function () {
         return [
             Loader.loadImage('tiles', require('../assets/tiles.png')),
-            Loader.loadImage('character', require('../assets/character.png'))
         ];
     };
 
     this.init = function () {
         this.tileAtlas = Loader.getImage('tiles');
-        this.hero = {x: 128, y: 384, image: Loader.getImage('character')};
     };
 
     this._drawLayer = function (layer) {
@@ -234,14 +170,20 @@ function Game() {
 
 export default {
     name: 'forestv',
-    props: ['plants','canvasId','len'],
+    props: {
+      'plants': Array,
+      'len': Number,
+      'drawTerrain': {
+        type: Boolean,
+        default: true
+      }
+    },
     data() {
         return{
             game: new Game(),
             map: newMap(this.len),
             img_src:[],
             icon:require('../assets/logo.png'),
-            watering: false
         }
     },
     watch: {
@@ -261,35 +203,36 @@ export default {
             layers[layerIndex] = newLayer;
           });
         });
-
+        //this.$emit('watering', false);
         this.game.render();
+        
       }
     },
     methods : {
-        // gogo: function() {
-        //     if (event){
-        //         Game.run(context);
-        //     }
-        // },
-        // addgrass: function(event) {
-        //     if(event){
-        //         this.img_src.push(this.icon)
-        //         // gogo
-        //         this.img_src.push(this.icon)
-        //     }
-        // },
         click: function(event) {
-          const elem = document.getElementById(this.canvasId)
+
+          const elem = this.$refs.canvas;
+          const boundingRect = this.$refs.canvas.getBoundingClientRect();
+          const offsetX = (event.pageX - boundingRect.x);
+          const offsetY = event.pageY - boundingRect.y;
+          const xTile = Math.floor(this.map.cols * (offsetX / boundingRect.width));
+          const yTile = Math.floor(this.map.rows * (offsetY / boundingRect.height));
+          this.$emit('click', xTile, yTile);
+        },
+        mousemove: function(event) {
+
+          const elem = this.$refs.canvas;
           const boundingRect = elem.getBoundingClientRect();
           const offsetX = (event.pageX - boundingRect.x);
           const offsetY = event.pageY - boundingRect.y;
-          const xTile = Math.floor(this.map.cols * (offsetX / elem.width));
-          const yTile = Math.floor(this.map.rows * (offsetY / elem.height));
-          this.$emit('click', xTile, yTile);
+          const xTile = Math.floor(this.map.cols * (offsetX / boundingRect.width));
+          const yTile = Math.floor(this.map.rows * (offsetY / boundingRect.height));
+          this.$emit('mousemove', xTile, yTile);
+
         }
     },
     mounted: function () {
-        var context = document.getElementById(this.canvasId).getContext('2d');
+        var context = this.$refs.canvas.getContext('2d');
         this.game.run(context, this.map);
         this.map.initTiles();
         const layers = this.map.layers;
@@ -309,26 +252,3 @@ export default {
 
 }
 </script>
-<style>
-.water {
-	animation: rotate-90-bl-ccw 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards;
-    position: absolute;
-    left: 1000px;
-}
-
-@keyframes rotate-90-bl-ccw {
-  0% {
-    transform: rotate(0);
-    transform-origin: 0% 100%;
-  }
-  70% {
-    transform: rotate(-90deg);
-    transform-origin: 0% 100%;
-  }
-  100%{
-    transform: rotate(10deg);
-    transform-origin: 0% 100%;
-    opacity:0;
-  }
-}
-</style>

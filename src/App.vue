@@ -16,6 +16,8 @@
       </div>
     </div>
     <div class="projectContainer">
+      <button @click="$bvModal.show('plant-book')">Plant Book</button>
+      <plant-book></plant-book>
       <h1 id="project-title">
         Code-Avengers/Projectia
       </h1>
@@ -28,8 +30,9 @@
       </div>
 
       <div class="fore">
-        <forestv len="3" canvasId="hi" v-bind:plants="garden.availablePlants" v-on:click="pick"></forestv>
-        <forestv len="8" canvasId="hello" v-bind:plants="garden.plants" v-on:click="plant"></forestv>
+        <forestv len="3" :plants="garden.availablePlants" @click="pick"></forestv>
+        <!-- <div class="water" v-on:watering ="watered" v-if="watering" ><img src="./assets/watering.png"></div> -->
+        <forestv len="8" :plants="garden.plants" @click="plant"></forestv>
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
       <button v-on:click="plant">PLANT!!!</button>
@@ -50,11 +53,13 @@ import forestv from "./components/Forestv0.vue"
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {getMaxLevel} from "./plants";
+import PlantBook from "./components/PlantBook";
 
 
 export default {
   name: "app",
   components: {
+    PlantBook,
     PullRequestList,
     forestv,
     githubcontroller
@@ -90,25 +95,37 @@ export default {
       ],
       garden: {
         plants: [
-          {
-            type: "cherry_blossom",
-            owner: "samantha",
-            level: 0,
-            position: { x: 4, y: 4 }
-          }
+          // {
+          //   type: "cherry_blossom",
+          //   owner: "samantha",
+          //   level: 1,
+          //   position: { x: 4, y: 4 }
+          // }
         ],
         availablePlants: [
           {
-            type: "cherry_blossom",
+            type: "dotori",
             owner: "samantha",
             level: 0,
             position: { x: 0, y: 0 }
           },
           {
-            type: "cherry_blossom",
+            type: "dotori",
             owner: "samantha",
             level: 0,
             position: { x: 1, y: 2 }
+          },
+          {
+            type: "cherry_blossom",
+            owner: "samantha",
+            level: 0,
+            position: { x: 2, y: 2 }
+          },
+          {
+            type: "flower",
+            owner: "samantha",
+            level: 0,
+            position: { x: 1, y: 1 }
           }
 
         ]
@@ -116,9 +133,8 @@ export default {
     }
   },
   methods: {
-
-
     grow() {
+      //this.watering = true;
       this.garden.plants = this.garden.plants.map(plant => {
         return {
           ...plant,
@@ -133,32 +149,42 @@ export default {
     },
     // blink(plants,pickedPlant) {
     //   var temp=pickedPlant.level;
-    //   pickedPlant
+    //   plants.forEach(plant => {if (plant == pickedPlant) plant.level=4;})
+
     // },
     pick(x, y) {
       if (!this.findPlantInPosition(x, y, 1)) return;
       var flag = 0;
       this.garden.availablePlants.forEach(plant => {
         if (plant.position.x == x && plant.position.y == y) {
-          if (!this.pickedPlant.includes(flag)) this.pickedPlant.push(flag);
-          // this.blink(this.garden.availablePlants,plant);
-          console.log('pick plant'+this.pickedPlant);
-          return;
+          if (!this.pickedPlant.includes(flag)) {
+            this.pickedPlant.push(plant);
+            var item = this.garden.availablePlants.splice(flag,1)[0];
+            item.level = 1;
+            this.garden.availablePlants.splice(flag,0,item)
+            //console.log('pick plant'+this.garden.availablePlants);
+            return;
+          }
         }
         flag = flag+ 1;
       })
+
     },
     plant(x, y) {
       console.log(x, y);
-
       if (this.pickedPlant.length==0 || this.findPlantInPosition(x, y, 0)) return;
-      this.garden.plants.push({
-        type: "cherry_blossom",
-        owner: "samantha",
-        level: 0,
-        position: { x, y }
+      var item = this.pickedPlant.pop();
+      var flag = 0;
+      console.log(item);
+      this.garden.availablePlants.forEach(plant => {
+        if (plant.position.x == item.position.x && plant.position.y == item.position.y) {
+          this.garden.availablePlants.splice(flag,1);
+        }
+        flag= flag+1;
       })
-      this.garden.availablePlants.splice(this.pickedPlant.pop(),1);
+      item.level = 2;
+      item.position = {x, y};
+      this.garden.plants.push(item);
     }
   }
 };
@@ -244,7 +270,26 @@ export default {
   .project-list .item {
     background-color: #FFFFFF; padding: 1rem; font-size: 1.5rem;
   }
-  #hi {
-    border-style: dotted;
+
+  .water {
+	animation: rotate-90-bl-ccw 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards;
+    position: absolute;
+    /* left: 0px; */
+  }
+
+  @keyframes rotate-90-bl-ccw {
+    0% {
+      transform: rotate(0);
+      transform-origin: 0% 100%;
+    }
+    70% {
+      transform: rotate(-90deg);
+      transform-origin: 0% 100%;
+    }
+    100%{
+      transform: rotate(10deg);
+      transform-origin: 0% 100%;
+      opacity:0;
+    }
   }
 </style>
