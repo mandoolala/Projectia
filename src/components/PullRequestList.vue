@@ -22,12 +22,12 @@
 
             <div class="buttons">
                 <div>
-                    <b-button v-b-modal.modal-sm class="collectbutton" v-bind:class=pullrequest.collect_status> Collect </b-button>
-                    <b-modal id="modal-sm" size="sm" title="Congratulations!" hide-header-close>
+                    <b-button @click="$bvModal.show(getModalId(pullrequest.id))" class="collectbutton" v-bind:class=pullrequest.collect_status> Collect </b-button>
+                    <b-modal :id="getModalId(pullrequest.id)" size="sm" title="Congratulations!" hide-header-close>
                         <h6>You have earned {{pullrequest.reward}} 씨앗! </h6>
                         <img class="reward" v-bind:src="pullrequest.reward_src">
                         <template slot="modal-footer" slot-scope="{ ok }">
-                            <b-button class="Collect" size="m" @click="$bvModal.hide('modal-sm')" v-on:click="collectItem(pullrequest)"> Let's grow the plant! </b-button>
+                            <b-button :key="pullrequest.id" class="Collect" size="m" @click="$bvModal.hide(getModalId(pullrequest.id))" v-on:click="collectItem(pullrequest)"> Let's grow the plant! </b-button>
                         </template>
                     </b-modal>
                 </div>
@@ -80,14 +80,15 @@ export default {
         }
     },
     methods: {
-
+        getModalId: function(id) {
+          return 'modal-' + id;
+        },
         collectItem: function(request){
             request.status = "progress";
             request.collect_status = "Collected";
             if (!request.isMerged){
                 request.src = require("../assets/progress.png");
             }
-            console.log(request);
             //move collected reward to container
         },
         waterForest: function(request){
