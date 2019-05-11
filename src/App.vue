@@ -58,8 +58,6 @@
           <h1>Pull Requests</h1>
           <githubcontroller v-bind:branchList="branchList"></githubcontroller>
         </div>
-        <button v-on:click="grow">GRRRROWWWW!!!</button>
-        <button v-on:click="plant">PLANT!!!</button>
         <PullRequestList v-bind:pullRequests="branchList"></PullRequestList>
       </div>
     </div>
