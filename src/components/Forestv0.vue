@@ -3,7 +3,6 @@
         <!-- <button v-on:click="grow">grow all</button> -->
         <!-- <button v-on:click="plant" >plant</button> -->
         <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
-        <div class="water" v-if="watering" ><img src="../assets/watering.png"></div>
         <canvas v-on:click="click" v-bind:id="canvasId" v-bind:width="len*64" v-bind:height="len*64"></canvas>
     </div>
 </template>
@@ -241,7 +240,6 @@ export default {
             map: newMap(this.len),
             img_src:[],
             icon:require('../assets/logo.png'),
-            watering: false
         }
     },
     watch: {
@@ -261,8 +259,9 @@ export default {
             layers[layerIndex] = newLayer;
           });
         });
-
+        //this.$emit('watering', false);
         this.game.render();
+        
       }
     },
     methods : {
@@ -309,26 +308,3 @@ export default {
 
 }
 </script>
-<style>
-.water {
-	animation: rotate-90-bl-ccw 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards;
-    position: absolute;
-    left: 1000px;
-}
-
-@keyframes rotate-90-bl-ccw {
-  0% {
-    transform: rotate(0);
-    transform-origin: 0% 100%;
-  }
-  70% {
-    transform: rotate(-90deg);
-    transform-origin: 0% 100%;
-  }
-  100%{
-    transform: rotate(10deg);
-    transform-origin: 0% 100%;
-    opacity:0;
-  }
-}
-</style>
