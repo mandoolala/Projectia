@@ -66,8 +66,8 @@ export default {
               status: "new",
               collect_status:"Collect",
               water_status: "Water",
-              reward: "yanguibi",
-              reward_src: require("./assets/rewards/yanguibi.png")
+              reward: "Cherry Blossom",
+              reward_src: require("./assets/rewards/cherryblossom.png")
           },
           {
               id: 2,
@@ -79,8 +79,8 @@ export default {
               status: "new",
               collect_status:"Collect",
               water_status: "Water",
-              reward: "yanguibi",
-              reward_src:require("./assets/rewards/yanguibi.png")
+              reward: "Dottori",
+              reward_src:require("./assets/rewards/dottoritree.png")
           }
       ],
       garden: {
