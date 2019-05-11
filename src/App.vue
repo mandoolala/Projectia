@@ -22,30 +22,46 @@
       </h1>
       <plant-book></plant-book>
 
-      <div class="users">
-        <img class="user" src="./assets/user1.png">
-        <img class="user" src="./assets/user2.png">
-        <img class="user" src="./assets/user3.png">
-        <img class="user" src="./assets/user4.png">
-      </div>
-
-      <div class="fore">
-        <div style="display:flex; flex-direction: column; ">
-          <forestv class="forestv" len="3" :plants="garden.availablePlants" @click="pick"></forestv>
-          <button id="plantbook" @click="$bvModal.show('plant-book')">Plant Book</button>
+      <div id="forestcontainer">
+        <p class="componenttitle" style="margin-left: 35px;">Members</p>
+        <div class="users">
+          <div class="username"><img class="user" src="./assets/user1.png"><p style="margin-left:35px;">Karl</p></div>
+          <div class="username"><img class="user" src="./assets/user2.png"><p style="margin-left:35px;">Lisa</p></div>
+          <div class="username"><img class="user" src="./assets/user3.png"><p style="margin-left:45px;">Bob</p></div>
+          <div class="username"><img class="user" src="./assets/user4.png"><p style="margin-left:30px;">Susan</p></div>
         </div>
-        →
-        <forestv class="forestv" len="8" :plants="garden.plants" @click="plant"></forestv>
-        <!-- <div class="water" v-if="watering" ><img src="./assets/watering.png"></div> -->
-      </div>
+        <div class="fore">
+          <div style="display:flex; flex-direction: column; ">
+            <div>
+              <p class="componenttitle" style="margin-left: 30px;">Seed-Box</p>
+              <forestv class="forestv" len="3" :plants="garden.availablePlants" @click="pick"></forestv>
+            </div>
 
-      <div style="display: flex; justify-content: space-between; margin-top: 50px;">
-        <h1>Pull Requests</h1>
-        <githubcontroller v-bind:branchList="branchList"></githubcontroller>
+
+          </div>
+          <img style="width:100px;" src="./assets/bigarrow.png">
+          <div>
+            <div style="display:flex; flex-direction:row; justify-content: space-between;">
+              <p class="componenttitle" style="margin-left: 35px; margin-top: 25px;">Garden</p>
+              <button id="plantbook" @click="$bvModal.show('plant-book')">
+                <img style="width:50px; margin-bottom: 5px;" src="./assets/plantbook.png">
+                Plant Book
+              </button>
+            </div>
+            <forestv class="forestv" len="8" :plants="garden.plants" @click="plant"></forestv>
+          </div>
+
+        </div>
       </div>
-      <button v-on:click="grow">GRRRROWWWW!!!</button>
-      <button v-on:click="addSeedToBox('flower')">PLANT!!!</button>
-      <PullRequestList v-on:grow="grow" v-on:addPlant="addSeedToBox" v-bind:pullRequests="branchList"></PullRequestList>
+      <div>
+        <div style="display: flex; justify-content: space-between; margin-top: 50px;">
+          <h1>Pull Requests</h1>
+          <githubcontroller v-bind:branchList="branchList"></githubcontroller>
+        </div>
+        <PullRequestList v-on:grow="grow" v-on:addPlant="addSeedToBox" v-bind:pullRequests="branchList"></PullRequestList>
+   
+      </div>
+      
     </div>
     <v-tour name="myTour" :steps="steps"></v-tour>
   </div>
@@ -227,6 +243,9 @@ export default {
 </script>
 
 <style scoped>
+
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto');
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -244,6 +263,7 @@ export default {
 .sidebar {
   background-color: #3c3c3c;
   min-width: 15em;
+
 }
 
 .projectContainer {
@@ -258,36 +278,61 @@ export default {
   cursor: pointer;
 }
 
+#forestcontainer{
+  background-color: #ebebeb;
+  padding-top: 30px;
+  width: 900px;
+}
+
+.componenttitle{
+  font-size: 25px;
+  font-family: 'Press Start 2P', cursive;
+  color: black;
+}
+
 .users{
   display:flex;
   flex-direction: row;
-  justify-content: flex-start;
-  margin-bottom: 50px;
-  margin-left: 100px;
+  justify-content: space-between;
+  margin-left: 70px;
+  margin-right: 50px;
+
 }
 
 .user{
-  height: 120px;
-  margin-right: 50px;
-  margin-top: 0px;
+  height: 140px;
   border-color: black;
   border-width: thick;
 }
 
+.username{
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Press Start 2P', cursive;
+  margin-bottom: 50px;
+}
 
 .fore {
   /* width: 30%;
   margin: 0 auto; */
   display: flex;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: center;
   color: green;
   font-size: 100px;
 }
 
 #plantbook{
-  font-size: 20px;
+  font-size: 18px;
+  font-family: 'Press Start 2P', cursive;
+  color: white;
   background-color: green;
+  margin-right: 35px;
+  margin-top: 10px;
+  padding-top: 5px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
 }
 
 .forestv{
