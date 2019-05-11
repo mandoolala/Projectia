@@ -86,25 +86,37 @@ export default {
       ],
       garden: {
         plants: [
-          {
-            type: "cherry_blossom",
-            owner: "samantha",
-            level: 0,
-            position: { x: 4, y: 4 }
-          }
+          // {
+          //   type: "cherry_blossom",
+          //   owner: "samantha",
+          //   level: 1,
+          //   position: { x: 4, y: 4 }
+          // }
         ],
         availablePlants: [
           {
-            type: "cherry_blossom",
+            type: "dotori",
             owner: "samantha",
             level: 0,
             position: { x: 0, y: 0 }
           },
           {
-            type: "cherry_blossom",
+            type: "dotori",
             owner: "samantha",
             level: 0,
             position: { x: 1, y: 2 }
+          },
+          {
+            type: "cherry_blossom",
+            owner: "samantha",
+            level: 0,
+            position: { x: 2, y: 2 }
+          },
+          {
+            type: "flower",
+            owner: "samantha",
+            level: 0,
+            position: { x: 1, y: 1 }
           }
 
         ]
@@ -137,10 +149,10 @@ export default {
       this.garden.availablePlants.forEach(plant => {
         if (plant.position.x == x && plant.position.y == y) {
           if (!this.pickedPlant.includes(flag)) {
-            this.pickedPlant.push(flag);
-            var item = this.garden.availablePlants.splice(flag,1);
-            item[0].level=2;
-            this.garden.availablePlants.splice(flag,0,item[0])
+            this.pickedPlant.push(plant);
+            var item = this.garden.availablePlants.splice(flag,1)[0];
+            item.level = 1;
+            this.garden.availablePlants.splice(flag,0,item)
             //console.log('pick plant'+this.garden.availablePlants);
             return;
           }
@@ -152,14 +164,18 @@ export default {
     plant(x, y) {
       console.log(x, y);
       if (this.pickedPlant.length==0 || this.findPlantInPosition(x, y, 0)) return;
-      this.garden.plants.push({
-        type: "cherry_blossom",
-        owner: "samantha",
-        level: 0,
-        position: { x, y }
+      var item = this.pickedPlant.pop();
+      var flag = 0;
+      console.log(item);
+      this.garden.availablePlants.forEach(plant => {
+        if (plant.position.x == item.position.x && plant.position.y == item.position.y) {
+          this.garden.availablePlants.splice(flag,1);
+        }
+        flag= flag+1;
       })
-  
-      this.garden.availablePlants.splice(this.pickedPlant.pop(),1);
+      item.level = 2;
+      item.position = {x, y};
+      this.garden.plants.push(item);
     }
   }
 };

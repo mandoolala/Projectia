@@ -6,23 +6,71 @@ const dirt = { source: terrains, index: 1 };
 const healthy_dirt = { source: terrains, index: 7 };
 const green_dirt = { source: terrains, index: 8 };
 const grass = { source: terrains, index: 9 };
+const plant_me = {source: terrains, index: 23 };
 
-const seedling = { source: plants, index: 2};
-const seedling2 = { source: plants, index: 3 };
-const tree_s = { source: plants, index: 4 };
-const tree_m = { source: plants, index: 5 };
-const tree_l = { source: plants, index: 6 };
+//cherry blossom
+const cherry_hi = { source: plants, index: 24 };
+const cherry_seedling = { source: plants, index: 2 };
+const cherry_seedling2 = { source: plants, index: 3 };
+const cherry_tree_s = { source: plants, index: 4 };
+const cherry_tree_m = { source: plants, index: 5 };
+const cherry_tree_l = { source: plants, index: 6 };
+
+//dotori
+const doto_hi = { source: plants, index: 25 }
+const doto_seedling = { source: plants, index: 11 };
+const doto_seedling2 = { source: plants, index: 12 };
+const doto_tree_s = { source: plants, index: 13 };
+const doto_tree_m = { source: plants, index: 14 };
+const doto_tree_l = { source: plants, index: 15 };
+
+//flower
+const flower_hi = { source: plants, index: 26 };
+const flower_seedling = { source: plants, index: 18 };
+const flower_seedling2 = { source: plants, index: 19 };
+const flower_tree_s = { source: plants, index: 20 };
+const flower_tree_m = { source: plants, index: 21 };
+const flower_tree_l  = { source: plants, index: 22 };
+
+
+
 
 export const plantRepresentation = {
   "cherry_blossom": {
     name: "Cherry Blossom",
     levels: [
-      [dirt, dirt, seedling],
-      [dirt, dirt, seedling2],
-      [healthy_dirt, grass, tree_s],
-      [healthy_dirt, grass, tree_m],
-      [green_dirt, grass, tree_l],
-    ],
+      [dirt, plant_me, cherry_seedling],
+      [dirt, plant_me, cherry_hi],
+      [dirt, dirt, cherry_seedling],
+      [dirt, dirt, cherry_seedling2],
+      [healthy_dirt, grass, cherry_tree_s],
+      [healthy_dirt, grass, cherry_tree_m],
+      [green_dirt, grass, cherry_tree_l]
+    ]
+  },
+  "dotori": {
+    name: "dotori",
+    levels: [
+      [dirt, plant_me, doto_seedling],
+      [dirt, plant_me, doto_hi],
+      [dirt, dirt, doto_seedling],
+      [dirt, dirt, doto_seedling2],
+      [healthy_dirt, grass, doto_tree_s],
+      [healthy_dirt, grass, doto_tree_m],
+      [green_dirt, grass, doto_tree_l]
+    ]
+  },
+  "flower": {
+    name: "flower",
+    levels: [
+      [dirt, plant_me, flower_seedling],
+      [dirt, plant_me, flower_hi],
+      [dirt, dirt, flower_seedling],
+      [dirt, dirt, flower_seedling2],
+      [healthy_dirt, grass, flower_tree_s],
+      [healthy_dirt, grass, flower_tree_m],
+      [green_dirt, grass, flower_tree_l]
+    ]
   }
 };
 

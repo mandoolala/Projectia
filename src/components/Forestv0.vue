@@ -161,8 +161,6 @@ function Game() {
     this.render = function () {
         // draw map background layer
         this._drawLayer(0);
-        // draw game sprites
-        this.ctx.drawImage(this.hero.image, this.hero.x, this.hero.y);
         // draw map top layer
         this._drawLayer(1);
         this._drawLayer(2);
@@ -171,13 +169,11 @@ function Game() {
     this.load = function () {
         return [
             Loader.loadImage('tiles', require('../assets/tiles.png')),
-            Loader.loadImage('character', require('../assets/character.png'))
         ];
     };
 
     this.init = function () {
         this.tileAtlas = Loader.getImage('tiles');
-        this.hero = {x: 128, y: 384, image: Loader.getImage('character')};
     };
 
     this._drawLayer = function (layer) {
