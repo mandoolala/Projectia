@@ -20,7 +20,7 @@
         username/build-my-great-website
       </h1>
       <div class="fore">
-        <forestv len="3" canvasId="hi" v-bind:plants="garden.availablePlants" v-on:click="pick"></forestv> 
+        <forestv len="3" canvasId="hi" v-bind:plants="garden.availablePlants" v-on:click="pick"></forestv>
         <forestv len="8" canvasId="hello" v-bind:plants="garden.plants" v-on:click="plant"></forestv>
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
@@ -49,14 +49,15 @@ export default {
   },
   data() {
     return {
+      pickedPlant : 0,
       garden: {
         plants: [
-          // {
-          //   type: "cherry_blossom",
-          //   owner: "samantha",
-          //   level: 0,
-          //   position: { x: 4, y: 4 }
-          // }
+          {
+            type: "cherry_blossom",
+            owner: "samantha",
+            level: 0,
+            position: { x: 4, y: 4 }
+          }
         ],
         availablePlants: [
           {
@@ -64,7 +65,14 @@ export default {
             owner: "samantha",
             level: 0,
             position: { x: 0, y: 0 }
+          },
+          {
+            type: "cherry_blossom",
+            owner: "samantha",
+            level: 0,
+            position: { x: 1, y: 2 }
           }
+
         ]
       }
     }
@@ -79,26 +87,34 @@ export default {
         }
       });
     },
-    // pick(a, b) {
-    //   if (!this.findPlantInPosition(a, b)) return;
-    //   this.garden.availablePlants = this.garden.availablePlants.map(plant => {
-    //     if () return;
-    //     console.log("hi")
-    //   })
-    // },
-    findPlantInPosition(px, py) {
-      return this.garden.plants.find(({ position: { x, y }}) => (x === px) && (y === py));
+    findPlantInPosition(px, py, flag) {
+      if (flag==0) return this.garden.plants.find(({ position: { x, y }}) => (x === px) && (y === py));
+      else if (flag==1) return this.garden.availablePlants.find(({ position: { x, y }}) => (x === px) && (y === py));
+    },
+    pick(x, y) {
+      if (!this.findPlantInPosition(x, y, 1)) return;
+      var flag = 0;
+      this.garden.availablePlants.forEach(plant => {
+        if (plant.position.x == x && plant.position.y == y) {
+          this.pickedPlant = this.pickedPlant+1;
+          
+          this.garden.availablePlants.splice(flag,1);
+          console.log('pick plant');
+          return;
+        }
+        flag = flag+ 1;
+      })
     },
     plant(x, y) {
       console.log(x, y);
-      if (this.findPlantInPosition(x, y)) return;
-
+      if (this.pickedPlant==0 || this.findPlantInPosition(x, y, 0)) return;
       this.garden.plants.push({
         type: "cherry_blossom",
         owner: "samantha",
         level: 0,
         position: { x, y }
       })
+      this.pickedPlant = this.pickedPlant-1;
     }
   }
 };
@@ -162,5 +178,8 @@ export default {
 
   .project-list .item {
     background-color: #FFFFFF; padding: 1rem; font-size: 1.5rem;
+  }
+  #hi {
+    border-style: dotted;
   }
 </style>

@@ -291,7 +291,22 @@ export default {
     mounted: function () {
         var context = document.getElementById(this.canvasId).getContext('2d');
         this.game.run(context, this.map);
-    }    
+        this.map.initTiles();
+        const layers = this.map.layers;
+        this.plants.forEach(plant => {
+          const repr = plantRepresentation[plant.type];
+          const { x, y } = plant.position;
+
+          repr.levels[plant.level].forEach((tile, layerIndex) => {
+            const newLayer = layers[layerIndex] || [];
+            // TODO:: Custom source
+            newLayer[this.map.cols * y + x] = tile.index;
+            layers[layerIndex] = newLayer;
+          });
+        });
+        this.game.render();
+    }
+
 }
 </script>
 <style>
