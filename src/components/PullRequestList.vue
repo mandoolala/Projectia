@@ -54,12 +54,12 @@ var filters = {
     },
     onProgress: function (pullrequests) {
         return pullrequests.filter(function (pullrequest) {
-            return !pullrequest.isMerged
+            return pullrequest.isPulled && !pullrequest.isMerged
         })
     },
     merged: function (pullrequests) {
         return pullrequests.filter(function (pullrequest) {
-            return pullrequest.isMerged
+            return pullrequest.ispulled && pullrequest.isMerged
         })
     }
 }
