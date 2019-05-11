@@ -234,7 +234,14 @@ function Game() {
 
 export default {
     name: 'forestv',
-    props: ['plants','canvasId','len'],
+    props: {
+      'plants': Array,
+      'len': Number,
+      'drawTerrain': {
+        type: Boolean,
+        default: true
+      }
+    },
     data() {
         return{
             game: new Game(),
