@@ -16,6 +16,8 @@
       </div>
     </div>
     <div class="projectContainer">
+      <plant-book></plant-book>
+        <githubcontroller v-bind:branchList="branchList"></githubcontroller>
       <h1>
         username/build-my-great-website
       </h1>
@@ -24,7 +26,6 @@
         <forestv len="8" canvasId="hello" v-bind:plants="garden.plants" v-on:click="plant"></forestv>
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
-      <!-- <button v-on:click="plant">PLANT!!!</button> -->
       <h1>
         Pull Requests
       </h1>
@@ -39,11 +40,13 @@ import forestv from "./components/Forestv0.vue"
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {getMaxLevel} from "./plants";
+import PlantBook from "./components/PlantBook";
 
 
 export default {
   name: "app",
   components: {
+    PlantBook,
     PullRequestList,
     forestv
   },
