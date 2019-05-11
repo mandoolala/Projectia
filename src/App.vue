@@ -21,7 +21,8 @@
         username/build-my-great-website
       </h1>
       <div class="fore">
-        <forestv v-bind:plants="garden.plants" v-on:click="plant"></forestv>
+        <forestv len="3" canvasId="hi" v-bind:plants="garden.availablePlants" v-on:click="pick"></forestv>
+        <forestv len="8" canvasId="hello" v-bind:plants="garden.plants" v-on:click="plant"></forestv>
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
       <button v-on:click="plant">PLANT!!!</button>
@@ -53,6 +54,7 @@ export default {
   },
   data() {
     return {
+      pickedPlant : [],
       branchList:[
           {
               id: 1,
@@ -89,6 +91,21 @@ export default {
             level: 0,
             position: { x: 4, y: 4 }
           }
+        ],
+        availablePlants: [
+          {
+            type: "cherry_blossom",
+            owner: "samantha",
+            level: 0,
+            position: { x: 0, y: 0 }
+          },
+          {
+            type: "cherry_blossom",
+            owner: "samantha",
+            level: 0,
+            position: { x: 1, y: 2 }
+          }
+
         ]
       }
     }
@@ -105,19 +122,38 @@ export default {
         }
       });
     },
-    findPlantInPosition(px, py) {
-      return this.garden.plants.find(({ position: { x, y }}) => (x === px) && (y === py));
+    findPlantInPosition(px, py, flag) {
+      if (flag==0) return this.garden.plants.find(({ position: { x, y }}) => (x === px) && (y === py));
+      else if (flag==1) return this.garden.availablePlants.find(({ position: { x, y }}) => (x === px) && (y === py));
+    },
+    // blink(plants,pickedPlant) {
+    //   var temp=pickedPlant.level;
+    //   pickedPlant
+    // },
+    pick(x, y) {
+      if (!this.findPlantInPosition(x, y, 1)) return;
+      var flag = 0;
+      this.garden.availablePlants.forEach(plant => {
+        if (plant.position.x == x && plant.position.y == y) {
+          if (!this.pickedPlant.includes(flag)) this.pickedPlant.push(flag);
+          // this.blink(this.garden.availablePlants,plant);
+          console.log('pick plant'+this.pickedPlant);
+          return;
+        }
+        flag = flag+ 1;
+      })
     },
     plant(x, y) {
-      // console.log(x, y);
-      if (this.findPlantInPosition(x, y)) return;
+      console.log(x, y);
 
+      if (this.pickedPlant.length==0 || this.findPlantInPosition(x, y, 0)) return;
       this.garden.plants.push({
         type: "cherry_blossom",
         owner: "samantha",
         level: 0,
         position: { x, y }
       })
+      this.garden.availablePlants.splice(this.pickedPlant.pop(),1);
     }
   }
 };
@@ -152,8 +188,11 @@ export default {
 }
 
 .fore {
-  width: 30%;
-  margin: 0 auto
+  /* width: 30%;
+  margin: 0 auto; */
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
 }
 
 .profile {
@@ -178,5 +217,8 @@ export default {
 
   .project-list .item {
     background-color: #FFFFFF; padding: 1rem; font-size: 1.5rem;
+  }
+  #hi {
+    border-style: dotted;
   }
 </style>
