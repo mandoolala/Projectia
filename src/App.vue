@@ -16,14 +16,15 @@
       </div>
     </div>
     <div class="projectContainer">
-
+      <button @click="$bvModal.show('plant-book')">Plant Book</button>
+      <plant-book></plant-book>
       <h1>
         username/build-my-great-website
       </h1>
       <div class="fore">
-        <forestv len="3" canvasId="hi" v-bind:plants="garden.availablePlants" v-on:click="pick"></forestv>
+        <forestv len="3" :plants="garden.availablePlants" @click="pick"></forestv>
         <!-- <div class="water" v-on:watering ="watered" v-if="watering" ><img src="./assets/watering.png"></div> -->
-        <forestv len="8" canvasId="hello" v-bind:plants="garden.plants" v-on:click="plant"></forestv>
+        <forestv len="8" :plants="garden.plants" @click="plant"></forestv>
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
       <button v-on:click="plant">PLANT!!!</button>
@@ -44,11 +45,13 @@ import forestv from "./components/Forestv0.vue"
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {getMaxLevel} from "./plants";
+import PlantBook from "./components/PlantBook";
 
 
 export default {
   name: "app",
   components: {
+    PlantBook,
     PullRequestList,
     forestv,
     githubcontroller

@@ -70,7 +70,8 @@ export const plantRepresentation = {
       [healthy_dirt, grass, flower_tree_s],
       [healthy_dirt, grass, flower_tree_m],
       [green_dirt, grass, flower_tree_l]
-    ]
+    ],
+    description: "WOW So Beautiful..."
   }
 };
 
