@@ -3,7 +3,14 @@
         <!-- <button v-on:click="grow">grow all</button> -->
         <!-- <button v-on:click="plant" >plant</button> -->
         <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
-        <canvas v-on:click="click" v-bind:id="canvasId" v-bind:width="len*64" v-bind:height="len*64"></canvas>
+        <canvas
+                ref="canvas"
+                v-on:click="click"
+                v-bind:width="len*64"
+                v-bind:height="len*64"
+        >
+
+        </canvas>
     </div>
 </template>
 
@@ -272,21 +279,9 @@ export default {
       }
     },
     methods : {
-        // gogo: function() {
-        //     if (event){
-        //         Game.run(context);
-        //     }
-        // },
-        // addgrass: function(event) {
-        //     if(event){
-        //         this.img_src.push(this.icon)
-        //         // gogo
-        //         this.img_src.push(this.icon)
-        //     }
-        // },
         click: function(event) {
-          const elem = document.getElementById(this.canvasId)
-          const boundingRect = elem.getBoundingClientRect();
+
+          const boundingRect = this.$refs.canvas.getBoundingClientRect();
           const offsetX = (event.pageX - boundingRect.x);
           const offsetY = event.pageY - boundingRect.y;
           const xTile = Math.floor(this.map.cols * (offsetX / elem.width));
@@ -295,7 +290,7 @@ export default {
         }
     },
     mounted: function () {
-        var context = document.getElementById(this.canvasId).getContext('2d');
+        var context = this.$refs.canvas.getContext('2d');
         this.game.run(context, this.map);
         this.map.initTiles();
         const layers = this.map.layers;
