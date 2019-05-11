@@ -25,7 +25,7 @@
                                     <td style="width: 600px" v-if="!branch.isPulled">
                                         <div class="wrrrper">
                                             <div><span class="branch_name" v-text="branch.branch"></span></div>
-                                            <div><input style="width: 300px" v-if="!branch.isPulled" placeholder=" type your pull request message" v-model="branch.name"></div>
+                                            <div><input style="width: 300px" v-if="!branch.isPulled" placeholder="Type your pull request message" v-model="branch.name"></div>
                                             <div><button class="pull" v-on:click="pull(branch)" v-if="!branch.isPulled">Pull Request</button></div>
                                         </div>
                                     </td>
@@ -156,6 +156,7 @@
     .wrrrper {
         display: grid;
         grid-template-columns: 200px 350px 200px;
+        margin-bottom: 7px;
     }
 
     .branch_name {

@@ -87,12 +87,16 @@ export default {
             if (!request.isMerged){
                 request.status_src = require("../assets/waiting.png");
             }
+
             //move collected reward to container
+            plant();
         },
         waterForest: function(request){
             request.water_status = "Watered";
             request.status_src = require("../assets/merged.png");
+
             //water forest
+            grow();
         }
 
     },
