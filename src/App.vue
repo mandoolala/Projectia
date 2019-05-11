@@ -16,6 +16,7 @@
       </div>
     </div>
     <div class="projectContainer">
+
       <h1>
         username/build-my-great-website
       </h1>
@@ -25,17 +26,20 @@
         <forestv len="8" canvasId="hello" v-bind:plants="garden.plants" v-on:click="plant"></forestv>
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
-      <!-- <button v-on:click="plant">PLANT!!!</button> -->
-      <h1>
-        Pull Requests
-      </h1>
-      <PullRequestList />
+      <button v-on:click="plant">PLANT!!!</button>
+      <div style="display: flex; justify-content: space-between; margin-top: 50px;">
+        <h1>Pull Requests</h1>
+        <githubcontroller v-bind:branchList="branchList"></githubcontroller>
+      </div>
+      <PullRequestList v-bind:pullRequests="branchList"></PullRequestList>
     </div>
+
   </div>
 </template>
 
 <script>
 import PullRequestList from "./components/PullRequestList.vue";
+import githubcontroller from "./components/GithubController";
 import forestv from "./components/Forestv0.vue"
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -46,12 +50,40 @@ export default {
   name: "app",
   components: {
     PullRequestList,
-    forestv
+    forestv,
+    githubcontroller
   },
   data() {
     return {
       pickedPlant : [],
-      //watering: false,
+      branchList:[
+          {
+              id: 1,
+              branch: "Euicheon-branch",
+              name: "",
+              isPulled: false,
+              isMerged: false,
+              src: require("./assets/new.png"),
+              status: "new",
+              collect_status:"Collect",
+              water_status: "Water",
+              reward: "yanguibi",
+              reward_src: require("./assets/rewards/yanguibi.png")
+          },
+          {
+              id: 2,
+              branch:"Minjoo-branch",
+              name:"Fix GitHubController.vue",
+              isPulled: false,
+              isMerged: false,
+              src: require("./assets/new.png"),
+              status: "new",
+              collect_status:"Collect",
+              water_status: "Water",
+              reward: "yanguibi",
+              reward_src:require("./assets/rewards/yanguibi.png")
+          }
+      ],
       garden: {
         plants: [
           {
@@ -80,10 +112,6 @@ export default {
     }
   },
   methods: {
-    watered(bool) {
-      console.log(bool);
-      //this.watering=bool;
-    },
     grow() {
       //this.watering = true;
       this.garden.plants = this.garden.plants.map(plant => {
