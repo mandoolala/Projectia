@@ -1,32 +1,72 @@
 <template>
-    <div class="modal-mask">
-        <div class="modal-container">
-            <h1>Book</h1>
-            <button @click="$emit('close')">ok</button>
-            <forestv :plants="plants"></forestv>
+    <b-modal id="plant-book" hide-footer size="xl" title="Plant Book">
+        <div class="book-container">
+            <forestv class="forest" len="5" :plants="plants" @mousemove="mousemove" @mouseenter="mouseenter" @mouseleave="mouseleave"></forestv>
             <!--<canvas v-el="canvas" :width="cWidth" :height="cHeight"></canvas>-->
+
+            <div>
+                <h2>Information</h2>
+                <div v-if="mouseOnCanvas && selectedPlant">
+                    <h4>Name</h4>
+                    <span>{{selectedPlant.name}}</span>
+                    <h4>Description</h4>
+                    <span>{{selectedPlant.description}}</span>
+                </div>
+                <div v-else>
+                    Hover the mouse over plants to see information
+                </div>
+            </div>
+
         </div>
-    </div>
+    </b-modal>
 </template>
 
 <script>
     import Forestv from "./Forestv0";
+    import {getMaxLevel, plantRepresentation} from "../plants";
     // var ctx = null;
 
   export default {
     name: "PlantBook",
     components: {Forestv},
     data() {
+
+      const plants = Object.entries(plantRepresentation).map(([type, _], index) => ({
+        type,
+        level: getMaxLevel(type),
+        position: { x: index % 5, y: (index - index % 5) / 5}
+      }));
+
       return {
-        cWidth: 320,
-        cHeight: 320,
-        plants: [
-          {
-            type: "cherry_blossom",
-            level: 4,
-            position: { x: 0, y: 0 }
-          }
-        ]
+        plants,
+        lastMouseTileX: -1,
+        lastMouseTileY: -1,
+        mouseOnCanvas: false
+      }
+    },
+    computed: {
+      selectedPlant() {
+        const planted = this.plants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
+        if (!planted) return;
+
+        return plantRepresentation[planted.type];
+      }
+    },
+    methods: {
+      mousemove: function(x, y) {
+        if (this.lastMouseTileX === x && this.lastMouseTileY === y)
+          return;
+
+        this.lastMouseTileX = x;
+        this.lastMouseTileY = y;
+        console.log(this.lastMouseTileX, this.lastMouseTileY)
+
+      },
+      mouseenter() {
+        this.mouseOnCanvas = true;
+      },
+      mouseleave() {
+        this.mouseOnCanvas = false;
       }
     },
     mounted() {
@@ -55,6 +95,17 @@
 
     .modal-container {
         background-color: white;
+        padding: 2rem;
+        min-width: 70rem;
+    }
+
+    .forest {
+        width: 30rem;
+    }
+
+    .book-container {
+        display: flex;
+
     }
 
 </style>

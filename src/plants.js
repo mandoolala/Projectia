@@ -23,6 +23,7 @@ export const plantRepresentation = {
       [healthy_dirt, grass, tree_m],
       [green_dirt, grass, tree_l],
     ],
+    description: "WOW So Beautiful..."
   }
 };
 

@@ -16,9 +16,8 @@
       </div>
     </div>
     <div class="projectContainer">
-
+      <button @click="$bvModal.show('plant-book')">Plant Book</button>
       <plant-book></plant-book>
-        <githubcontroller v-bind:branchList="branchList"></githubcontroller>
       <h1>
         username/build-my-great-website
       </h1>
