@@ -62,24 +62,22 @@ export default {
               name: "",
               isPulled: false,
               isMerged: false,
-              src: require("./assets/new.png"),
-              status: "new",
               collect_status:"Collect",
               water_status: "Water",
               reward: "Cherry Blossom",
+              status_src: require("./assets/open.png"),
               reward_src: require("./assets/rewards/cherryblossom.png")
           },
           {
               id: 2,
               branch:"Minjoo-branch",
-              name:"Fix GitHubController.vue",
+              name:"",
               isPulled: false,
               isMerged: false,
-              src: require("./assets/new.png"),
-              status: "new",
               collect_status:"Collect",
               water_status: "Water",
               reward: "Dottori",
+              status_src: require("./assets/open.png"),
               reward_src:require("./assets/rewards/dottoritree.png")
           }
       ],
