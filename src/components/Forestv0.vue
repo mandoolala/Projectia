@@ -1,17 +1,14 @@
 <template>
-    <div>
-        <!-- <button v-on:click="grow">grow all</button> -->
-        <!-- <button v-on:click="plant" >plant</button> -->
-        <img class="grass" v-bind:key="img" v-for="img in img_src" v-bind:src="img">
-        <canvas
-                ref="canvas"
-                v-on:click="click"
-                v-bind:width="len*64"
-                v-bind:height="len*64"
-        >
-
-        </canvas>
-    </div>
+    <canvas
+            ref="canvas"
+            @click="click"
+            @mouseenter="$emit('mouseenter')"
+            @mouseleave="$emit('mouseleave')"
+            @mousemove="mousemove"
+            :width="len*64"
+            :height="len*64"
+    >
+    </canvas>
 </template>
 
 <script>
@@ -19,10 +16,8 @@
 // Asset loader
 //
 import {plantRepresentation} from "../plants";
-import {createArrayWithNum} from "../utils";
-// import { PerformanceObserver } from 'perf_hooks';
+    import {createArrayWithNum} from "../utils";
 
-// console.log("!!!")
 var Loader = {
     images: {}
 };
@@ -48,19 +43,6 @@ Loader.loadImage = function (key, src) {
 Loader.getImage = function (key) {
     return (key in this.images) ? this.images[key] : null;
 };
-
-
-
-// console.log("??")
-
-// start up function
-//
-
-// window.onload = function () {
-//     var context = document.getElementById(this.canvasId).getContext('2d');
-//     // console.log("context")
-//     Game.run(context);
-// };
 
 function newMap(len) {
     return {
@@ -110,54 +92,6 @@ function newMap(len) {
         }
     }
 }
-
-///
-// var map = {
-//     cols: 8,
-//     rows: 8,
-//     tsize: 64,
-//     layers: [[
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1,
-//         1, 1, 1, 1, 1, 1, 1, 1
-//     ],  [
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0
-//     ], [
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0,
-//         0, 0, 0, 0, 0, 0, 0, 0
-//     ]],
-//     getTile: function (layer, col, row) {
-//         return this.layers[layer][row * map.cols + col];
-//     },
-//     setTile: function(layer,col,row,v){
-//         this.layers[layer][row * map.cols + col] = v
-//     },
-//     initTiles: function() {
-//       const dirtLayer = createArrayWithNum(this.cols * this.rows, 1);
-//       const invisibleLayer = createArrayWithNum(this.cols * this.rows, 0);
-//       this.layers[0] = dirtLayer;
-//       this.layers[1] = invisibleLayer;
-//       this.layers[2] = [...invisibleLayer];
-//     }
-// };
 
 function Game() {
         
@@ -281,12 +215,24 @@ export default {
     methods : {
         click: function(event) {
 
+          const elem = this.$refs.canvas;
           const boundingRect = this.$refs.canvas.getBoundingClientRect();
           const offsetX = (event.pageX - boundingRect.x);
           const offsetY = event.pageY - boundingRect.y;
-          const xTile = Math.floor(this.map.cols * (offsetX / elem.width));
-          const yTile = Math.floor(this.map.rows * (offsetY / elem.height));
+          const xTile = Math.floor(this.map.cols * (offsetX / boundingRect.width));
+          const yTile = Math.floor(this.map.rows * (offsetY / boundingRect.height));
           this.$emit('click', xTile, yTile);
+        },
+        mousemove: function(event) {
+
+          const elem = this.$refs.canvas;
+          const boundingRect = elem.getBoundingClientRect();
+          const offsetX = (event.pageX - boundingRect.x);
+          const offsetY = event.pageY - boundingRect.y;
+          const xTile = Math.floor(this.map.cols * (offsetX / boundingRect.width));
+          const yTile = Math.floor(this.map.rows * (offsetY / boundingRect.height));
+          this.$emit('mousemove', xTile, yTile);
+
         }
     },
     mounted: function () {
