@@ -6,7 +6,7 @@
                 style="width: 30px; height: 30px; margin-bottom:5px; align-items: center;">
         </button>
         <!-- use the modal component, pass in the prop -->
-        <modal v-bind:branchList="branchList" v-if="showModal" @close="showModal = false">
+        <modal v-bind:branchList="branchList" v-if="showModal" @close="showModal = false" clickToClose="true">
             <!--
               you can use custom content here to overwrite
               default content
@@ -41,7 +41,7 @@
     @import url('https://fonts.googleapis.com/css?family=Roboto');
 
     #show-modal{
-        margin-right: 300px;
+        margin-right: 350px;
         margin-top: 5px;
         padding-top: 5px;
         font-size: 18px;

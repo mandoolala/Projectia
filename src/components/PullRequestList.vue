@@ -4,7 +4,7 @@
 
       <div class="filters" style="display:flex">
           <button class="button" v-on:click="visibility = 'all'" :class="{ selected: visibility === 'all' }">All</button>
-          <button class="button" v-on:click="visibility = 'onProgress'" :class="{ selected: visibility === 'onProgress' }">On Progress</button>
+          <button class="button" v-on:click="visibility = 'waiting'" :class="{ selected: visibility === 'waiting' }">Waiting</button>
           <button class="button" v-on:click="visibility = 'merged'" :class="{ selected: visibility === 'merged' }">Merged</button>
       </div>
 
@@ -14,10 +14,9 @@
                 v-bind:reward="pullrequest.reward"
                 v-for="(pullrequest) in filteredPullRequests">
 
-            <div class="title" v-bind:class="{ titleblur: pullrequest.status === 'closed'}">
-                <img v-bind:class=pullrequest.status v-bind:src="pullrequest.src">
+            <div class="title" v-bind:class="{ titleblur: pullrequest.water_status === 'Watered'}">
+                <img class="status" v-bind:src="pullrequest.status_src">
                 <a class="issue">{{pullrequest.name}}</a>
-
             </div>
 
             <div class="buttons">
@@ -52,17 +51,17 @@ var filters = {
             return pullrequest.isPulled
         })
     },
-    onProgress: function (pullrequests) {
+    waiting: function (pullrequests) {
         return pullrequests.filter(function (pullrequest) {
             return pullrequest.isPulled && !pullrequest.isMerged
         })
     },
     merged: function (pullrequests) {
         return pullrequests.filter(function (pullrequest) {
-            return pullrequest.ispulled && pullrequest.isMerged
+            return pullrequest.isPulled && pullrequest.isMerged
         })
     }
-}
+};
 
 
 export default {
@@ -84,17 +83,15 @@ export default {
           return 'modal-' + id;
         },
         collectItem: function(request){
-            request.status = "progress";
             request.collect_status = "Collected";
             if (!request.isMerged){
-                request.src = require("../assets/progress.png");
+                request.status_src = require("../assets/waiting.png");
             }
             //move collected reward to container
         },
         waterForest: function(request){
-            request.status = "closed";
-            request.src = require("../assets/merged.png");
             request.water_status = "Watered";
+            request.status_src = require("../assets/merged.png");
             //water forest
         }
 
@@ -135,7 +132,7 @@ export default {
     line-height: 0.8;
     white-space: nowrap;
     padding: 10px 30px;
-    font-size: 14px;
+    font-size: 16px;
     border-radius: 4px;
     cursor: pointer;
     transition: .1s;
@@ -192,33 +189,11 @@ export default {
     justify-content: flex-start;
 }
 
-.closed{
-    height: 28px;
-    margin-left: 10px;
-    margin-right: 10px;
-    opacity:0.6;
-}
-
-.merged{
+.status{
     height: 28px;
     margin-left: 10px;
     margin-right: 10px;
 }
-
-.progress{
-    height: 29px;
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.new{
-    height: 37px;
-    margin-left:5px;
-    margin-right: 10px;
-    margin-bottom: 5px;
-
-}
-
 
 .issue {
     color: #555555;
@@ -255,13 +230,11 @@ export default {
 }
 
 
-
 .Collect {
     color: #fff;
     background-color: #67c23a;
     border-color:#67c23a;
 }
-
 
 .Collected{
     color: #fff;

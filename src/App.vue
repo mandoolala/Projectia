@@ -62,11 +62,10 @@ export default {
               name: "",
               isPulled: false,
               isMerged: false,
-              src: require("./assets/new.png"),
-              status: "new",
               collect_status:"Collect",
               water_status: "Water",
               reward: "yanguibi",
+              status_src: require("./assets/open.png"),
               reward_src: require("./assets/rewards/yanguibi.png")
           },
           {
@@ -75,11 +74,10 @@ export default {
               name:"",
               isPulled: false,
               isMerged: false,
-              src: require("./assets/new.png"),
-              status: "new",
               collect_status:"Collect",
               water_status: "Water",
               reward: "yanguibi",
+              status_src: require("./assets/open.png"),
               reward_src:require("./assets/rewards/yanguibi.png")
           }
       ],

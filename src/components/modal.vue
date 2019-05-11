@@ -1,15 +1,15 @@
 <template>
-    <transition name="modal">
+    <transition name="modal" >
         <div class="modal-mask">
-            <div class="modal-wrapper">
-                <div class="modal-container">
+            <div class="modal-wrapper" @click="$emit('close')">
+                <div class="modal-container" @click.stop>
                     <button class="modal-default-button" @click="$emit('close')"> X </button>
                     <h4><b> ※ This is a mock-up GitHub controller for testing. </b></h4>
 
                     <div class="modal-header">
                         <img src="../assets/githublogoblack.png"
                              style="width: 40px; height: 40px; margin-right:5px; align-items: center;">
-                        <h2>GitHub</h2>
+                        <h2 style="margin-left: 4px; margin-top:3px;">GitHub</h2>
                     </div>
                     <div class="modal-body">
                         <slot name="body">
@@ -25,7 +25,7 @@
                                     <td style="width: 600px" v-if="!branch.isPulled">
                                         <div class="wrrrper">
                                             <div><span class="branch_name" v-text="branch.branch"></span></div>
-                                            <div><input style="width: 300px" v-if="!branch.isPulled" placeholder="type your pull request message" v-model="branch.name"></div>
+                                            <div><input style="width: 300px" v-if="!branch.isPulled" placeholder=" type your pull request message" v-model="branch.name"></div>
                                             <div><button class="pull" v-on:click="pull(branch)" v-if="!branch.isPulled">Pull Request</button></div>
                                         </div>
                                     </td>
@@ -46,7 +46,7 @@
                                             <div><span v-text="pullRequest.name"></span></div>
                                             <div v-if="!pullRequest.isMerged"><button class="merge" v-on:click="merge(pullRequest)" v-if="!pullRequest.isMerged && pullRequest.isPulled">Merge
                                             </button></div>
-                                            <div v-if="pullRequest.isMerged"><img src="/img/merged.6482b49e.png" style="height: 30px; width: 80px;"></div>
+                                            <div v-if="pullRequest.isMerged"><img src="../assets/merged.png" style="height: 30px; width: 80px;"></div>
                                         </div>
                                         <p></p>
                                     </td>
@@ -82,9 +82,9 @@
                 for (var i in this.branchList){
                     if(this.branchList[i].id === branch.id){
                         this.branchList[i].isMerged = true;
-                        branch.status = "merged";
+
                         branch.water_status = "Water";
-                        branch.src = require("../assets/merged.png");
+                        branch.status_src = require("../assets/merged.png");
                     }
                 }
             }
@@ -136,7 +136,8 @@
         font-weight: 900;
         background-color: black;
         color: white;
-        line-height: 0.8;
+        line-height: 0.6;
+        padding-bottom: 10px;
     }
 
     .modal-body {
