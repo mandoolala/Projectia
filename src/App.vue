@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      pickedPlant : 0,
+      pickedPlant : [],
       garden: {
         plants: [
           {
@@ -91,15 +91,18 @@ export default {
       if (flag==0) return this.garden.plants.find(({ position: { x, y }}) => (x === px) && (y === py));
       else if (flag==1) return this.garden.availablePlants.find(({ position: { x, y }}) => (x === px) && (y === py));
     },
+    // blink(plants,pickedPlant) {
+    //   var temp=pickedPlant.level;
+    //   pickedPlant
+    // },
     pick(x, y) {
       if (!this.findPlantInPosition(x, y, 1)) return;
       var flag = 0;
       this.garden.availablePlants.forEach(plant => {
         if (plant.position.x == x && plant.position.y == y) {
-          this.pickedPlant = this.pickedPlant+1;
-          
-          this.garden.availablePlants.splice(flag,1);
-          console.log('pick plant');
+          if (!this.pickedPlant.includes(flag)) this.pickedPlant.push(flag);
+          // this.blink(this.garden.availablePlants,plant);
+          console.log('pick plant'+this.pickedPlant);
           return;
         }
         flag = flag+ 1;
@@ -107,14 +110,15 @@ export default {
     },
     plant(x, y) {
       console.log(x, y);
-      if (this.pickedPlant==0 || this.findPlantInPosition(x, y, 0)) return;
+
+      if (this.pickedPlant.length==0 || this.findPlantInPosition(x, y, 0)) return;
       this.garden.plants.push({
         type: "cherry_blossom",
         owner: "samantha",
         level: 0,
         position: { x, y }
       })
-      this.pickedPlant = this.pickedPlant-1;
+      this.garden.availablePlants.splice(this.pickedPlant.pop(),1);
     }
   }
 };
