@@ -36,6 +36,7 @@
         </div>
         →
         <forestv class="forestv" len="8" :plants="garden.plants" @click="plant"></forestv>
+        <!-- <div class="water" v-if="watering" ><img src="./assets/watering.png"></div> -->
       </div>
 
       <div style="display: flex; justify-content: space-between; margin-top: 50px;">
@@ -43,10 +44,10 @@
         <githubcontroller v-bind:branchList="branchList"></githubcontroller>
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
-      <button v-on:click="plant">PLANT!!!</button>
-      <PullRequestList v-bind:pullRequests="branchList"></PullRequestList>
+      <button v-on:click="addSeedToBox('flower')">PLANT!!!</button>
+      <PullRequestList v-on:grow="grow" v-on:addPlant="addSeedToBox" v-bind:pullRequests="branchList"></PullRequestList>
     </div>
-
+    <v-tour name="myTour" :steps="steps"></v-tour>
   </div>
 </template>
 
@@ -59,7 +60,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {getMaxLevel} from "./plants";
 import PlantBook from "./components/PlantBook";
 
-
 export default {
   name: "app",
   components: {
@@ -70,6 +70,24 @@ export default {
   },
   data() {
     return {
+      steps: [
+          {
+            target: '#plantbook',  // We're using document.querySelector() under the hood
+            content: 'This is plantbook'
+          }
+          // {
+          //   target: '.v-step-1',
+          //   content: 'An awesome plugin made with Vue.js!'
+          // },
+          // {
+          //   target: '[data-v-step="2"]',
+          //   content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
+          //   params: {
+          //     placement: 'top'
+          //   }
+          // }
+        ],
+      // watering: false,
       pickedPlant : [],
       branchList:[
           {
@@ -80,7 +98,7 @@ export default {
               isMerged: false,
               collect_status:"Collect",
               water_status: "Water",
-              reward: "Cherry Blossom",
+              reward: "cherry_blossom",
               status_src: require("./assets/open.png"),
               reward_src: require("./assets/rewards/cherryblossom.png")
           },
@@ -92,7 +110,7 @@ export default {
               isMerged: false,
               collect_status:"Collect",
               water_status: "Water",
-              reward: "Dottori",
+              reward: "dotori",
               status_src: require("./assets/open.png"),
               reward_src:require("./assets/rewards/dottoritree.png")
           }
@@ -107,30 +125,30 @@ export default {
           // }
         ],
         availablePlants: [
-          {
-            type: "dotori",
-            owner: "samantha",
-            level: 0,
-            position: { x: 0, y: 0 }
-          },
-          {
-            type: "dotori",
-            owner: "samantha",
-            level: 0,
-            position: { x: 1, y: 2 }
-          },
-          {
-            type: "cherry_blossom",
-            owner: "samantha",
-            level: 0,
-            position: { x: 2, y: 2 }
-          },
-          {
-            type: "flower",
-            owner: "samantha",
-            level: 0,
-            position: { x: 1, y: 1 }
-          }
+          // {
+          //   type: "dotori",
+          //   owner: "samantha",
+          //   level: 0,
+          //   position: { x: 0, y: 0 }
+          // },
+          // {
+          //   type: "dotori",
+          //   owner: "samantha",
+          //   level: 0,
+          //   position: { x: 1, y: 2 }
+          // },
+          // {
+          //   type: "cherry_blossom",
+          //   owner: "samantha",
+          //   level: 0,
+          //   position: { x: 2, y: 2 }
+          // },
+          // {
+          //   type: "flower",
+          //   owner: "samantha",
+          //   level: 0,
+          //   position: { x: 1, y: 1 }
+          // }
 
         ]
       }
@@ -138,7 +156,7 @@ export default {
   },
   methods: {
     grow() {
-      //this.watering = true;
+      // this.watering = true;
       this.garden.plants = this.garden.plants.map(plant => {
         return {
           ...plant,
@@ -151,11 +169,21 @@ export default {
       if (flag==0) return this.garden.plants.find(({ position: { x, y }}) => (x === px) && (y === py));
       else if (flag==1) return this.garden.availablePlants.find(({ position: { x, y }}) => (x === px) && (y === py));
     },
-    // blink(plants,pickedPlant) {
-    //   var temp=pickedPlant.level;
-    //   plants.forEach(plant => {if (plant == pickedPlant) plant.level=4;})
-
-    // },
+    addSeedToBox(type) {
+      // this.watering = false;
+      const plantList = new Set([0,1,2,3,4,5,6,7,8]);
+      this.garden.availablePlants.forEach(plant => {
+        plantList.delete(plant.position.y*3+plant.position.x);
+      });
+      if( plantList.size == 0) alert("으아악...");
+      var pos = [...plantList.values()][0];
+      this.garden.availablePlants.push({
+        type: type,
+        owner: "samantha",
+        level: 0,
+        position: {x: (pos%3), y: Math.floor(pos/3)}
+      })
+    },
     pick(x, y) {
       if (!this.findPlantInPosition(x, y, 1)) return;
       var flag = 0;
@@ -190,6 +218,9 @@ export default {
       item.position = {x, y};
       this.garden.plants.push(item);
     }
+  },
+  mounted: function() {
+    this.$tours['myTour'].start();
   }
 };
 
@@ -288,10 +319,9 @@ export default {
     background-color: #FFFFFF; padding: 1rem; font-size: 1.5rem;
   }
 
-  .water {
-	animation: rotate-90-bl-ccw 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards;
+  /* .water {
+	  animation: rotate-90-bl-ccw 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards;
     position: absolute;
-    /* left: 0px; */
   }
 
   @keyframes rotate-90-bl-ccw {
@@ -307,6 +337,6 @@ export default {
       transform: rotate(10deg);
       transform-origin: 0% 100%;
       opacity:0;
-    }
-  }
+    } 
+  }*/
 </style>

@@ -83,20 +83,20 @@ export default {
           return 'modal-' + id;
         },
         collectItem: function(request){
+            console.log(request.reward);
             request.collect_status = "Collected";
             if (!request.isMerged){
                 request.status_src = require("../assets/waiting.png");
             }
-
+            this.$emit("addPlant", request.reward);
             //move collected reward to container
-            plant();
         },
         waterForest: function(request){
             request.water_status = "Watered";
             request.status_src = require("../assets/merged.png");
 
             //water forest
-            grow();
+            this.$emit("grow");
         }
 
     },
@@ -250,7 +250,6 @@ export default {
 }
 
 .Water:focus, .Water:hover .Collect:focus, .Collect:hover {
-//z-index: 1;
     background-color: #e7e7e7;
     border-color: #e7e7e7;
     /*background-color: #72cce5;*/
