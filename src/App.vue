@@ -25,7 +25,7 @@
       </div>
       <button v-on:click="grow">GRRRROWWWW!!!</button>
       <button v-on:click="plant">PLANT!!!</button>
-      <div style="display: flex; justify-content: flex-start;">
+      <div style="display: flex; justify-content: space-between; margin-top: 50px;">
         <h1>Pull Requests</h1>
         <githubcontroller v-bind:branchList="branchList"></githubcontroller>
       </div>
@@ -57,27 +57,29 @@ export default {
           {
               id: 1,
               branch: "Euicheon-branch",
-              name: "fix pullrequestlist.vue",
+              name: "Fix PullRequestList.vue",
               isPulled: false,
               isMerged: false,
               src: require("./assets/new.png"),
               status: "new",
               collect_status:"Collect",
+              water_status: "Water",
               reward: "yanguibi",
               reward_src: require("./assets/rewards/yanguibi.png")
           },
           {
               id: 2,
               branch:"Minjoo-branch",
-              name:"fix GitHubController.vue",
-              isPulled: true,
+              name:"Fix GitHubController.vue",
+              isPulled: false,
               isMerged: false,
-              src: require("./assets/merged.png"),
-              status: "merged",
-              collect_status: "Water",
+              src: require("./assets/new.png"),
+              status: "new",
+              collect_status:"Collect",
+              water_status: "Water",
               reward: "yanguibi",
               reward_src:require("./assets/rewards/yanguibi.png")
-          },
+          }
       ],
       garden: {
         plants: [

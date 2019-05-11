@@ -24,7 +24,7 @@
                                 <tr v-bind:key = "branch.id" v-for="branch in branchList">
                                     <td style="width: 430px" v-if="!branch.isPulled" v-text="branch.branch">
                                     </td>
-                                    <button v-on:click="pull(branch.id)" v-if="!branch.isPulled">Pull Request
+                                    <button v-on:click="pull(branch)" v-if="!branch.isPulled">Pull Request
                                     </button>
                                 </tr>
                                 <hr>
@@ -39,7 +39,7 @@
                                     <td v-if="!pullRequest.isMerged && pullRequest.isPulled">
                                         <h5 v-text="pullRequest.id + '. ' + pullRequest.branch">.</h5>
                                         <input style="width: 300px" v-if="!pullRequest.isMerged && pullRequest.isPulled" placeholder="type your merge message" v-model="pullRequest.name">
-                                        <button v-on:click="merge(pullRequest.id)" v-if="!pullRequest.isMerged && pullRequest.isPulled">Merge
+                                        <button v-on:click="merge(pullRequest)" v-if="!pullRequest.isMerged && pullRequest.isPulled">Merge
                                         </button>
                                         <p></p>
                                     </td>
@@ -63,18 +63,21 @@
         //     };
         //     },
         methods: {
-            pull: function(key){
+            pull: function(branch){
                 // console.log(key)
                 for (var i in this.branchList){
-                    if(this.branchList[i].id === key){
+                    if(this.branchList[i].id === branch.id){
                         this.branchList[i].isPulled = true;
                     }
                 }
             },
-            merge: function(key){
+            merge: function(branch){
                 for (var i in this.branchList){
-                    if(this.branchList[i].id === key){
+                    if(this.branchList[i].id === branch.id){
                         this.branchList[i].isMerged = true;
+                        branch.status = "merged";
+                        branch.water_status = "Water";
+                        branch.src = require("../assets/merged.png");
                     }
                 }
             }
@@ -119,7 +122,7 @@
     .modal-header{
         display: flex;
         justify-content: flex-start;
-        font-family: Roboto;
+        font-family: 'Cabin', sans-serif;
         font-weight: 900;
         background-color: black;
         color: white;
@@ -135,6 +138,8 @@
         font-size: 30px;
         padding-left: 15px;
         padding-right: 15px;
+        font-family: 'Cabin', sans-serif;
+
     }
 
     /*

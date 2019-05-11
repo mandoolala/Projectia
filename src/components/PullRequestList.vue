@@ -10,33 +10,32 @@
 
     <div>
         <div class="pullrequestcard"
-                v-bind:key="index"
+                v-bind:key="pullrequest.id"
                 v-bind:reward="pullrequest.reward"
-                v-for="(pullrequest, index) in filteredPullRequests"
-                >
+                v-for="(pullrequest) in filteredPullRequests">
 
             <div class="title" v-bind:class="{ titleblur: pullrequest.status === 'closed'}">
-                <img class="logo" src="../assets/git-branch-512.png">
-                <a class="issue">{{pullrequest.name}}</a>
-            </div>
-
-            <div class="status">
                 <img v-bind:class=pullrequest.status v-bind:src="pullrequest.src">
-                <div v-if="pullrequest.status !== 'new'">
-                    <button v-on:click="waterForest(pullrequest)" class="collectbutton" v-bind:class=pullrequest.collect_status> {{pullrequest.collect_status}}</button>
-                </div>
-                <div v-else>
-                <b-button v-b-modal.modal-sm class="collectbutton" v-bind:class=pullrequest.collect_status> {{pullrequest.collect_status}}</b-button>
-                <b-modal id="modal-sm" size="sm" title="Congratulations!" hide-header-close>
-                    <h6>You have earned {{pullrequest.reward}} 씨앗! </h6>
-                    <img class="reward" v-bind:src="pullrequest.reward_src">
-                    <template slot="modal-footer" slot-scope="{ ok }">
-                        <b-button class="Collect" size="m" @click="$bvModal.hide('modal-sm')" v-on:click="collectItem(pullrequest)"> Let's grow the plant! </b-button>
-                    </template>
-                </b-modal>
-                </div>
+                <a class="issue">{{pullrequest.name}}</a>
+
             </div>
 
+            <div class="buttons">
+                <div>
+                    <b-button v-b-modal.modal-sm class="collectbutton" v-bind:class=pullrequest.collect_status> Collect </b-button>
+                    <b-modal id="modal-sm" size="sm" title="Congratulations!" hide-header-close>
+                        <h6>You have earned {{pullrequest.reward}} 씨앗! </h6>
+                        <img class="reward" v-bind:src="pullrequest.reward_src">
+                        <template slot="modal-footer" slot-scope="{ ok }">
+                            <b-button class="Collect" size="m" @click="$bvModal.hide('modal-sm')" v-on:click="collectItem(pullrequest)"> Let's grow the plant! </b-button>
+                        </template>
+                    </b-modal>
+                </div>
+                <div>
+                    <button v-if="!pullrequest.isMerged" class="collectbutton disabled"> Water </button>
+                    <button v-else v-on:click="waterForest(pullrequest)" class="collectbutton" v-bind:class=pullrequest.water_status> Water </button>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -49,7 +48,9 @@
 
 var filters = {
     all: function (pullrequests) {
-        return pullrequests
+        return pullrequests.filter(function(pullrequest){
+            return pullrequest.isPulled
+        })
     },
     onProgress: function (pullrequests) {
         return pullrequests.filter(function (pullrequest) {
@@ -81,20 +82,18 @@ export default {
     methods: {
 
         collectItem: function(request){
-            request.status = "progress"
-            request.collect_status = "Collected"
-            request.src = require("../assets/progress.png")
+            request.status = "progress";
+            request.collect_status = "Collected";
+            if (!request.isMerged){
+                request.src = require("../assets/progress.png");
+            }
+            console.log(request);
             //move collected reward to container
         },
-        mergeItem: function(request){
-            request.status = "merged";
-            request.isMerged = "true";
-            request.collect_status = "Water";
-            request.src = require("../assets/merged.png")
-        },
         waterForest: function(request){
-            request.status = "closed"
-            request.collect_status = "Watered"
+            request.status = "closed";
+            request.src = require("../assets/merged.png");
+            request.water_status = "Watered";
             //water forest
         }
 
@@ -116,7 +115,9 @@ export default {
     box-sizing: border-box;
     vertical-align: middle;
     display: inline-block;
-    margin-left: 15px;
+    margin-top:10px ;
+    margin-bottom: 40px;
+    margin-left: 10px;
     margin-bottom: 15px;
 }
 
@@ -132,7 +133,7 @@ export default {
     font-weight: 500;
     line-height: 0.8;
     white-space: nowrap;
-    padding: 10px 40px;
+    padding: 10px 30px;
     font-size: 14px;
     border-radius: 4px;
     cursor: pointer;
@@ -169,75 +170,71 @@ export default {
 }
 
 .pullrequestcard {
-    width: 400px;
-    height: 120px;
+    width: 750px;
+    height: 80px;
     margin: 10px;
+    padding: 10px;
     font-size: 20px;
     box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
     border-radius: 4px;
     border: 1px solid #ebeef5;
 
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 
 }
 
 .title {
-    margin-left: 12px;
     display: flex;
     justify-content: flex-start;
 }
 
-.logo{
-
-    height: 21px;
-    width: 16px;
-    margin-top: 2px;
-    margin-right:5px;
-}
-
-.issue {
-    color: #555555;
-    font-size: 18px;
-}
-
-.titleblur{
-    opacity:0.4;
-}
-
-.status {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
 .closed{
-    height: 25px;
-    margin-top:12px;
-    margin-left: 12px;
+    height: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
     opacity:0.6;
 }
 
 .merged{
-    height: 25px;
-    margin-top:12px;
-    margin-left: 12px;
+    height: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .progress{
-    height: 27px;
-    margin-top: 12px;
-    margin-left: 12px;
-
+    height: 29px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .new{
-    height: 35px;
-    margin-top: 12px;
-    margin-left: 5px;
+    height: 37px;
+    margin-left:5px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+
 }
 
+
+.issue {
+    color: #555555;
+    font-size: 18px;
+    align-self: center;
+}
+
+.titleblur{
+    opacity:0.4;
+    text-decoration: line-through;
+}
+
+.buttons{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
 
 
 .collectbutton{
@@ -256,8 +253,26 @@ export default {
     margin-right: 15px;
 }
 
+
+
+.Collect {
+    color: #fff;
+    background-color: #67c23a;
+    border-color:#67c23a;
+}
+
+
+.Collected{
+    color: #fff;
+    background-color: #b3e19d;
+    border-color: #b3e19d;
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .Water:focus, .Water:hover .Collect:focus, .Collect:hover {
-    //z-index: 1;
+//z-index: 1;
     background-color: #e7e7e7;
     border-color: #e7e7e7;
     /*background-color: #72cce5;*/
@@ -265,15 +280,22 @@ export default {
 
 }
 
-.Watered {
+.disabled{
     color: #fff;
-    background-color: #72cce5;
-    border-color:  #72cce5;
-    opacity: 0.6;
+    background-color: #e7e7e7;
+    border-color: #e7e7e7;
     cursor: not-allowed;
     pointer-events: none;
 }
 
+.Watered {
+    color: #fff;
+    background-color: #72cce5;
+    border-color:  #72cce5;
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
 
 .Water{
     color: #fff;
@@ -281,20 +303,6 @@ export default {
     border-color:  #72cce5;
 }
 
-.Collected{
-    color: #fff;
-    background-color: #b3e19d;
-    border-color: #b3e19d;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-.Collect {
-    color: #fff;
-    background-color: #67c23a;
-    border-color:#67c23a;
-    margin-top: 8px;
-}
 
 .reward{
     width:200px;

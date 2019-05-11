@@ -40,7 +40,8 @@
 <style>
 
     #show-modal{
-        margin-left: 15px;
+        margin-right: 300px;
+        margin-top: 5px;
         padding-top: 5px;
         font-size: 18px;
         font-weight: 900;
