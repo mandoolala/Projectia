@@ -20,7 +20,7 @@
         Code-Avengers/Projectia
       </h1>
       <plant-book></plant-book>
-
+      <Tutorial></Tutorial>
       <div id="forestcontainer">
         <p class="componenttitle" style="margin-left: 35px;">Members</p>
         <div class="users">
@@ -106,6 +106,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import { getMaxLevel } from "./plants";
 import PlantBook from "./components/PlantBook";
+import Tutorial from "./components/Tutorial.vue"
 import { defaultBranches } from "./constants";
 
 export default {
@@ -114,7 +115,8 @@ export default {
     PlantBook,
     PullRequestList,
     forestv,
-    githubcontroller
+    githubcontroller,
+    Tutorial
   },
   data() {
     return {
