@@ -22,7 +22,7 @@
             <div class="buttons">
                 <div>
                     <b-button @click="$bvModal.show(getModalId(pullrequest.id))" class="collectbutton" v-bind:class=pullrequest.collect_status> Collect </b-button>
-                    <b-modal :id="getModalId(pullrequest.id)" size="sm" title="Congratulations!" hide-header-close>
+                    <b-modal :id="getModalId(pullrequest.id)" size="sm" title="Congratulations!" style="align-self: center" hide-header-close>
                         <h6>You have earned {{pullrequest.reward}} 씨앗! </h6>
                         <img class="reward" v-bind:src="pullrequest.reward_src">
                         <template slot="modal-footer" slot-scope="{ ok }">

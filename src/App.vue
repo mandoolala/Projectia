@@ -293,7 +293,7 @@ h1{
   display:flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-left: 70px;
+  margin-left: 50px;
   margin-right: 50px;
 
 }
