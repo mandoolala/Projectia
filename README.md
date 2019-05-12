@@ -1,14 +1,14 @@
 # Projectia
 
-Implementation of the concept of gamifying GitHub.
+Implementation of the concept of gamifying GitHub projects.
 
 Built using Vue.js and Bootstrap-Vue
 
 ## Main Features
 
-- Grow your own garden with GitHub collaborators! (Data won't persist right now)
+- Grow your own garden with GitHub collaborators! (data won't persist right now)
 - Collect various plants by making pull requests (currently only 3 kinds of plants)
-- Synchronized pull requests from your GitHub repository (currently connected with mock-up GitHub included)
+- Synchronized pull requests from your GitHub repository (currently connected with mock-up GitHub which is included in the app)
 
 ## Code Structure
 
