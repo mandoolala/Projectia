@@ -22,7 +22,7 @@
             <div class="buttons">
                 <div>
                     <b-button @click="$bvModal.show(getModalId(pullrequest.id))" class="collectbutton" v-bind:class=pullrequest.collect_status> Collect </b-button>
-                    <b-modal :id="getModalId(pullrequest.id)" size="sm" title="Congratulations!" hide-header-close>
+                    <b-modal :id="getModalId(pullrequest.id)" size="sm" title="Congratulations!" style="align-self: center" hide-header-close>
                         <h6>You have earned {{pullrequest.reward}} 씨앗! </h6>
                         <img class="reward" v-bind:src="pullrequest.reward_src">
                         <template slot="modal-footer" slot-scope="{ ok }">
@@ -83,20 +83,20 @@ export default {
           return 'modal-' + id;
         },
         collectItem: function(request){
+            console.log(request.reward);
             request.collect_status = "Collected";
             if (!request.isMerged){
                 request.status_src = require("../assets/waiting.png");
             }
-
+            this.$emit("addPlant", request.reward);
             //move collected reward to container
-            plant();
         },
         waterForest: function(request){
             request.water_status = "Watered";
             request.status_src = require("../assets/merged.png");
 
             //water forest
-            grow();
+            this.$emit("grow");
         }
 
     },
@@ -111,6 +111,7 @@ export default {
 #pull_request {
   display: flex;
   flex-direction: column;
+
 }
 
 .filters {
@@ -119,7 +120,7 @@ export default {
     display: inline-block;
     margin-top:10px ;
     margin-bottom: 40px;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-bottom: 15px;
 }
 
@@ -172,7 +173,7 @@ export default {
 }
 
 .pullrequestcard {
-    width: 750px;
+    width: 850px;
     height: 80px;
     margin: 10px;
     padding: 10px;
@@ -185,6 +186,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-left: 20px;
 
 }
 
@@ -250,7 +252,6 @@ export default {
 }
 
 .Water:focus, .Water:hover .Collect:focus, .Collect:hover {
-//z-index: 1;
     background-color: #e7e7e7;
     border-color: #e7e7e7;
     /*background-color: #72cce5;*/

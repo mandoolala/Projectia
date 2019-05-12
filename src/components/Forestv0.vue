@@ -16,7 +16,7 @@
 // Asset loader
 //
 import {plantRepresentation} from "../plants";
-    import {createArrayWithNum} from "../utils";
+import {createArrayWithNum} from "../utils";
 
 var Loader = {
     images: {}

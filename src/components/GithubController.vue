@@ -41,9 +41,10 @@
     @import url('https://fonts.googleapis.com/css?family=Roboto');
 
     #show-modal{
-        margin-right: 350px;
         margin-top: 5px;
         padding-top: 5px;
+        margin-left: 430px;
+
         font-size: 18px;
         font-weight: 900;
         font-family: 'Roboto', sans-serif;
