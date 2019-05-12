@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-modal refs="mymodal" size="lg" id="modal_tutorial" title="Tutorial">
+        <b-modal refs="mymodal" size="lg" id="modal_tutorial" title="Tutorial" ok-only>
             <b-carousel
                     id="carousel-1"
                     v-model="slide"
