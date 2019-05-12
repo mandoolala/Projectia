@@ -62,7 +62,6 @@
       </div>
       
     </div>
-    <v-tour name="myTour" :steps="steps"></v-tour>
   </div>
 </template>
 
@@ -85,24 +84,6 @@ export default {
   },
   data() {
     return {
-      steps: [
-          {
-            target: '#plantbook',  // We're using document.querySelector() under the hood
-            content: 'This is plantbook'
-          }
-          // {
-          //   target: '.v-step-1',
-          //   content: 'An awesome plugin made with Vue.js!'
-          // },
-          // {
-          //   target: '[data-v-step="2"]',
-          //   content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
-          //   params: {
-          //     placement: 'top'
-          //   }
-          // }
-        ],
-      // watering: false,
       pickedPlant : [],
       branchList:[
           {
