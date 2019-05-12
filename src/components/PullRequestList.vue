@@ -23,7 +23,7 @@
                 <div>
                     <b-button @click="$bvModal.show(getModalId(pullrequest.id))" class="collectbutton" v-bind:class=pullrequest.collect_status> Collect </b-button>
                     <b-modal :id="getModalId(pullrequest.id)" size="sm" title="Congratulations!" style="align-self: center" hide-header-close>
-                        <h6>You have earned {{pullrequest.reward}} 씨앗! </h6>
+                        <h6>You have earned {{plantRepresentation[pullrequest.reward].name}} seed! </h6>
                         <img class="reward" v-bind:src="pullrequest.reward_src">
                         <template slot="modal-footer" slot-scope="{ ok }">
                             <b-button :key="pullrequest.id" class="Collect" size="m" @click="$bvModal.hide(getModalId(pullrequest.id))" v-on:click="collectItem(pullrequest)"> Let's grow the plant! </b-button>
@@ -43,7 +43,7 @@
 
 
 <script>
-
+import { plantRepresentation } from '../plants';
 
 var filters = {
     all: function (pullrequests) {
@@ -70,7 +70,8 @@ export default {
     data(){
         return {
             visibility: 'all',
-            modalShow: false
+            modalShow: false,
+          plantRepresentation
         }
     },
     computed: {
@@ -83,7 +84,6 @@ export default {
           return 'modal-' + id;
         },
         collectItem: function(request){
-            console.log(request.reward);
             request.collect_status = "Collected";
             if (!request.isMerged){
                 request.status_src = require("../assets/waiting.png");

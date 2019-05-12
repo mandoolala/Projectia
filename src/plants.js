@@ -46,10 +46,11 @@ export const plantRepresentation = {
       [healthy_dirt, grass, cherry_tree_s],
       [healthy_dirt, grass, cherry_tree_m],
       [green_dirt, grass, cherry_tree_l]
-    ]
+    ],
+    description: "You will see this tree every spring with that song in Korea"
   },
   "dotori": {
-    name: "dotori",
+    name: "Acorn",
     levels: [
       [dirt, plant_me, doto_seedling],
       [dirt, plant_me, doto_hi],
@@ -58,10 +59,11 @@ export const plantRepresentation = {
       [healthy_dirt, grass, doto_tree_s],
       [healthy_dirt, grass, doto_tree_m],
       [green_dirt, grass, doto_tree_l]
-    ]
+    ],
+    description: "It is told that acorn was used as a currency in the past"
   },
   "flower": {
-    name: "flower",
+    name: "Flower",
     levels: [
       [dirt, plant_me, flower_seedling],
       [dirt, plant_me, flower_hi],
@@ -71,7 +73,7 @@ export const plantRepresentation = {
       [healthy_dirt, grass, flower_tree_m],
       [green_dirt, grass, flower_tree_l]
     ],
-    description: "WOW So Beautiful..."
+    description: "Flower... But which flower??\n No one knows"
   }
 };
 
