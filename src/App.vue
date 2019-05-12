@@ -11,13 +11,12 @@
       <div class="project-list">
         <h2 class="title">Projects</h2>
         <div class="item">
-          Projectia
+          Code-Avengers/Projectia
         </div>
       </div>
     </div>
     <div class="projectContainer">
-      <h1 id="project-title">
-
+      <h1>
         Code-Avengers/Projectia
       </h1>
       <plant-book></plant-book>
@@ -25,10 +24,10 @@
       <div id="forestcontainer">
         <p class="componenttitle" style="margin-left: 35px;">Members</p>
         <div class="users">
-          <div class="username"><img class="user" src="./assets/user1.png"><p style="margin-left:35px;">Karl</p></div>
-          <div class="username"><img class="user" src="./assets/user2.png"><p style="margin-left:35px;">Lisa</p></div>
-          <div class="username"><img class="user" src="./assets/user3.png"><p style="margin-left:45px;">Bob</p></div>
-          <div class="username"><img class="user" src="./assets/user4.png"><p style="margin-left:30px;">Susan</p></div>
+          <div class="username"><img class="user" src="./assets/user1.png"><p style="margin-left:35px; margin-top:6px;">Karl</p></div>
+          <div class="username"><img class="user" src="./assets/user2.png"><p style="margin-left:35px; margin-top:6px;">Lisa</p></div>
+          <div class="username"><img class="user" src="./assets/user3.png"><p style="margin-left:45px; margin-top:6px;">Bob</p></div>
+          <div class="username"><img class="user" src="./assets/user4.png"><p style="margin-left:30px; margin-top:6px;">Susan</p></div>
         </div>
         <div class="fore">
           <div style="display:flex; flex-direction: column; ">
@@ -54,7 +53,7 @@
         </div>
       </div>
       <div>
-        <div style="display: flex; justify-content: space-between; margin-top: 50px;">
+        <div style="display: flex; justify-content: flex-start; margin-top: 30px; margin-left:20px;">
           <h1>Pull Requests</h1>
           <githubcontroller v-bind:branchList="branchList"></githubcontroller>
         </div>
@@ -244,7 +243,7 @@ export default {
 
 <style scoped>
 
-@import url('https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto');
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto|Oxygen:700|Open+Sans:600');
 
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -273,9 +272,9 @@ export default {
   overflow-y: scroll;
 }
 
-#project-title:hover{
-  color: #0366d6;
-  cursor: pointer;
+h1{
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: 20px;
 }
 
 #forestcontainer{
@@ -309,7 +308,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   font-family: 'Press Start 2P', cursive;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 .fore {
@@ -361,7 +360,7 @@ export default {
   }
 
   .project-list .item {
-    background-color: #FFFFFF; padding: 1rem; font-size: 1.5rem;
+    background-color: #FFFFFF; padding: 1rem; font-size: 1.2rem;
   }
 
   /* .water {

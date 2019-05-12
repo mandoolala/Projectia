@@ -111,6 +111,7 @@ export default {
 #pull_request {
   display: flex;
   flex-direction: column;
+
 }
 
 .filters {
@@ -119,7 +120,7 @@ export default {
     display: inline-block;
     margin-top:10px ;
     margin-bottom: 40px;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-bottom: 15px;
 }
 
@@ -185,6 +186,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-left: 20px;
 
 }
 

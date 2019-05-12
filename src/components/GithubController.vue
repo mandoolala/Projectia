@@ -43,7 +43,8 @@
     #show-modal{
         margin-top: 5px;
         padding-top: 5px;
-        margin-right: 20px;
+        margin-left: 430px;
+
         font-size: 18px;
         font-weight: 900;
         font-family: 'Roboto', sans-serif;
