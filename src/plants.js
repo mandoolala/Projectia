@@ -47,7 +47,8 @@ export const plantRepresentation = {
       [healthy_dirt, grass, cherry_tree_m],
       [green_dirt, grass, cherry_tree_l]
     ],
-    description: "You will see this tree every spring with that song in Korea"
+    description: "You will see this tree every spring with that song in Korea",
+    growing_image: require('./assets/plant_description/cherry.png')
   },
   "dotori": {
     name: "Acorn",
@@ -60,7 +61,8 @@ export const plantRepresentation = {
       [healthy_dirt, grass, doto_tree_m],
       [green_dirt, grass, doto_tree_l]
     ],
-    description: "It is told that acorn was used as a currency in the past"
+    description: "It is told that acorn was used as a currency in the past",
+    growing_image: require('./assets/plant_description/acorn.png')
   },
   "flower": {
     name: "Flower",
@@ -73,7 +75,8 @@ export const plantRepresentation = {
       [healthy_dirt, grass, flower_tree_m],
       [green_dirt, grass, flower_tree_l]
     ],
-    description: "Flower... But which flower??\n No one knows"
+    description: "Flower... But which flower??\n No one knows",
+    growing_image: require('./assets/plant_description/flower.png')
   }
 };
 

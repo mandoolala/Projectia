@@ -11,7 +11,9 @@
                         <span>{{selectedPlant.name}}</span>
                     </div>
                     <div class="detail-row"><h4>Description</h4>
-                        <span>{{selectedPlant.description}}</span></div>
+                        <span>{{selectedPlant.description}}</span>
+                    </div>
+                    <img width="300px" :src="selectedPlant.growing_image">
                 </div>
                 <div class="placeholder" v-else>
                     <p class="placeholder-text">Hover the mouse over plants to see information</p>
@@ -126,6 +128,8 @@
     }
 
     .detail-container {
+        display: flex;
+        flex-direction: column;
         padding: 1rem;
     }
 
