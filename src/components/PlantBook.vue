@@ -4,16 +4,19 @@
             <forestv class="forest" len="5" :plants="plants" @mousemove="mousemove" @mouseenter="mouseenter" @mouseleave="mouseleave"></forestv>
             <!--<canvas v-el="canvas" :width="cWidth" :height="cHeight"></canvas>-->
 
-            <div>
-                <h2>Information</h2>
-                <div v-if="mouseOnCanvas && selectedPlant">
-                    <h4>Name</h4>
-                    <span>{{selectedPlant.name}}</span>
-                    <h4>Description</h4>
-                    <span>{{selectedPlant.description}}</span>
+            <div class="detail">
+                <div class="detail-container" v-if="mouseOnCanvas && selectedPlant">
+                    <div class="detail-row">
+                        <h4>Name</h4>
+                        <span>{{selectedPlant.name}}</span>
+                    </div>
+                    <div class="detail-row"><h4>Description</h4>
+                        <span>{{selectedPlant.description}}</span>
+                    </div>
+                    <img width="300px" :src="selectedPlant.growing_image">
                 </div>
-                <div v-else>
-                    Hover the mouse over plants to see information
+                <div class="placeholder" v-else>
+                    <p class="placeholder-text">Hover the mouse over plants to see information</p>
                 </div>
             </div>
 
@@ -108,4 +111,29 @@
 
     }
 
+    .detail {
+        display: flex;
+    }
+
+    .placeholder {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .placeholder-text {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+
+    .detail-container {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .detail-row {
+        margin-bottom: 2rem;
+    }
 </style>
