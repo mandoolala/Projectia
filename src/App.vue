@@ -70,10 +70,13 @@
 import PullRequestList from "./components/PullRequestList.vue";
 import githubcontroller from "./components/GithubController";
 import forestv from "./components/Forestv0.vue"
+import PlantBook from "./components/PlantBook";
+
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 import {getMaxLevel} from "./plants";
-import PlantBook from "./components/PlantBook";
+
 
 export default {
   name: "app",
