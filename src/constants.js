@@ -21,7 +21,7 @@ export const defaultBranches = [
     water_status: "Water",
     reward: "flower",
     status_src: require("./assets/open.png"),
-    reward_src:require("./assets/rewards/dottoritree.png")
+    reward_src:require("./assets/rewards/Jangmigrown.png")
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ export const defaultBranches = [
     water_status: "Water",
     reward: "cherry_blossom",
     status_src: require("./assets/open.png"),
-    reward_src:require("./assets/rewards/dottoritree.png")
+    reward_src:require("./assets/rewards/cherryblossom.png")
   },
   {
     id: 4,

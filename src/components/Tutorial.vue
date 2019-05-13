@@ -6,6 +6,7 @@
                     v-model="slide"
                     controls
                     indicators
+                    :interval="0"
                     background="#ababab"
                     img-width="1024"
                     img-height="720"
