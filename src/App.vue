@@ -56,10 +56,10 @@
               >
 
               </forestv>
-              <div class="tooltip1" v-if="mouseOnCanvas&& selectedAvailablePlant">
+              <div class="tooltip1" v-if="mouseOnCanvas && selectedAvailablePlant" v-bind:style = "{ top:pointerX, left:pointerY}" >
                 <div>
                   <h4>hihihi</h4>
-                  <span>{{selectedAvailablePlant.owner}}</span>
+                  <span>{{ selectedAvailablePlant.owner }}</span>
                 </div>
               </div>
             </div>
@@ -89,13 +89,13 @@
               :plants="garden.plants"
               @click="plant"
               @mousemove="mousemove"
-              @mouseenter="mouseenter"
-              @mouseleave="mouseleave"
+              @mouseenter="mouseenter2"
+              @mouseleave="mouseleave2"
             >
             </forestv>
-            <div class="tooltip1">
+            <div class="tooltip1" v-if="mouseOnCanvas2 && selectedPlant" v-bind:style="{ top:pointerX, left:pointerY}" >
               <h4>hihihihi</h4>
-              <span>{{selectedPlant.owner}}</span>
+              <span>{{selectedPlant}}</span>
             </div>
           </div>
         </div>
@@ -139,11 +139,15 @@ export default {
   },
   data() {
     return {
+      flag: false,
+      pointerX: -1,
+      pointerY: -1,
       pickedPlant: [],
       branchList: defaultBranches,
       lastMouseTileX: -1,
       lastMouseTileY: -1,
       mouseOnCanvas: false,
+      mouseOnCanvas2: false,
       garden: {
         plants: [],
         availablePlants: [
@@ -168,7 +172,7 @@ export default {
         const planted = this.garden.plants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
         if (!planted) return;
         // console.log(planted.owner);
-        return planted;
+        return planted.owner;
     },
     selectedAvailablePlant() {
       const planted = this.garden.availablePlants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
@@ -256,6 +260,33 @@ export default {
       const root = document.documentElement;
       root.style.setProperty('--mouse-x',event.clientX);
       root.style.setProperty('--mouse-y',event.clientY);
+
+      this.pointerX = event.clientX;
+      this.pointerY = event.clientY;
+
+      this.lastMouseTileX = x;
+      this.lastMouseTileY = y;
+      console.log(event.clientX, this.lastMouseTileY)
+
+    },
+    mouseenter() {
+
+      this.mouseOnCanvas = true;
+      // console.log(this.mouseOnCanvas)
+    },
+    mouseleave() {
+      this.mouseOnCanvas = false;
+    },
+    mousemove: function(x, y) {
+      if (this.lastMouseTileX === x && this.lastMouseTileY === y)
+        return;
+      const root = document.documentElement;
+      root.style.setProperty('--mouse-x',event.clientX);
+      root.style.setProperty('--mouse-y',event.clientY);
+
+      this.pointerX = event.clientX;
+      this.pointerY = event.clientY;
+
       this.lastMouseTileX = x;
       this.lastMouseTileY = y;
       console.log(event.clientX, this.lastMouseTileY)
@@ -267,6 +298,13 @@ export default {
     },
     mouseleave() {
       this.mouseOnCanvas = false;
+    },
+    mouseenter2() {
+      this.mouseOnCanvas2 = true;
+      // console.log(this.mouseOnCanvas)
+    },
+    mouseleave2() {
+      this.mouseOnCanvas2 = false;
     }
   },
   mounted: function() {
@@ -401,7 +439,5 @@ h1 {
   --mouse-x:0px;
   --mouse-y:0px;
   position: absolute;
-  top: var(--mouse-x);
-  left: var(--mouse-y);
 }
 </style>
