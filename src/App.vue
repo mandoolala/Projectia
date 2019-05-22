@@ -50,7 +50,18 @@
                 len="3"
                 :plants="garden.availablePlants"
                 @click="pick"
-              ></forestv>
+                @mousemove="mousemove"
+                @mouseenter="mouseenter"
+                @mouseleave="mouseleave"
+              >
+
+              </forestv>
+              <div class="tooltip1" v-if="mouseOnCanvas&& selectedAvailablePlant">
+                <div>
+                  <h4>hihihi</h4>
+                  <span>{{selectedAvailablePlant.owner}}</span>
+                </div>
+              </div>
             </div>
           </div>
           <img style="width:100px;" src="./assets/bigarrow.png" />
@@ -77,7 +88,15 @@
               len="8"
               :plants="garden.plants"
               @click="plant"
-            ></forestv>
+              @mousemove="mousemove"
+              @mouseenter="mouseenter"
+              @mouseleave="mouseleave"
+            >
+            </forestv>
+            <div class="tooltip1">
+              <h4>hihihihi</h4>
+              <span>{{selectedPlant.owner}}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -122,6 +141,9 @@ export default {
     return {
       pickedPlant: [],
       branchList: defaultBranches,
+      lastMouseTileX: -1,
+      lastMouseTileY: -1,
+      mouseOnCanvas: false,
       garden: {
         plants: [],
         availablePlants: [
@@ -140,6 +162,20 @@ export default {
         ]
       }
     };
+  },
+  computed: {
+    selectedPlant() {
+        const planted = this.garden.plants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
+        if (!planted) return;
+        // console.log(planted.owner);
+        return planted;
+    },
+    selectedAvailablePlant() {
+      const planted = this.garden.availablePlants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
+      if (!planted) return;
+      // console.log(planted.owner);
+      return planted;
+    }
   },
   methods: {
     grow() {
@@ -213,6 +249,24 @@ export default {
       item.level = 2;
       item.position = { x, y };
       this.garden.plants.push(item);
+    },
+    mousemove: function(x, y) {
+      if (this.lastMouseTileX === x && this.lastMouseTileY === y)
+        return;
+      const root = document.documentElement;
+      root.style.setProperty('--mouse-x',event.clientX);
+      root.style.setProperty('--mouse-y',event.clientY);
+      this.lastMouseTileX = x;
+      this.lastMouseTileY = y;
+      console.log(event.clientX, this.lastMouseTileY)
+
+    },
+    mouseenter() {
+      this.mouseOnCanvas = true;
+      // console.log(this.mouseOnCanvas)
+    },
+    mouseleave() {
+      this.mouseOnCanvas = false;
     }
   },
   mounted: function() {
@@ -341,5 +395,13 @@ h1 {
   background-color: #ffffff;
   padding: 1rem;
   font-size: 1.2rem;
+}
+
+.tooltip1 {
+  --mouse-x:0px;
+  --mouse-y:0px;
+  position: absolute;
+  top: var(--mouse-x);
+  left: var(--mouse-y);
 }
 </style>
