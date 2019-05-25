@@ -58,7 +58,7 @@
                     <img class="user" src="./assets/user3.png" />
                     <img class="user" src="./assets/user4.png" />
               </div>
-              <div style="margin: 10px 40px;">
+              <div style="margin: 10px 36px;">
                 <b-form-checkbox-group
                         class="userselect"
                         v-model="selected"
@@ -142,7 +142,7 @@ export default {
             { text: 'Karl', value: 'Karl' },
             { text: 'Lisa', value: 'Lisa' },
             { text: 'Jack', value: 'Jack' },
-            { text: 'Emma', value: 'Emma' }
+            { text: 'Susan', value: 'Susan' }
       ]
     };
   },
@@ -277,7 +277,7 @@ h1 {
   flex-direction: row;
   justify-content: space-between;
   margin-top: 10px;
-  margin-left: 50px;
+  margin-left: 40px;
   margin-right: 50px;
 }
 
