@@ -22,63 +22,65 @@
       <plant-book></plant-book>
       <Tutorial></Tutorial>
       <div id="forestcontainer">
+        <p class="componenttitle" style="margin-left: 35px;">Members</p>
+        <div class="users">
+          <div class="username">
+            <img class="user" src="./assets/user1.png" />
+            <p style="margin-left:35px; margin-top:6px;">Karl</p>
+          </div>
+          <div class="username">
+            <img class="user" src="./assets/user2.png" />
+            <p style="margin-left:35px; margin-top:6px;">Lisa</p>
+          </div>
+          <div class="username">
+            <img class="user" src="./assets/user3.png" />
+            <p style="margin-left:45px; margin-top:6px;">Bob</p>
+          </div>
+          <div class="username">
+            <img class="user" src="./assets/user4.png" />
+            <p style="margin-left:30px; margin-top:6px;">Susan</p>
+          </div>
+        </div>
         <div class="fore">
           <div style="display:flex; flex-direction: column; ">
             <div>
               <p class="componenttitle" style="margin-left: 30px;">Seed-Box</p>
               <forestv
-                      class="forestv"
-                      len="3"
-                      :plants="garden.availablePlants"
-                      @click="pick"
-              />
+                class="forestv"
+                len="3"
+                :plants="garden.availablePlants"
+                @click="pick"
+              ></forestv>
             </div>
           </div>
           <img style="width:100px;" src="./assets/bigarrow.png" />
           <div>
-            <div>
-              <div style="display:flex; flex-direction:row; justify-content: space-between;">
-                <p class="componenttitle"
-                   style="margin-left: 20px; margin-top: 20px;">
-                  Team Garden
-                </p>
-                <div style= "display:flex; flex-direction:row; align-items: center;">
-                  <button id="plantbook" @click="$bvModal.show('plant-book')">
-                    <img style="width:40px; margin-bottom: 5px;"
-                         src="./assets/plantbook.png"/>
-                    Plant Book
-                  </button>
-                </div>
-              </div>
+            <div
+              style="display:flex; flex-direction:row; justify-content: space-between;"
+            >
+              <p
+                class="componenttitle"
+                style="margin-left: 35px; margin-top: 25px;"
+              >
+                Garden
+              </p>
+              <button id="plantbook" @click="$bvModal.show('plant-book')">
+                <img
+                  style="width:50px; margin-bottom: 5px;"
+                  src="./assets/plantbook.png"
+                />
+                Plant Book
+              </button>
             </div>
-            <div>
-              <div class="users">
-                    <img class="user" src="./assets/user1.png" />
-                    <img class="user" src="./assets/user2.png" />
-                    <img class="user" src="./assets/user3.png" />
-                    <img class="user" src="./assets/user4.png" />
-              </div>
-              <div style="margin: 10px 36px;">
-                <b-form-checkbox-group
-                        class="userselect"
-                        v-model="selected"
-                        :options="options"
-                        buttons
-                        size="sm"
-                        button-variant="outline-secondary"
-                        checked
-                ></b-form-checkbox-group>
-              </div>
-            </div>
-            <forestv class="forestv"
-                     len="8"
-                     :plants="garden.plants"
-                     @click="plant"
-            />
+            <forestv
+              class="forestv"
+              len="8"
+              :plants="garden.plants"
+              @click="plant"
+            ></forestv>
           </div>
         </div>
       </div>
-
       <div>
         <div
           style="display: flex; justify-content: flex-start; margin-top: 30px; margin-left:20px;"
@@ -136,14 +138,7 @@ export default {
             position: { x: 1, y: 0 }
           },
         ]
-      },
-      selected: [],
-      options: [
-            { text: 'Karl', value: 'Karl' },
-            { text: 'Lisa', value: 'Lisa' },
-            { text: 'Jack', value: 'Jack' },
-            { text: 'Susan', value: 'Susan' }
-      ]
+      }
     };
   },
   methods: {
@@ -276,22 +271,21 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 10px;
-  margin-left: 40px;
+  margin-left: 50px;
   margin-right: 50px;
 }
 
 .user {
-  height: 105px;
+  height: 140px;
   border-color: black;
   border-width: thick;
 }
 
-.userselect{
-  display: flex;
-  flex-direction: row;
+.username {
+  flex-direction: column;
+  justify-content: center;
   font-family: "Press Start 2P", cursive;
-  color: black;
+  margin-bottom: 25px;
 }
 
 .fore {
@@ -305,15 +299,16 @@ h1 {
 }
 
 #plantbook {
-  font-size: 15px;
-  width: 221px;
+  font-size: 18px;
   font-family: "Press Start 2P", cursive;
   color: white;
   background-color: green;
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin-right: 35px;
+  margin-top: 10px;
   padding-top: 5px;
-  margin-right: 30px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
 }
 
 .forestv {
