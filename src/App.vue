@@ -22,25 +22,6 @@
       <plant-book></plant-book>
       <Tutorial></Tutorial>
       <div id="forestcontainer">
-        <p class="componenttitle" style="margin-left: 35px;">Members</p>
-        <div class="users">
-          <div class="username">
-            <img class="user" src="./assets/user1.png" />
-            <p style="margin-left:35px; margin-top:6px;">Karl</p>
-          </div>
-          <div class="username">
-            <img class="user" src="./assets/user2.png" />
-            <p style="margin-left:35px; margin-top:6px;">Lisa</p>
-          </div>
-          <div class="username">
-            <img class="user" src="./assets/user3.png" />
-            <p style="margin-left:45px; margin-top:6px;">Bob</p>
-          </div>
-          <div class="username">
-            <img class="user" src="./assets/user4.png" />
-            <p style="margin-left:30px; margin-top:6px;">Susan</p>
-          </div>
-        </div>
         <div class="fore">
           <div style="display:flex; flex-direction: column; ">
             <div>
@@ -63,7 +44,7 @@
                 </p>
                 <div style= "display:flex; flex-direction:row; align-items: center; ">
                   <button id="plantbook" @click="$bvModal.show('plant-book')">
-                    <img style="width:40px; margin-bottom: 5px;"
+                    <img style="width:35px; margin-bottom: 5px;"
                          src="./assets/plantbook.png"/>
                     Plant Book
                   </button>
@@ -361,13 +342,13 @@ h1 {
 }
 
 #plantbook {
-  font-size: 18px;
+  font-size: 15px;
   font-family: "Press Start 2P", cursive;
   color: white;
   background-color: green;
   margin-right: 35px;
   margin-top: 10px;
-  padding-top: 5px;
+  padding-top: 8px;
   padding-right: 10px;
   margin-bottom: 20px;
   justify-content: center;
