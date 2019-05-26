@@ -1,7 +1,8 @@
 export const defaultBranches = [
   {
     id: 1,
-    branch: "Euicheon-branch",
+    owner: "Karl",
+    branch: "Karl-branch",
     name: "Fix bugs in PullRequestList.vue",
     isPulled: false,
     isMerged: false,
@@ -13,7 +14,8 @@ export const defaultBranches = [
   },
   {
     id: 2,
-    branch:"Minjoo-branch",
+    owner: "Lisa",
+    branch:"Lisa-branch",
     name:"",
     isPulled: false,
     isMerged: false,
@@ -25,7 +27,8 @@ export const defaultBranches = [
   },
   {
     id: 3,
-    branch:"Minjoo-branch",
+    owner: "Emma",
+    branch:"Emma-branch",
     name:"",
     isPulled: false,
     isMerged: false,
@@ -37,7 +40,8 @@ export const defaultBranches = [
   },
   {
     id: 4,
-    branch:"Minjoo-branch",
+    owner: "Emma",
+    branch:"Emma-branch",
     name:"",
     isPulled: false,
     isMerged: false,
@@ -49,7 +53,8 @@ export const defaultBranches = [
   },
   {
     id: 5,
-    branch:"Minjoo-branch",
+    owner: "Lisa",
+    branch:"Lisa-branch",
     name:"",
     isPulled: false,
     isMerged: false,

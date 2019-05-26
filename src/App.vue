@@ -92,10 +92,10 @@
         </div>
       </div>
       <div class="tooltip1" v-if="mouseOnCanvas2 && selectedPlant" v-bind:style="{ left: this.pointerX+'px', top: this.pointerY+'px'}" >
-        <span class="tooltipname">{{selectedPlant}}</span>
+        <span class="tooltipname">{{ selectedPlant.owner }}'s {{ selectedPlant.type }}</span>
       </div>
       <div class="tooltip1" v-if="mouseOnCanvas && selectedAvailablePlant" v-bind:style = "{ left: this.pointerX+'px', top: this.pointerY +'px'}" >
-        <span class="tooltipname">{{ selectedAvailablePlant.owner }}</span>
+        <span class="tooltipname">{{ selectedAvailablePlant.owner }}'s {{ selectedAvailablePlant.type }}</span>
       </div>
       <div>
         <div
@@ -150,13 +150,13 @@ export default {
         availablePlants: [
           {
             type: "flower",
-            owner: "samantha",
+            owner: "Lisa",
             level: 0,
             position: { x: 0, y: 0 }
           },
           {
-            type: "flower",
-            owner: "samantha",
+            type: "dotori",
+            owner: "Jack",
             level: 0,
             position: { x: 1, y: 0 }
           },
@@ -169,7 +169,7 @@ export default {
         const planted = this.garden.plants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
         if (!planted) return;
         // console.log(planted.owner);
-        return planted.owner;
+        return planted;
     },
     selectedAvailablePlant() {
       const planted = this.garden.availablePlants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
@@ -209,7 +209,7 @@ export default {
       var pos = [...plantList.values()][0];
       this.garden.availablePlants.push({
         type: type,
-        owner: "samantha",
+        owner: "KarL",
         level: 0,
         position: { x: pos % 3, y: Math.floor(pos / 3) }
       });
@@ -413,6 +413,7 @@ h1 {
 .tooltip1 {
   position: absolute;
   z-index:9999;
+  word-wrap: normal;
 }
 
 .tooltipname {
