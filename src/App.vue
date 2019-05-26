@@ -55,29 +55,59 @@
           </div>
           <img style="width:100px;" src="./assets/bigarrow.png" />
           <div>
-            <div
-              style="display:flex; flex-direction:row; justify-content: space-between;"
-            >
-              <p
-                class="componenttitle"
-                style="margin-left: 35px; margin-top: 25px;"
-              >
-                Garden
-              </p>
-              <button id="plantbook" @click="$bvModal.show('plant-book')">
-                <img
-                  style="width:50px; margin-bottom: 5px;"
-                  src="./assets/plantbook.png"
-                />
-                Plant Book
-              </button>
+            <div>
+              <div style="display:flex; flex-direction:row; justify-content: space-between;">
+                <p class="componenttitle"
+                   style="margin-left: 20px; margin-top: 20px;">
+                  Team Garden
+                </p>
+                <div style= "display:flex; flex-direction:row; align-items: center; ">
+                  <button id="plantbook" @click="$bvModal.show('plant-book')">
+                    <img style="width:40px; margin-bottom: 5px;"
+                         src="./assets/plantbook.png"/>
+                    Plant Book
+                  </button>
+                </div>
+              </div>
             </div>
-            <forestv
-              class="forestv"
-              len="8"
-              :plants="garden.plants"
-              @click="plant"
-            ></forestv>
+            <div>
+              <div class="users">
+                    <img class="user" src="./assets/user1.png" />
+                    <img class="user" src="./assets/user2.png" />
+                    <img class="user" src="./assets/user3.png" />
+                    <img class="user" src="./assets/user4.png" />
+              </div>
+              <div>
+                <b-form-group id="userselect">
+                    <b-form-checkbox
+                            v-model="allSelected"
+                            aria-describedby="contributors"
+                            aria-controls="contributors"
+                            @change="toggleAll"
+                            button
+                            button-variant="outline-dark"
+                            style="margin-left: 30px;"
+                    >
+                      All
+                    </b-form-checkbox>
+                  <b-form-checkbox-group
+                          v-model="selected"
+                          :options="contributors"
+                          size="m"
+                          buttons
+                          id="userbutton"
+                          button-variant="outline-secondary"
+                          style="margin-left: 18px; "
+                  ></b-form-checkbox-group>
+                </b-form-group>
+              </div>
+            </div>
+            <!--v-bind using FilteredContributors -->
+            <forestv class="forestv"
+                     len="8"
+                     :plants="garden.plants"
+                     @click="plant"
+            />
           </div>
         </div>
       </div>
@@ -109,6 +139,7 @@ import PlantBook from "./components/PlantBook";
 import Tutorial from "./components/Tutorial.vue"
 import { defaultBranches } from "./constants";
 
+
 export default {
   name: "app",
   components: {
@@ -138,10 +169,17 @@ export default {
             position: { x: 1, y: 0 }
           },
         ]
-      }
+      },
+      selected: ['Karl'],
+      allSelected: false,
+      contributors: [ 'Karl', 'Lisa', 'Jack', 'Emma' ]
     };
   },
   methods: {
+    toggleAll(checked) {
+          this.selected = checked ? this.contributors.slice() : []
+    },
+
     grow() {
       // this.watering = true;
       this.garden.plants = this.garden.plants.map(plant => {
@@ -217,7 +255,25 @@ export default {
   },
   mounted: function() {
     this.$tours["myTour"].start();
+  },
+  computed: {
+      filteredContributors: function () {
+          return selected
+      }
+  },
+  watch: {
+      selected(newVal, oldVal) {
+          // Handle changes in individual checkboxes
+          if (newVal.length === 0) {
+              this.allSelected = false
+          } else if (newVal.length === this.contributors.length) {
+              this.allSelected = true
+          } else {
+              this.allSelected = false
+          }
+      }
   }
+
 };
 </script>
 
@@ -270,23 +326,29 @@ h1 {
 .users {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin-left: 50px;
-  margin-right: 50px;
+  margin-top: 10px;
+  margin-left: 130px;
 }
 
 .user {
-  height: 140px;
+  height: 90px;
+  margin-right:15px;
   border-color: black;
   border-width: thick;
 }
 
-.username {
-  flex-direction: column;
-  justify-content: center;
+#userselect{
+  display: flex;
+  flex-direction: row;
   font-family: "Press Start 2P", cursive;
-  margin-bottom: 25px;
+  font-size: 20px;
+  margin-top: 10px;
 }
+
+#userbutton{
+  width: 420px;
+}
+
 
 .fore {
   /* width: 30%;
