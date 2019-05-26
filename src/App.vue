@@ -56,12 +56,6 @@
               >
 
               </forestv>
-              <div class="tooltip1" v-if="mouseOnCanvas && selectedAvailablePlant" v-bind:style = "{ top:pointerX, left:pointerY}" >
-                <div>
-                  <h4>hihihi</h4>
-                  <span>{{ selectedAvailablePlant.owner }}</span>
-                </div>
-              </div>
             </div>
           </div>
           <img style="width:100px;" src="./assets/bigarrow.png" />
@@ -93,12 +87,15 @@
               @mouseleave="mouseleave2"
             >
             </forestv>
-            <div class="tooltip1" v-if="mouseOnCanvas2 && selectedPlant" v-bind:style="{ top:pointerX, left:pointerY}" >
-              <h4>hihihihi</h4>
-              <span>{{selectedPlant}}</span>
-            </div>
+
           </div>
         </div>
+      </div>
+      <div class="tooltip1" v-if="mouseOnCanvas2 && selectedPlant" v-bind:style="{ left: this.pointerX+'px', top: this.pointerY+'px'}" >
+        <span class="tooltipname">{{selectedPlant}}</span>
+      </div>
+      <div class="tooltip1" v-if="mouseOnCanvas && selectedAvailablePlant" v-bind:style = "{ left: this.pointerX+'px', top: this.pointerY +'px'}" >
+        <span class="tooltipname">{{ selectedAvailablePlant.owner }}</span>
       </div>
       <div>
         <div
@@ -257,42 +254,20 @@ export default {
     mousemove: function(x, y) {
       if (this.lastMouseTileX === x && this.lastMouseTileY === y)
         return;
-      const root = document.documentElement;
-      root.style.setProperty('--mouse-x',event.clientX);
-      root.style.setProperty('--mouse-y',event.clientY);
+      // const root = document.documentElement;
+      // root.style.setProperty('--mouse-x',event.clientX);
+      // root.style.setProperty('--mouse-y',event.clientY);
 
       this.pointerX = event.clientX;
-      this.pointerY = event.clientY;
+      this.pointerY = event.clientY+40;
 
       this.lastMouseTileX = x;
       this.lastMouseTileY = y;
-      console.log(event.clientX, this.lastMouseTileY)
+      console.log(this.pointerX, this.pointerY)
 
     },
     mouseenter() {
 
-      this.mouseOnCanvas = true;
-      // console.log(this.mouseOnCanvas)
-    },
-    mouseleave() {
-      this.mouseOnCanvas = false;
-    },
-    mousemove: function(x, y) {
-      if (this.lastMouseTileX === x && this.lastMouseTileY === y)
-        return;
-      const root = document.documentElement;
-      root.style.setProperty('--mouse-x',event.clientX);
-      root.style.setProperty('--mouse-y',event.clientY);
-
-      this.pointerX = event.clientX;
-      this.pointerY = event.clientY;
-
-      this.lastMouseTileX = x;
-      this.lastMouseTileY = y;
-      console.log(event.clientX, this.lastMouseTileY)
-
-    },
-    mouseenter() {
       this.mouseOnCanvas = true;
       // console.log(this.mouseOnCanvas)
     },
@@ -436,8 +411,12 @@ h1 {
 }
 
 .tooltip1 {
-  --mouse-x:0px;
-  --mouse-y:0px;
   position: absolute;
+  z-index:9999;
+}
+
+.tooltipname {
+  background-color: #b3e19d;
+  padding: 10px;
 }
 </style>
