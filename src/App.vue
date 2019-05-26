@@ -199,7 +199,7 @@ export default {
           ({ position: { x, y } }) => x === px && y === py
         );
     },
-    addSeedToBox(type) {
+    addSeedToBox(request) {
       // this.watering = false;
       const plantList = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8]);
       this.garden.availablePlants.forEach(plant => {
@@ -208,8 +208,8 @@ export default {
       if (plantList.size == 0) alert("으아악...");
       var pos = [...plantList.values()][0];
       this.garden.availablePlants.push({
-        type: type,
-        owner: "KarL",
+        type: request.reward,
+        owner: request.owner,
         level: 0,
         position: { x: pos % 3, y: Math.floor(pos / 3) }
       });
