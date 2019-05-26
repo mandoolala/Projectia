@@ -22,16 +22,35 @@
       <plant-book></plant-book>
       <Tutorial></Tutorial>
       <div id="forestcontainer">
+        <p class="componenttitle" style="margin-left: 35px;">Members</p>
+        <div class="users">
+          <div class="username">
+            <img class="user" src="./assets/user1.png" />
+            <p style="margin-left:35px; margin-top:6px;">Karl</p>
+          </div>
+          <div class="username">
+            <img class="user" src="./assets/user2.png" />
+            <p style="margin-left:35px; margin-top:6px;">Lisa</p>
+          </div>
+          <div class="username">
+            <img class="user" src="./assets/user3.png" />
+            <p style="margin-left:45px; margin-top:6px;">Bob</p>
+          </div>
+          <div class="username">
+            <img class="user" src="./assets/user4.png" />
+            <p style="margin-left:30px; margin-top:6px;">Susan</p>
+          </div>
+        </div>
         <div class="fore">
           <div style="display:flex; flex-direction: column; ">
             <div>
               <p class="componenttitle" style="margin-left: 30px;">Seed-Box</p>
               <forestv
-                      class="forestv"
-                      len="3"
-                      :plants="garden.availablePlants"
-                      @click="pick"
-              />
+                class="forestv"
+                len="3"
+                :plants="garden.availablePlants"
+                @click="pick"
+              ></forestv>
             </div>
           </div>
           <img style="width:100px;" src="./assets/bigarrow.png" />
@@ -92,7 +111,6 @@
           </div>
         </div>
       </div>
-
       <div>
         <div
           style="display: flex; justify-content: flex-start; margin-top: 30px; margin-left:20px;"
@@ -325,7 +343,6 @@ h1 {
   font-family: "Press Start 2P", cursive;
   font-size: 20px;
   margin-top: 10px;
-
 }
 
 #userbutton{
@@ -344,15 +361,16 @@ h1 {
 }
 
 #plantbook {
-  font-size: 15px;
-  width: 221px;
+  font-size: 18px;
   font-family: "Press Start 2P", cursive;
   color: white;
   background-color: green;
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin-right: 35px;
+  margin-top: 10px;
   padding-top: 5px;
-  margin-right: 30px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
 }
 
 .forestv {
