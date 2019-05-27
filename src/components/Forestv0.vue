@@ -44,7 +44,7 @@ Loader.getImage = function (key) {
     return (key in this.images) ? this.images[key] : null;
 };
 
-function newMap(len) {
+function newMap(len, ground) {
     return {
         cols: len,
         rows: len,
@@ -84,7 +84,7 @@ function newMap(len) {
             this.layers[layer][row * this.cols + col] = v
         },
         initTiles: function() {
-        const dirtLayer = createArrayWithNum(this.cols * this.rows, 1);
+        const dirtLayer = createArrayWithNum(this.cols * this.rows, ground);
         const invisibleLayer = createArrayWithNum(this.cols * this.rows, 0);
         this.layers[0] = dirtLayer;
         this.layers[1] = invisibleLayer;
@@ -176,12 +176,13 @@ export default {
       'drawTerrain': {
         type: Boolean,
         default: true
-      }
+      },
+      'ground': Number
     },
     data() {
         return{
             game: new Game(),
-            map: newMap(this.len),
+            map: newMap(this.len, this.ground),
             img_src:[],
             icon:require('../assets/logo.png'),
         }

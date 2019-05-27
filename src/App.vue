@@ -31,7 +31,13 @@
                 len="3"
                 :plants="garden.availablePlants"
                 @click="pick"
-              ></forestv>
+                @mousemove="mousemove"
+                @mouseenter="mouseenter"
+                @mouseleave="mouseleave"
+                ground="29"
+              >
+
+              </forestv>
             </div>
           </div>
           <img style="width:100px;" src="./assets/bigarrow.png" />
@@ -51,6 +57,7 @@
                 </div>
               </div>
             </div>
+
             <div>
               <div class="users">
                     <img class="user" src="./assets/user1.png" />
@@ -84,13 +91,25 @@
               </div>
             </div>
             <!--v-bind using FilteredContributors -->
-            <forestv class="forestv"
-                     len="8"
-                     :plants="garden.plants"
-                     @click="plant"
-            />
+            <forestv
+              class="forestv"
+              len="8"
+              :plants="garden.plants"
+              @click="plant"
+              @mousemove="mousemove"
+              @mouseenter="mouseenter2"
+              @mouseleave="mouseleave2"
+              ground="1"
+            >
+            </forestv>
           </div>
         </div>
+      </div>
+      <div class="tooltip1" v-if="mouseOnCanvas2 && selectedPlant" v-bind:style="{ left: this.pointerX+'px', top: this.pointerY+'px'}" >
+        <span class="tooltipname">{{ selectedPlant.owner }}'s {{ selectedPlant.type }}</span>
+      </div>
+      <div class="tooltip1" v-if="mouseOnCanvas && selectedAvailablePlant" v-bind:style = "{ left: this.pointerX+'px', top: this.pointerY +'px'}" >
+        <span class="tooltipname">{{ selectedAvailablePlant.owner }}'s {{ selectedAvailablePlant.type }}</span>
       </div>
       <div>
         <div
@@ -132,20 +151,27 @@ export default {
   },
   data() {
     return {
+      flag: false,
+      pointerX: -1,
+      pointerY: -1,
       pickedPlant: [],
       branchList: defaultBranches,
+      lastMouseTileX: -1,
+      lastMouseTileY: -1,
+      mouseOnCanvas: false,
+      mouseOnCanvas2: false,
       garden: {
         plants: [],
         availablePlants: [
           {
             type: "flower",
-            owner: "samantha",
+            owner: "Lisa",
             level: 0,
             position: { x: 0, y: 0 }
           },
           {
-            type: "flower",
-            owner: "samantha",
+            type: "dotori",
+            owner: "Jack",
             level: 0,
             position: { x: 1, y: 0 }
           },
@@ -155,6 +181,20 @@ export default {
       allSelected: false,
       contributors: [ 'Karl', 'Lisa', 'Jack', 'Emma' ]
     };
+  },
+  computed: {
+    selectedPlant() {
+        const planted = this.garden.plants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
+        if (!planted) return;
+        // console.log(planted.owner);
+        return planted;
+    },
+    selectedAvailablePlant() {
+      const planted = this.garden.availablePlants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
+      if (!planted) return;
+      // console.log(planted.owner);
+      return planted;
+    }
   },
   methods: {
     toggleAll(checked) {
@@ -181,7 +221,7 @@ export default {
           ({ position: { x, y } }) => x === px && y === py
         );
     },
-    addSeedToBox(type) {
+    addSeedToBox(request) {
       // this.watering = false;
       const plantList = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8]);
       this.garden.availablePlants.forEach(plant => {
@@ -190,8 +230,8 @@ export default {
       if (plantList.size == 0) alert("으아악...");
       var pos = [...plantList.values()][0];
       this.garden.availablePlants.push({
-        type: type,
-        owner: "samantha",
+        type: request.reward,
+        owner: request.owner,
         level: 0,
         position: { x: pos % 3, y: Math.floor(pos / 3) }
       });
@@ -201,7 +241,7 @@ export default {
       var flag = 0;
       this.garden.availablePlants.forEach(plant => {
         if (plant.position.x == x && plant.position.y == y) {
-          if (!this.pickedPlant.includes(flag)) {
+          if (!this.pickedPlant.includes(flag)&&!this.pickedPlant.includes(plant)) {
             this.pickedPlant.push(plant);
             var item = this.garden.availablePlants.splice(flag, 1)[0];
             item.level = 1;
@@ -232,6 +272,36 @@ export default {
       item.level = 2;
       item.position = { x, y };
       this.garden.plants.push(item);
+    },
+    mousemove: function(x, y) {
+      if (this.lastMouseTileX === x && this.lastMouseTileY === y)
+        return;
+      // const root = document.documentElement;
+      // root.style.setProperty('--mouse-x',event.clientX);
+      // root.style.setProperty('--mouse-y',event.clientY);
+
+      this.pointerX = event.clientX;
+      this.pointerY = event.clientY+40;
+
+      this.lastMouseTileX = x;
+      this.lastMouseTileY = y;
+      console.log(this.pointerX, this.pointerY)
+
+    },
+    mouseenter() {
+
+      this.mouseOnCanvas = true;
+      // console.log(this.mouseOnCanvas)
+    },
+    mouseleave() {
+      this.mouseOnCanvas = false;
+    },
+    mouseenter2() {
+      this.mouseOnCanvas2 = true;
+      // console.log(this.mouseOnCanvas)
+    },
+    mouseleave2() {
+      this.mouseOnCanvas2 = false;
     }
   },
   mounted: function() {
@@ -384,5 +454,16 @@ h1 {
   background-color: #ffffff;
   padding: 1rem;
   font-size: 1.2rem;
+}
+
+.tooltip1 {
+  position: absolute;
+  z-index:9999;
+  word-wrap: normal;
+}
+
+.tooltipname {
+  background-color: #b3e19d;
+  padding: 10px;
 }
 </style>

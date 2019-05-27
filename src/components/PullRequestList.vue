@@ -88,7 +88,7 @@ export default {
             if (!request.isMerged){
                 request.status_src = require("../assets/waiting.png");
             }
-            this.$emit("addPlant", request.reward);
+            this.$emit("addPlant", request);
             //move collected reward to container
         },
         waterForest: function(request){
