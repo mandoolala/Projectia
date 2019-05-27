@@ -44,7 +44,6 @@
                     Plant Book
                   </button>
                 </div>
-              </div>
             </div>
             <div>
               <div class="users">
@@ -123,8 +122,6 @@
       <!-- end -->
     </div>
   </div>
-  
-
 </template>
 
 <script>
