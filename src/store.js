@@ -25,6 +25,7 @@ const store = new Vuex.Store({
       for (var i in state.branchList) {
         if (state.branchList[i].id === branch.id) {
           const branch = state.branchList[i];
+          branch.isPulled = true;
           branch.isMerged = true;
           branch.mergedAt = new Date().getTime();
           branch.water_status = "Water";
