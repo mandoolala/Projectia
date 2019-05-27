@@ -53,6 +53,7 @@
                 @mousemove="mousemove"
                 @mouseenter="mouseenter"
                 @mouseleave="mouseleave"
+                ground="29"
               >
 
               </forestv>
@@ -85,6 +86,7 @@
               @mousemove="mousemove"
               @mouseenter="mouseenter2"
               @mouseleave="mouseleave2"
+              ground="1"
             >
             </forestv>
 
