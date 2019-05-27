@@ -45,6 +45,7 @@
                   </button>
                 </div>
               </div>
+            </div>
             <div>
               <div class="users">
                 <img class="user" src="./assets/user1.png">
@@ -89,9 +90,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div
+      <!-- start -->
+      <div
         class="tooltip1"
         v-if="mouseOnCanvas2 && selectedPlant"
         v-bind:style="{ left: this.pointerX+'px', top: this.pointerY+'px'}"
@@ -120,7 +120,11 @@
           v-bind:pullRequests="branchList"
         ></PullRequestList>
       </div>
+      <!-- end -->
+    </div>
   </div>
+  
+
 </template>
 
 <script>
@@ -383,55 +387,55 @@ export default {
         padding-top: 30px;
         width: 900px;
     }
-.users {
-  display: flex;
-  flex-direction: row;
-  margin-top: 10px;
-  margin-left: 130px;
-}
+    .users {
+      display: flex;
+      flex-direction: row;
+      margin-top: 10px;
+      margin-left: 130px;
+    }
 
-.user {
-  height: 90px;
-  margin-right: 15px;
-  border-color: black;
-  border-width: thick;
-}
+    .user {
+      height: 90px;
+      margin-right: 15px;
+      border-color: black;
+      border-width: thick;
+    }
     .componenttitle {
         font-size: 25px;
         font-family: "Press Start 2P", cursive;
         color: black;
     }
 
-#userselect {
-  display: flex;
-  flex-direction: row;
-  font-family: "Press Start 2P", cursive;
-  font-size: 20px;
-  margin-top: 10px;
-}
+    #userselect {
+      display: flex;
+      flex-direction: row;
+      font-family: "Press Start 2P", cursive;
+      font-size: 20px;
+      margin-top: 10px;
+    }
 
-#userbutton {
-  width: 420px;
-}
+    #userbutton {
+      width: 420px;
+    }
 
-.fore {
-  /* width: 30%;
-  margin: 0 auto; */
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: green;
-  font-size: 100px;
-}
+    .fore {
+      /* width: 30%;
+      margin: 0 auto; */
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      color: green;
+      font-size: 100px;
+    }
 
     #plantbook {
-        font-size: 18px;
+        font-size: 15px;
         font-family: "Press Start 2P", cursive;
         color: white;
         background-color: green;
         margin-right: 35px;
         margin-top: 10px;
-        padding-top: 5px;
+        padding-top: 8px;
         padding-right: 10px;
         margin-bottom: 20px;
         justify-content: center;
