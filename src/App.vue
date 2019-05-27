@@ -69,7 +69,10 @@
                     v-model="selected"
                     :options="contributors"
                     size="m"
+<<<<<<< HEAD
                     @change="filterPlants"
+=======
+>>>>>>> abae027ab4f6e5c7b4f4eca7bbd871cb7462bca1
                     buttons
                     id="userbutton"
                     button-variant="outline-secondary"
