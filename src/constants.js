@@ -53,8 +53,8 @@ export const defaultBranches = [
   },
   {
     id: 5,
-    owner: "Lisa",
-    branch:"Lisa-branch",
+    owner: "Jack",
+    branch:"Jack-branch",
     name:"",
     isPulled: false,
     isMerged: false,

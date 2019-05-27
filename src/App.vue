@@ -2,23 +2,18 @@
   <div id="app" class="main">
     <div class="sidebar">
       <div class="profile">
-        <img class="image" src="./assets/user1.png" />
+        <img class="image" src="./assets/user1.png">
         <div class="title">
-          <h2>Karl</h2>
-          working from home
+          <h2>Karl</h2>working from home
         </div>
       </div>
       <div class="project-list">
         <h2 class="title">Projects</h2>
-        <div class="item">
-          Code-Avengers/Projectia
-        </div>
+        <div class="item">Code-Avengers/Projectia</div>
       </div>
     </div>
     <div class="projectContainer">
-      <h1>
-        Code-Avengers/Projectia
-      </h1>
+      <h1>Code-Avengers/Projectia</h1>
       <plant-book></plant-book>
       <Tutorial></Tutorial>
       <div id="forestcontainer">
@@ -35,23 +30,17 @@
                 @mouseenter="mouseenter"
                 @mouseleave="mouseleave"
                 ground="29"
-              >
-
-              </forestv>
+              ></forestv>
             </div>
           </div>
-          <img style="width:100px;" src="./assets/bigarrow.png" />
+          <img style="width:100px;" src="./assets/bigarrow.png">
           <div>
             <div>
               <div style="display:flex; flex-direction:row; justify-content: space-between;">
-                <p class="componenttitle"
-                   style="margin-left: 20px; margin-top: 20px;">
-                  Team Garden
-                </p>
-                <div style= "display:flex; flex-direction:row; align-items: center; ">
+                <p class="componenttitle" style="margin-left: 20px; margin-top: 20px;">Team Garden</p>
+                <div style="display:flex; flex-direction:row; align-items: center; ">
                   <button id="plantbook" @click="$bvModal.show('plant-book')">
-                    <img style="width:35px; margin-bottom: 5px;"
-                         src="./assets/plantbook.png"/>
+                    <img style="width:35px; margin-bottom: 5px;" src="./assets/plantbook.png">
                     Plant Book
                   </button>
                 </div>
@@ -60,32 +49,31 @@
 
             <div>
               <div class="users">
-                    <img class="user" src="./assets/user1.png" />
-                    <img class="user" src="./assets/user2.png" />
-                    <img class="user" src="./assets/user3.png" />
-                    <img class="user" src="./assets/user4.png" />
+                <img class="user" src="./assets/user1.png">
+                <img class="user" src="./assets/user2.png">
+                <img class="user" src="./assets/user3.png">
+                <img class="user" src="./assets/user4.png">
               </div>
               <div>
                 <b-form-group id="userselect">
-                    <b-form-checkbox
-                            v-model="allSelected"
-                            aria-describedby="contributors"
-                            aria-controls="contributors"
-                            @change="toggleAll"
-                            button
-                            button-variant="outline-dark"
-                            style="margin-left: 30px;"
-                    >
-                      All
-                    </b-form-checkbox>
+                  <b-form-checkbox
+                    v-model="allSelected"
+                    aria-describedby="contributors"
+                    aria-controls="contributors"
+                    @change="toggleAll"
+                    button
+                    button-variant="outline-dark"
+                    style="margin-left: 30px;"
+                  >All</b-form-checkbox>
                   <b-form-checkbox-group
-                          v-model="selected"
-                          :options="contributors"
-                          size="m"
-                          buttons
-                          id="userbutton"
-                          button-variant="outline-secondary"
-                          style="margin-left: 18px; "
+                    v-model="selected"
+                    :options="contributors"
+                    size="m"
+                    @change="filterPlants"
+                    buttons
+                    id="userbutton"
+                    button-variant="outline-secondary"
+                    style="margin-left: 18px; "
                   ></b-form-checkbox-group>
                 </b-form-group>
               </div>
@@ -94,22 +82,31 @@
             <forestv
               class="forestv"
               len="8"
-              :plants="garden.plants"
+              :plants="garden.visiblePlants"
               @click="plant"
               @mousemove="mousemove"
               @mouseenter="mouseenter2"
               @mouseleave="mouseleave2"
               ground="1"
-            >
-            </forestv>
+            ></forestv>
           </div>
         </div>
       </div>
-      <div class="tooltip1" v-if="mouseOnCanvas2 && selectedPlant" v-bind:style="{ left: this.pointerX+'px', top: this.pointerY+'px'}" >
+      <div
+        class="tooltip1"
+        v-if="mouseOnCanvas2 && selectedPlant"
+        v-bind:style="{ left: this.pointerX+'px', top: this.pointerY+'px'}"
+      >
         <span class="tooltipname">{{ selectedPlant.owner }}'s {{ selectedPlant.type }}</span>
       </div>
-      <div class="tooltip1" v-if="mouseOnCanvas && selectedAvailablePlant" v-bind:style = "{ left: this.pointerX+'px', top: this.pointerY +'px'}" >
-        <span class="tooltipname">{{ selectedAvailablePlant.owner }}'s {{ selectedAvailablePlant.type }}</span>
+      <div
+        class="tooltip1"
+        v-if="mouseOnCanvas && selectedAvailablePlant"
+        v-bind:style="{ left: this.pointerX+'px', top: this.pointerY +'px'}"
+      >
+        <span
+          class="tooltipname"
+        >{{ selectedAvailablePlant.owner }}'s {{ selectedAvailablePlant.type }}</span>
       </div>
       <div>
         <div
@@ -136,9 +133,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import { getMaxLevel } from "./plants";
 import PlantBook from "./components/PlantBook";
-import Tutorial from "./components/Tutorial.vue"
+import Tutorial from "./components/Tutorial.vue";
 import { defaultBranches } from "./constants";
-
 
 export default {
   name: "app",
@@ -161,6 +157,7 @@ export default {
       mouseOnCanvas: false,
       mouseOnCanvas2: false,
       garden: {
+        visiblePlants: [],
         plants: [],
         availablePlants: [
           {
@@ -174,35 +171,58 @@ export default {
             owner: "Jack",
             level: 0,
             position: { x: 1, y: 0 }
-          },
+          }
         ]
       },
-      selected: ['Karl'],
+      selected: [],
       allSelected: false,
-      contributors: [ 'Karl', 'Lisa', 'Jack', 'Emma' ]
+      contributors: ["Karl", "Lisa", "Jack", "Emma"]
     };
   },
   computed: {
     selectedPlant() {
-        const planted = this.garden.plants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
-        if (!planted) return;
-        // console.log(planted.owner);
-        return planted;
+      const planted = this.garden.plants.find(
+        ({ position: { x, y } }) =>
+          x === this.lastMouseTileX && y === this.lastMouseTileY
+      );
+      if (!planted) return;
+      // console.log(planted.owner);
+      return planted;
     },
     selectedAvailablePlant() {
-      const planted = this.garden.availablePlants.find(({ position: { x, y }}) => (x === this.lastMouseTileX) && (y === this.lastMouseTileY));
+      const planted = this.garden.availablePlants.find(
+        ({ position: { x, y } }) =>
+          x === this.lastMouseTileX && y === this.lastMouseTileY
+      );
       if (!planted) return;
       // console.log(planted.owner);
       return planted;
     }
   },
   methods: {
+    //added
+    filterPlants(checked) {
+      this.garden.visiblePlants = [];
+      checked.forEach(contributor => {
+         this.garden.plants.forEach(plant => {
+          if (plant.owner == contributor) this.garden.visiblePlants.push(plant);
+        })
+      })
+
+    },  
     toggleAll(checked) {
-          this.selected = checked ? this.contributors.slice() : []
+      this.selected = checked ? this.contributors.slice() : [];
+      //changed
+      if (checked) this.garden.visiblePlants = this.garden.plants;
+      else this.garden.visiblePlants = [];
     },
 
     grow() {
       // this.watering = true;
+      setTimeout(() => {
+        this.toggleAll(true);
+      }, 1000);
+
       this.garden.plants = this.garden.plants.map(plant => {
         return {
           ...plant,
@@ -241,11 +261,17 @@ export default {
       var flag = 0;
       this.garden.availablePlants.forEach(plant => {
         if (plant.position.x == x && plant.position.y == y) {
-          if (!this.pickedPlant.includes(flag)&&!this.pickedPlant.includes(plant)) {
+          if (
+            !this.pickedPlant.includes(flag) &&
+            !this.pickedPlant.includes(plant)
+          ) {
             this.pickedPlant.push(plant);
             var item = this.garden.availablePlants.splice(flag, 1)[0];
             item.level = 1;
             this.garden.availablePlants.splice(flag, 0, item);
+
+            this.toggleAll(true);
+
             //console.log('pick plant'+this.garden.availablePlants);
             return;
           }
@@ -274,22 +300,19 @@ export default {
       this.garden.plants.push(item);
     },
     mousemove: function(x, y) {
-      if (this.lastMouseTileX === x && this.lastMouseTileY === y)
-        return;
+      if (this.lastMouseTileX === x && this.lastMouseTileY === y) return;
       // const root = document.documentElement;
       // root.style.setProperty('--mouse-x',event.clientX);
       // root.style.setProperty('--mouse-y',event.clientY);
 
       this.pointerX = event.clientX;
-      this.pointerY = event.clientY+40;
+      this.pointerY = event.clientY + 40;
 
       this.lastMouseTileX = x;
       this.lastMouseTileY = y;
-      console.log(this.pointerX, this.pointerY)
-
+      console.log(this.pointerX, this.pointerY);
     },
     mouseenter() {
-
       this.mouseOnCanvas = true;
       // console.log(this.mouseOnCanvas)
     },
@@ -308,23 +331,22 @@ export default {
     this.$tours["myTour"].start();
   },
   computed: {
-      filteredContributors: function () {
-          return selected
-      }
+    filteredContributors: function() {
+      return selected;
+    }
   },
   watch: {
-      selected(newVal, oldVal) {
-          // Handle changes in individual checkboxes
-          if (newVal.length === 0) {
-              this.allSelected = false
-          } else if (newVal.length === this.contributors.length) {
-              this.allSelected = true
-          } else {
-              this.allSelected = false
-          }
+    selected(newVal, oldVal) {
+      // Handle changes in individual checkboxes
+      if (newVal.length === 0) {
+        this.allSelected = false;
+      } else if (newVal.length === this.contributors.length) {
+        this.allSelected = true;
+      } else {
+        this.allSelected = false;
       }
+    }
   }
-
 };
 </script>
 
@@ -383,12 +405,12 @@ h1 {
 
 .user {
   height: 90px;
-  margin-right:15px;
+  margin-right: 15px;
   border-color: black;
   border-width: thick;
 }
 
-#userselect{
+#userselect {
   display: flex;
   flex-direction: row;
   font-family: "Press Start 2P", cursive;
@@ -396,10 +418,9 @@ h1 {
   margin-top: 10px;
 }
 
-#userbutton{
+#userbutton {
   width: 420px;
 }
-
 
 .fore {
   /* width: 30%;
@@ -458,7 +479,7 @@ h1 {
 
 .tooltip1 {
   position: absolute;
-  z-index:9999;
+  z-index: 9999;
   word-wrap: normal;
 }
 
