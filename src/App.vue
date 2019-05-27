@@ -45,8 +45,6 @@
                   </button>
                 </div>
               </div>
-            </div>
-
             <div>
               <div class="users">
                 <img class="user" src="./assets/user1.png">
@@ -78,7 +76,6 @@
                 </b-form-group>
               </div>
             </div>
-            <!--v-bind using FilteredContributors -->
             <forestv
               class="forestv"
               len="8"
@@ -92,7 +89,9 @@
           </div>
         </div>
       </div>
-      <div
+    </div>
+  </div>
+  <div
         class="tooltip1"
         v-if="mouseOnCanvas2 && selectedPlant"
         v-bind:style="{ left: this.pointerX+'px', top: this.pointerY+'px'}"
@@ -121,7 +120,6 @@
           v-bind:pullRequests="branchList"
         ></PullRequestList>
       </div>
-    </div>
   </div>
 </template>
 
@@ -330,11 +328,7 @@ export default {
   mounted: function() {
     this.$tours["myTour"].start();
   },
-  computed: {
-    filteredContributors: function() {
-      return selected;
-    }
-  },
+
   watch: {
     selected(newVal, oldVal) {
       // Handle changes in individual checkboxes
@@ -351,51 +345,44 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto|Oxygen:700|Open+Sans:600");
+    @import url("https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto|Oxygen:700|Open+Sans:600");
 
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
+    #app {
+        font-family: "Avenir", Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #2c3e50;
+    }
 
-.main {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
+    .main {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
 
-.sidebar {
-  background-color: #3c3c3c;
-  min-width: 15em;
-}
+    .sidebar {
+        background-color: #3c3c3c;
+        min-width: 15em;
+    }
 
-.projectContainer {
-  padding: 4rem;
-  flex: 1;
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
+    .projectContainer {
+        padding: 4rem;
+        flex: 1;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
 
-h1 {
-  font-family: "Open Sans", sans-serif;
-  margin-bottom: 20px;
-}
+    h1 {
+        font-family: "Open Sans", sans-serif;
+        margin-bottom: 20px;
+    }
 
-#forestcontainer {
-  background-color: #ebebeb;
-  padding-top: 30px;
-  width: 900px;
-}
-
-.componenttitle {
-  font-size: 25px;
-  font-family: "Press Start 2P", cursive;
-  color: black;
-}
-
+    #forestcontainer {
+        background-color: #ebebeb;
+        padding-top: 30px;
+        width: 900px;
+    }
 .users {
   display: flex;
   flex-direction: row;
@@ -409,6 +396,11 @@ h1 {
   border-color: black;
   border-width: thick;
 }
+    .componenttitle {
+        font-size: 25px;
+        font-family: "Press Start 2P", cursive;
+        color: black;
+    }
 
 #userselect {
   display: flex;
@@ -432,59 +424,59 @@ h1 {
   font-size: 100px;
 }
 
-#plantbook {
-  font-size: 15px;
-  font-family: "Press Start 2P", cursive;
-  color: white;
-  background-color: green;
-  margin-right: 35px;
-  margin-top: 10px;
-  padding-top: 8px;
-  padding-right: 10px;
-  margin-bottom: 20px;
-  justify-content: center;
-}
+    #plantbook {
+        font-size: 18px;
+        font-family: "Press Start 2P", cursive;
+        color: white;
+        background-color: green;
+        margin-right: 35px;
+        margin-top: 10px;
+        padding-top: 5px;
+        padding-right: 10px;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
 
-.forestv {
-  margin-right: 30px;
-  margin-left: 30px;
-}
+    .forestv {
+        margin-right: 30px;
+        margin-left: 30px;
+    }
 
-.profile {
-  padding: 1rem;
-  height: 20rem;
-  color: white;
-}
-.profile .image {
-  width: 13rem;
-}
-.profile .title {
-  margin-top: 1rem;
-}
+    .profile {
+        padding: 1rem;
+        height: 20rem;
+        color: white;
+    }
+    .profile .image {
+        width: 13rem;
+    }
+    .profile .title {
+        margin-top: 1rem;
+    }
 
-.project-list {
-  padding-top: 1rem;
-}
+    .project-list {
+        padding-top: 1rem;
+    }
 
-.project-list .title {
-  color: white;
-  margin: 1rem;
-}
+    .project-list .title {
+        color: white;
+        margin: 1rem;
+    }
 
-.project-list .item {
-  background-color: #ffffff;
-  padding: 1rem;
-  font-size: 1.2rem;
-}
+    .project-list .item {
+        background-color: #ffffff;
+        padding: 1rem;
+        font-size: 1.2rem;
+    }
 
-.tooltip1 {
-  position: absolute;
-  z-index: 9999;
-  word-wrap: normal;
-}
+    .tooltip1 {
+        position: absolute;
+        z-index:9999;
+        word-wrap: normal;
+    }
 
-.tooltipname {
-  background-color: #b3e19d;
-  padding: 10px;
-}
+    .tooltipname {
+        background-color: #b3e19d;
+        padding: 10px;
+    }
 </style>
