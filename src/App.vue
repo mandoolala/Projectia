@@ -277,7 +277,6 @@ export default {
         ) {
           this.garden.availablePlants.splice(flag, 1);
         }
-    };
         flag = flag + 1;
       });
       item.level = 2;
