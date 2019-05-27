@@ -68,6 +68,7 @@
                     v-model="selected"
                     :options="contributors"
                     size="m"
+                    @change="filterPlants"
                     buttons
                     id="userbutton"
                     button-variant="outline-secondary"
@@ -80,7 +81,7 @@
             <forestv
               class="forestv"
               len="8"
-              :plants="garden.plants"
+              :plants="garden.visiblePlants"
               @click="plant"
               @mousemove="mousemove"
               @mouseenter="mouseenter2"
@@ -171,7 +172,7 @@ export default {
           }
         ]
       },
-      selected: ["Karl"],
+      selected: [],
       allSelected: false,
       contributors: ["Karl", "Lisa", "Jack", "Emma"]
     };
@@ -197,8 +198,21 @@ export default {
     }
   },
   methods: {
+    //added
+    filterPlants(checked) {
+      this.garden.visiblePlants = [];
+      checked.forEach(contributor => {
+         this.garden.plants.forEach(plant => {
+          if (plant.owner == contributor) this.garden.visiblePlants.push(plant);
+        })
+      })
+
+    },  
     toggleAll(checked) {
       this.selected = checked ? this.contributors.slice() : [];
+      //changed
+      if (checked) this.garden.visiblePlants = this.garden.plants;
+      else this.garden.visiblePlants = [];
     },
 
     grow() {
