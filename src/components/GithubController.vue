@@ -14,75 +14,42 @@
               default content
             -->
       <h3 slot="header">GitHub Controller</h3>
-      <table slot="body">
-        <h4 style="color: #6aa73d; font-weight: bold">
-          <img
-            src="../assets/git-branch-512.png"
-            style="width: 20px; height: 28px; color: #6aa73d;"
-          />
-          Branches
-        </h4>
-        <tr v-bind:key="branch.id" v-for="branch in branchList">
-          <td style="width: 600px" v-if="!branch.isPulled">
-            <div class="wrrrper">
-              <div>
-                <span class="branch_name" v-text="branch.branch"></span>
-              </div>
-              <div>
-                <input
-                  style="width: 300px"
-                  v-if="!branch.isPulled"
-                  placeholder="Type your pull request message"
-                  v-model="branch.name"
-                />
-              </div>
-              <div>
-                <button
-                  class="pull"
-                  v-on:click="pull(branch)"
-                  v-if="!branch.isPulled"
-                >
-                  Pull Request
-                </button>
-              </div>
+      <div class="main-content" slot="body">
+        <div
+          style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;"
+        >
+          <h4 style="font-size: 2rem;">
+            <img src="../assets/git-branch-512.png" style="height: 2rem;" />
+            Pull Requests
+          </h4>
+          <GitHubButton highlight>
+            <span slot="text">New Pull Request</span>
+          </GitHubButton>
+        </div>
+        <div class="list">
+          <div class="list-item" v-for="pullRequest in pullRequests">
+            <div>
+              <MergeIcon
+                v-if="pullRequest.isMerged"
+                fill="#6f42c1"
+                style="width: 1.5rem; height: 1.5rem;"
+              ></MergeIcon>
+              <PullIcon
+                v-else
+                fill="#28a745"
+                style="width: 1.5rem; height: 1.5rem;">
+              </PullIcon>
+              <span class="list-title">
+                {{ pullRequest.name }}
+              </span>
             </div>
-          </td>
-        </tr>
-        <hr />
-        <h4 style="color: #28a745; font-weight: bold">
-          <img
-            src="../assets/git-pull-request-512.png"
-            style="width: 20px; height: 28px; color: #6aa73d;"
-          />
-          Pull Requests
-        </h4>
-        <tr v-for="pullRequest in branchList" v-bind:key="pullRequest.id">
-          <td v-if="pullRequest.isPulled">
-            <div class="wrrrper">
-              <div>
-                <span class="branch_name" v-text="pullRequest.branch">.</span>
-              </div>
-              <div><span v-text="pullRequest.name"></span></div>
-              <div v-if="!pullRequest.isMerged">
-                <button
-                  class="merge"
-                  v-on:click="merge(pullRequest)"
-                  v-if="!pullRequest.isMerged && pullRequest.isPulled"
-                >
-                  Merge
-                </button>
-              </div>
-              <div v-if="pullRequest.isMerged">
-                <img
-                  src="../assets/merged.png"
-                  style="height: 30px; width: 80px;"
-                />
-              </div>
-            </div>
-            <p></p>
-          </td>
-        </tr>
-      </table>
+            <span
+              >#{{ pullRequest.id }} opened 3 days ago by
+              {{ pullRequest.owner }}</span
+            >
+          </div>
+        </div>
+      </div>
     </modal>
     <!--        <input v-model="message">-->
     <!--        <button v-on:click="pull">pull request</button>-->
@@ -92,6 +59,9 @@
 
 <script>
 import modal from "./modal.vue";
+import GitHubButton from "./GitHubButton";
+import MergeIcon from "./MergeIcon";
+import PullIcon from "./PullIcon";
 
 export default {
   name: "githubcontroller",
@@ -102,7 +72,19 @@ export default {
     };
   },
   components: {
+    PullIcon,
+    MergeIcon,
+    GitHubButton,
     modal
+  },
+  computed: {
+    pullRequests() {
+      const requested = this.branchList.filter(
+        branch => branch.isPulled && !branch.isMerged
+      );
+      const merged = this.branchList.filter(branch => branch.isMerged);
+      return requested.concat(merged);
+    }
   },
   methods: {
     pull: function(branch) {
@@ -149,54 +131,23 @@ export default {
   opacity: 0.6;
 }
 
-.wrrrper {
-  display: grid;
-  grid-template-columns: 200px 350px 200px;
-  margin-bottom: 7px;
-}
-
-.branch_name {
-  color: #0366d6;
-  background-color: #eaf5ff;
+.list {
+  background: #f6f8fa;
+  border: 1px solid #d1d5da;
+  box-sizing: border-box;
   border-radius: 3px;
-  font: 16px SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
-    monospace;
-  padding: 2px 6px;
 }
 
-.pull {
-  background-color: #eff3f6;
-  background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
-  color: #24292e;
-  float: left;
-  font-size: 14px;
-  line-height: 20px;
-  padding: 3px 10px;
-  background-position: -1px -1px;
-  background-repeat: repeat-x;
-  background-size: 110% 110%;
-  border: 1px solid rgba(27, 31, 35, 0.2);
-  border-radius: 0.25em;
-  cursor: pointer;
-  display: inline-block;
-  font-weight: 600;
-  position: relative;
-  user-select: none;
-  vertical-align: middle;
-  white-space: nowrap;
+.list-item {
+  border-top: 1px solid #e1e4e8;
+  padding: 20px;
 }
 
-.merge {
-  background-color: #2cbe4e;
-  font-size: 14px;
-  background-image: linear-gradient(-180deg, #2cbe4e, #00aa26 90%);
-  color: #fff;
-  display: inline-block;
-  font-weight: 600;
-  line-height: 20px;
-  padding: 4px 8px;
-  text-align: center;
-  border: 1px solid rgba(27, 31, 35, 0.2);
-  border-radius: 0.25em;
+.list-title {
+  font-size: 1.5rem;
+}
+
+.main-content {
+  font-family: "Roboto", "Helvetica";
 }
 </style>
