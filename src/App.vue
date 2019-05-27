@@ -219,7 +219,7 @@ export default {
       var flag = 0;
       this.garden.availablePlants.forEach(plant => {
         if (plant.position.x == x && plant.position.y == y) {
-          if (!this.pickedPlant.includes(flag)) {
+          if (!this.pickedPlant.includes(flag)&&!this.pickedPlant.includes(plant)) {
             this.pickedPlant.push(plant);
             var item = this.garden.availablePlants.splice(flag, 1)[0];
             item.level = 1;
