@@ -1,6 +1,6 @@
 <template>
   <transition name="modal">
-    <div class="modal-mask">
+    <div class="modal-mask" @click="$emit('close')">
       <div class="modal-wrapper" @click="$emit('close')">
         <div class="modal-container" @click.stop>
           <button class="modal-default-button" @click="$emit('close')">

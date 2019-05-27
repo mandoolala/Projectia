@@ -94,7 +94,10 @@
             }
         },
         mounted: function() {
-            this.$bvModal.show('modal_tutorial')
+          if (this.$route.path === '/') {
+              this.$bvModal.show('modal_tutorial');
+            }
+
         }
     }
 </script>

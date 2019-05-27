@@ -86,7 +86,7 @@
           style="display: flex; justify-content: flex-start; margin-top: 30px; margin-left:20px;"
         >
           <h1>Pull Requests</h1>
-          <githubcontroller v-bind:branchList="branchList"></githubcontroller>
+          <goto-git-hub v-bind:branchList="branchList"></goto-git-hub>
         </div>
         <PullRequestList
           v-on:grow="grow"
@@ -95,12 +95,13 @@
         ></PullRequestList>
       </div>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import PullRequestList from "./components/PullRequestList.vue";
-import githubcontroller from "./components/GithubController";
+import GotoGitHub from "./components/GotoGitHub";
 import forestv from "./components/Forestv0.vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -115,7 +116,7 @@ export default {
     PlantBook,
     PullRequestList,
     forestv,
-    githubcontroller,
+    GotoGitHub,
     Tutorial
   },
   data() {
@@ -215,9 +216,6 @@ export default {
       this.garden.plants.push(item);
     }
   },
-  mounted: function() {
-    this.$tours["myTour"].start();
-  }
 };
 </script>
 
