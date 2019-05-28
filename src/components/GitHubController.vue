@@ -2,7 +2,7 @@
   <modal @close="$router.push('/')" clickToClose="true">
     <h3 slot="header">GitHub Controller</h3>
     <div class="main-content" slot="body">
-      <div class="create-pr" v-if="create">
+      <div class="compare-pr" v-if="compare">
         <div v-if="!selectedBranch">
           <git-hub-page-title>
             <span slot="title">Compare Changes</span>
@@ -14,7 +14,7 @@
                 src="../assets/git-branch-512.png"
                 style="height: 2rem; margin-right: 6px"
               />
-              <router-link :to="'/github/create/' + br.id">{{
+              <router-link :to="'/github/compare/' + br.id">{{
                 br.branch
               }}</router-link>
             </div>
@@ -23,13 +23,24 @@
         <div class="create" v-else>
           <git-hub-page-title>
             <span slot="title">Comparing Changes</span>
+            <GitHubButton
+              slot="actions"
+              highlight
+              @click="
+                if (!title) return;
+                pull(selectedBranch, title);
+                $router.push('/github');
+              "
+            >
+              <span slot="text">Create pull request</span>
+            </GitHubButton>
           </git-hub-page-title>
           <div class="form">
             <input
+              v-model="title"
               class="title"
               placeholder="Write the title of your pull request"
             />
-            <textarea class="description"></textarea>
           </div>
           <iframe
             class="diff"
@@ -45,7 +56,7 @@
           <GitHubButton
             slot="actions"
             highlight
-            @click="$router.push('/github/create')"
+            @click="$router.push('/github/compare')"
           >
             <span slot="text">New Pull Request</span>
           </GitHubButton>
@@ -139,10 +150,13 @@ import GitHubPageTitle from "./GitHubPageTitle";
 export default {
   name: "GitHubController",
   props: {
-    create: {
+    compare: {
       type: Boolean,
       default: false
     }
+  },
+  data() {
+    return { title: "" };
   },
   components: {
     GitHubPageTitle,
@@ -168,7 +182,7 @@ export default {
         branch => branch.isPulled && !branch.isMerged
       );
       const merged = branchList.filter(branch => branch.isMerged);
-      return requested.concat(lodash.sortBy(merged, m => m.mergedAt).reverse());
+      return lodash.sortBy(requested, m => m.pulledAt).concat(lodash.sortBy(merged, m => m.mergedAt).reverse());
     },
     selectedBranch() {
       const id = this.$route.params.id;
@@ -177,11 +191,18 @@ export default {
     }
   },
   methods: {
-    pull: function(branch) {
-      store.commit("pull", branch);
+    pull: function(branch, title) {
+      store.commit("pull", { branch, title });
     },
     merge: function(branch) {
       store.commit("merge", branch);
+    }
+  },
+  watch: {
+    compare(to) {
+      if (to) {
+        this.title = '';
+      }
     }
   }
 };
@@ -238,21 +259,22 @@ export default {
   min-height: 60vh;
 }
 
-.create-pr .create .form {
+.compare-pr .create .form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
 
-.create-pr .create .form > .title {
+.compare-pr .create .form > .title {
   margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 6px;
   background: #ffffff;
   border: 1px solid #b8b8b8;
   border-radius: 2px;
 }
 
-.create-pr .create .form > .description {
+.compare-pr .create .form > .description {
   margin-top: 1rem;
   background: #ffffff;
   border: 1px solid #b8b8b8;

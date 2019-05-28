@@ -12,7 +12,7 @@ Vue.config.productionTip = false;
 Vue.use(VueRouter);
 const routes = [
   // { path: '*', component: GitHubController },
-  { path: '/github/create/:id?', component: GitHubController, props: { create: true } },
+  { path: '/github/compare/:id?', component: GitHubController, props: { compare: true } },
   { path: '/github/:id?', component: GitHubController }
 ];
 

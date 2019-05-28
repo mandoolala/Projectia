@@ -14,10 +14,14 @@ const store = new Vuex.Store({
     increment (state) {
       state.count++
     },
-    pull: function(state, branch) {
+    pull: function(state, payload) {
+      const { branch, title } = payload;
       for (var i in state.branchList) {
         if (state.branchList[i].id === branch.id) {
-          state.branchList[i].isPulled = true;
+          const branch = state.branchList[i];
+          branch.pulledAt = new Date().getTime();
+          branch.isPulled = true;
+          branch.name = title
         }
       }
     },
