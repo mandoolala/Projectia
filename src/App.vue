@@ -2,9 +2,10 @@
   <div id="app" class="main">
     <div class="sidebar">
       <div class="profile">
-        <img class="image" src="./assets/user1.png">
+        <img class="image" src="./assets/user1.png" />
         <div class="title">
-          <h2>Karl</h2>working from home
+          <h2>Karl</h2>
+          working from home
         </div>
       </div>
       <div class="project-list">
@@ -33,93 +34,116 @@
               ></forestv>
             </div>
           </div>
-          <img style="width:100px;" src="./assets/bigarrow.png">
+          <img style="width:100px;" src="./assets/bigarrow.png" />
           <div>
             <div>
-              <div style="display:flex; flex-direction:row; justify-content: space-between;">
-                <p class="componenttitle" style="margin-left: 20px; margin-top: 20px;">Team Garden</p>
-                <div style="display:flex; flex-direction:row; align-items: center; ">
+              <div
+                style="display:flex; flex-direction:row; justify-content: space-between;"
+              >
+                <p
+                  class="componenttitle"
+                  style="margin-left: 20px; margin-top: 20px;"
+                >
+                  Team Garden
+                </p>
+                <div
+                  style="display:flex; flex-direction:row; align-items: center; "
+                >
                   <button id="plantbook" @click="$bvModal.show('plant-book')">
-                    <img style="width:35px; margin-bottom: 5px;" src="./assets/plantbook.png">
+                    <img
+                      style="width:35px; margin-bottom: 5px;"
+                      src="./assets/plantbook.png"
+                    />
                     Plant Book
                   </button>
                 </div>
-            </div>
-            <div>
-              <div class="users">
-                <img class="user" src="./assets/user1.png">
-                <img class="user" src="./assets/user2.png">
-                <img class="user" src="./assets/user3.png">
-                <img class="user" src="./assets/user4.png">
               </div>
               <div>
-                <b-form-group id="userselect">
-                  <b-form-checkbox
-                    v-model="allSelected"
-                    aria-describedby="contributors"
-                    aria-controls="contributors"
-                    @change="toggleAll"
-                    button
-                    button-variant="outline-dark"
-                    style="margin-left: 30px;"
-                  >All</b-form-checkbox>
-                  <b-form-checkbox-group
-                    v-model="selected"
-                    :options="contributors"
-                    size="m"
-                    @change="filterPlants"
-                    buttons
-                    id="userbutton"
-                    button-variant="outline-secondary"
-                    style="margin-left: 18px; "
-                  ></b-form-checkbox-group>
-                </b-form-group>
+                <div class="users">
+                  <img class="user" src="./assets/user1.png" />
+                  <img class="user" src="./assets/user2.png" />
+                  <img class="user" src="./assets/user3.png" />
+                  <img class="user" src="./assets/user4.png" />
+                </div>
+                <div>
+                  <b-form-group id="userselect">
+                    <b-form-checkbox
+                      v-model="allSelected"
+                      aria-describedby="contributors"
+                      aria-controls="contributors"
+                      @change="toggleAll"
+                      button
+                      button-variant="outline-dark"
+                      style="margin-left: 30px;"
+                      >All</b-form-checkbox
+                    >
+                    <b-form-checkbox-group
+                      v-model="selected"
+                      :options="contributors"
+                      size="m"
+                      @change="filterPlants"
+                      buttons
+                      id="userbutton"
+                      button-variant="outline-secondary"
+                      style="margin-left: 18px; "
+                    ></b-form-checkbox-group>
+                  </b-form-group>
+                </div>
               </div>
+              <forestv
+                class="forestv"
+                len="8"
+                :plants="garden.visiblePlants"
+                @click="plant"
+                @mousemove="mousemove"
+                @mouseenter="mouseenter2"
+                @mouseleave="mouseleave2"
+                ground="1"
+              ></forestv>
             </div>
-            <forestv
-              class="forestv"
-              len="8"
-              :plants="garden.visiblePlants"
-              @click="plant"
-              @mousemove="mousemove"
-              @mouseenter="mouseenter2"
-              @mouseleave="mouseleave2"
-              ground="1"
-            ></forestv>
           </div>
         </div>
-      </div>
-      <!-- start -->
-      <div
-        class="tooltip1"
-        v-if="mouseOnCanvas2 && selectedPlant"
-        v-bind:style="{ left: this.pointerX+'px', top: this.pointerY+'px'}"
-      >
-        <span class="tooltipname">{{ selectedPlant.owner }}'s {{ selectedPlant.type }}</span>
-      </div>
-      <div
-        class="tooltip1"
-        v-if="mouseOnCanvas && selectedAvailablePlant"
-        v-bind:style="{ left: this.pointerX+'px', top: this.pointerY +'px'}"
-      >
-        <span
-          class="tooltipname"
-        >{{ selectedAvailablePlant.owner }}'s {{ selectedAvailablePlant.type }}</span>
+        <!-- start -->
+        <div
+          class="tooltip1"
+          v-if="mouseOnCanvas2 && selectedPlant"
+          v-bind:style="{
+            left: this.pointerX + 'px',
+            top: this.pointerY + 'px'
+          }"
+        >
+          <span class="tooltipname"
+            >{{ selectedPlant.owner }}'s {{ selectedPlant.type }}</span
+          >
+        </div>
+        <div
+          class="tooltip1"
+          v-if="mouseOnCanvas && selectedAvailablePlant"
+          v-bind:style="{
+            left: this.pointerX + 'px',
+            top: this.pointerY + 'px'
+          }"
+        >
+          <span class="tooltipname"
+            >{{ selectedAvailablePlant.owner }}'s
+            {{ selectedAvailablePlant.type }}</span
+          >
+        </div>
+        <!-- end -->
       </div>
       <div>
         <div
-          style="display: flex; justify-content: flex-start; margin-top: 30px; margin-left:20px;"
+                style="display: flex; justify-content: flex-start; margin-top: 30px; margin-left:20px;"
         >
           <h1>Pull Requests</h1>
           <goto-git-hub v-bind:branchList="branchList"></goto-git-hub>
         </div>
         <PullRequestList
-          v-on:grow="grow"
-          v-on:addPlant="addSeedToBox"
-          v-bind:pullRequests="branchList"
+                v-on:grow="grow"
+                v-on:addPlant="addSeedToBox"
+                v-bind:pullRequests="branchList"
         ></PullRequestList>
       </div>
-      <!-- end -->
     </div>
     <router-view></router-view>
   </div>
@@ -204,12 +228,11 @@ export default {
     filterPlants(checked) {
       this.garden.visiblePlants = [];
       checked.forEach(contributor => {
-         this.garden.plants.forEach(plant => {
+        this.garden.plants.forEach(plant => {
           if (plant.owner == contributor) this.garden.visiblePlants.push(plant);
-        })
-      })
-
-    },  
+        });
+      });
+    },
     toggleAll(checked) {
       this.selected = checked ? this.contributors.slice() : [];
       //changed
@@ -347,138 +370,138 @@ export default {
 </script>
 
 <style scoped>
-    @import url("https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto|Oxygen:700|Open+Sans:600");
+@import url("https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto|Oxygen:700|Open+Sans:600");
 
-    #app {
-        font-family: "Avenir", Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        color: #2c3e50;
-    }
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
 
-    .main {
-        display: flex;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-    }
+.main {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
 
-    .sidebar {
-        background-color: #3c3c3c;
-        min-width: 15em;
-    }
+.sidebar {
+  background-color: #3c3c3c;
+  min-width: 15em;
+}
 
-    .projectContainer {
-        padding: 4rem;
-        flex: 1;
-        overflow-x: hidden;
-        overflow-y: scroll;
-    }
+.projectContainer {
+  padding: 4rem;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
 
-    h1 {
-        font-family: "Open Sans", sans-serif;
-        margin-bottom: 20px;
-    }
+h1 {
+  font-family: "Open Sans", sans-serif;
+  margin-bottom: 20px;
+}
 
-    #forestcontainer {
-        background-color: #ebebeb;
-        padding-top: 30px;
-        width: 900px;
-    }
-    .users {
-      display: flex;
-      flex-direction: row;
-      margin-top: 10px;
-      margin-left: 130px;
-    }
+#forestcontainer {
+  background-color: #ebebeb;
+  padding-top: 30px;
+  width: 900px;
+}
+.users {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-left: 130px;
+}
 
-    .user {
-      height: 90px;
-      margin-right: 15px;
-      border-color: black;
-      border-width: thick;
-    }
-    .componenttitle {
-        font-size: 25px;
-        font-family: "Press Start 2P", cursive;
-        color: black;
-    }
+.user {
+  height: 90px;
+  margin-right: 15px;
+  border-color: black;
+  border-width: thick;
+}
+.componenttitle {
+  font-size: 25px;
+  font-family: "Press Start 2P", cursive;
+  color: black;
+}
 
-    #userselect {
-      display: flex;
-      flex-direction: row;
-      font-family: "Press Start 2P", cursive;
-      font-size: 20px;
-      margin-top: 10px;
-    }
+#userselect {
+  display: flex;
+  flex-direction: row;
+  font-family: "Press Start 2P", cursive;
+  font-size: 20px;
+  margin-top: 10px;
+}
 
-    #userbutton {
-      width: 420px;
-    }
+#userbutton {
+  width: 420px;
+}
 
-    .fore {
-      /* width: 30%;
+.fore {
+  /* width: 30%;
       margin: 0 auto; */
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      color: green;
-      font-size: 100px;
-    }
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: green;
+  font-size: 100px;
+}
 
-    #plantbook {
-        font-size: 15px;
-        font-family: "Press Start 2P", cursive;
-        color: white;
-        background-color: green;
-        margin-right: 35px;
-        margin-top: 10px;
-        padding-top: 8px;
-        padding-right: 10px;
-        margin-bottom: 20px;
-        justify-content: center;
-    }
+#plantbook {
+  font-size: 15px;
+  font-family: "Press Start 2P", cursive;
+  color: white;
+  background-color: green;
+  margin-right: 35px;
+  margin-top: 10px;
+  padding-top: 8px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
 
-    .forestv {
-        margin-right: 30px;
-        margin-left: 30px;
-    }
+.forestv {
+  margin-right: 30px;
+  margin-left: 30px;
+}
 
-    .profile {
-        padding: 1rem;
-        height: 20rem;
-        color: white;
-    }
-    .profile .image {
-        width: 13rem;
-    }
-    .profile .title {
-        margin-top: 1rem;
-    }
+.profile {
+  padding: 1rem;
+  height: 20rem;
+  color: white;
+}
+.profile .image {
+  width: 13rem;
+}
+.profile .title {
+  margin-top: 1rem;
+}
 
-    .project-list {
-        padding-top: 1rem;
-    }
+.project-list {
+  padding-top: 1rem;
+}
 
-    .project-list .title {
-        color: white;
-        margin: 1rem;
-    }
+.project-list .title {
+  color: white;
+  margin: 1rem;
+}
 
-    .project-list .item {
-        background-color: #ffffff;
-        padding: 1rem;
-        font-size: 1.2rem;
-    }
+.project-list .item {
+  background-color: #ffffff;
+  padding: 1rem;
+  font-size: 1.2rem;
+}
 
-    .tooltip1 {
-        position: absolute;
-        z-index:9999;
-        word-wrap: normal;
-    }
+.tooltip1 {
+  position: absolute;
+  z-index: 9999;
+  word-wrap: normal;
+}
 
-    .tooltipname {
-        background-color: #b3e19d;
-        padding: 10px;
-    }
+.tooltipname {
+  background-color: #b3e19d;
+  padding: 10px;
+}
 </style>
