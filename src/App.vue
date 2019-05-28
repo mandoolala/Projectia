@@ -22,14 +22,14 @@
             <div>
               <p class="componenttitle" style="margin-left: 30px;">Seed-Box</p>
               <forestv
-                      class="forestv"
-                      len="3"
-                      :plants="garden.availablePlants"
-                      @click="pick"
-                      @mousemove="mousemove"
-                      @mouseenter="mouseenter"
-                      @mouseleave="mouseleave"
-                      ground="29"
+                class="forestv"
+                len="3"
+                :plants="garden.availablePlants"
+                @click="pick"
+                @mousemove="mousemove"
+                @mouseenter="mouseenter"
+                @mouseleave="mouseleave"
+                ground="29"
               ></forestv>
             </div>
           </div>
@@ -112,7 +112,7 @@
                 style="display: flex; justify-content: flex-start; margin-top: 30px; margin-left:20px;"
         >
           <h1>Pull Requests</h1>
-          <githubcontroller v-bind:branchList="branchList"></githubcontroller>
+          <goto-git-hub v-bind:branchList="branchList"></goto-git-hub>
         </div>
         <PullRequestList
                 v-on:grow="grow"
@@ -122,155 +122,154 @@
       </div>
       <!-- end -->
     </div>
+    <router-view></router-view>
   </div>
-
-
 </template>
 
 <script>
-    import PullRequestList from "./components/PullRequestList.vue";
-    import githubcontroller from "./components/GithubController";
-    import forestv from "./components/Forestv0.vue";
-    import "bootstrap/dist/css/bootstrap.css";
-    import "bootstrap-vue/dist/bootstrap-vue.css";
-    import { getMaxLevel } from "./plants";
-    import PlantBook from "./components/PlantBook";
-    import Tutorial from "./components/Tutorial.vue";
-    import { defaultBranches } from "./constants";
+import PullRequestList from "./components/PullRequestList.vue";
+import GotoGitHub from "./components/GotoGitHub";
+import forestv from "./components/Forestv0.vue";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+import { getMaxLevel } from "./plants";
+import PlantBook from "./components/PlantBook";
+import Tutorial from "./components/Tutorial.vue";
+import { defaultBranches } from "./constants";
 
-    export default {
-        name: "app",
-        components: {
-            PlantBook,
-            PullRequestList,
-            forestv,
-            githubcontroller,
-            Tutorial
-        },
-        data() {
-            return {
-                flag: false,
-                pointerX: -1,
-                pointerY: -1,
-                pickedPlant: [],
-                branchList: defaultBranches,
-                lastMouseTileX: -1,
-                lastMouseTileY: -1,
-                mouseOnCanvas: false,
-                mouseOnCanvas2: false,
-                garden: {
-                    visiblePlants: [],
-                    plants: [],
-                    availablePlants: [
-                        {
-                            type: "flower",
-                            owner: "Lisa",
-                            level: 0,
-                            position: { x: 0, y: 0 }
-                        },
-                        {
-                            type: "dotori",
-                            owner: "Jack",
-                            level: 0,
-                            position: { x: 1, y: 0 }
-                        }
-                    ]
-                },
-                selected: [],
-                allSelected: false,
-                contributors: ["Karl", "Lisa", "Jack", "Emma"]
-            };
-        },
-        computed: {
-            selectedPlant() {
-                const planted = this.garden.plants.find(
-                    ({ position: { x, y } }) =>
-                        x === this.lastMouseTileX && y === this.lastMouseTileY
-                );
-                if (!planted) return;
-                // console.log(planted.owner);
-                return planted;
-            },
-            selectedAvailablePlant() {
-                const planted = this.garden.availablePlants.find(
-                    ({ position: { x, y } }) =>
-                        x === this.lastMouseTileX && y === this.lastMouseTileY
-                );
-                if (!planted) return;
-                // console.log(planted.owner);
-                return planted;
-            }
-        },
-        methods: {
-            //added
-            filterPlants(checked) {
-                this.garden.visiblePlants = [];
-                checked.forEach(contributor => {
-                    this.garden.plants.forEach(plant => {
-                        if (plant.owner == contributor) this.garden.visiblePlants.push(plant);
-                    })
-                })
+export default {
+  name: "app",
+  components: {
+    PlantBook,
+    PullRequestList,
+    forestv,
+    GotoGitHub,
+    Tutorial
+  },
+  data() {
+    return {
+      flag: false,
+      pointerX: -1,
+      pointerY: -1,
+      pickedPlant: [],
+      branchList: defaultBranches,
+      lastMouseTileX: -1,
+      lastMouseTileY: -1,
+      mouseOnCanvas: false,
+      mouseOnCanvas2: false,
+      garden: {
+        visiblePlants: [],
+        plants: [],
+        availablePlants: [
+          {
+            type: "flower",
+            owner: "Lisa",
+            level: 0,
+            position: { x: 0, y: 0 }
+          },
+          {
+            type: "dotori",
+            owner: "Jack",
+            level: 0,
+            position: { x: 1, y: 0 }
+          }
+        ]
+      },
+      selected: [],
+      allSelected: false,
+      contributors: ["Karl", "Lisa", "Jack", "Emma"]
+    };
+  },
+  computed: {
+    selectedPlant() {
+      const planted = this.garden.plants.find(
+        ({ position: { x, y } }) =>
+          x === this.lastMouseTileX && y === this.lastMouseTileY
+      );
+      if (!planted) return;
+      // console.log(planted.owner);
+      return planted;
+    },
+    selectedAvailablePlant() {
+      const planted = this.garden.availablePlants.find(
+        ({ position: { x, y } }) =>
+          x === this.lastMouseTileX && y === this.lastMouseTileY
+      );
+      if (!planted) return;
+      // console.log(planted.owner);
+      return planted;
+    }
+  },
+  methods: {
+    //added
+    filterPlants(checked) {
+      this.garden.visiblePlants = [];
+      checked.forEach(contributor => {
+         this.garden.plants.forEach(plant => {
+          if (plant.owner == contributor) this.garden.visiblePlants.push(plant);
+        })
+      })
 
-            },
-            toggleAll(checked) {
-                this.selected = checked ? this.contributors.slice() : [];
-                //changed
-                if (checked) this.garden.visiblePlants = this.garden.plants;
-                else this.garden.visiblePlants = [];
-            },
+    },  
+    toggleAll(checked) {
+      this.selected = checked ? this.contributors.slice() : [];
+      //changed
+      if (checked) this.garden.visiblePlants = this.garden.plants;
+      else this.garden.visiblePlants = [];
+    },
 
-            grow() {
-                // this.watering = true;
-                setTimeout(() => {
-                    this.toggleAll(true);
-                }, 1000);
+    grow() {
+      // this.watering = true;
+      setTimeout(() => {
+        this.toggleAll(true);
+      }, 1000);
 
-                this.garden.plants = this.garden.plants.map(plant => {
-                    return {
-                        ...plant,
-                        // lvl <= max
-                        level: Math.min(plant.level + 1, getMaxLevel(plant.type))
-                    };
-                });
-            },
-            findPlantInPosition(px, py, flag) {
-                if (flag == 0)
-                    return this.garden.plants.find(
-                        ({ position: { x, y } }) => x === px && y === py
-                    );
-                else if (flag == 1)
-                    return this.garden.availablePlants.find(
-                        ({ position: { x, y } }) => x === px && y === py
-                    );
-            },
-            addSeedToBox(request) {
-                // this.watering = false;
-                const plantList = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8]);
-                this.garden.availablePlants.forEach(plant => {
-                    plantList.delete(plant.position.y * 3 + plant.position.x);
-                });
-                if (plantList.size == 0) alert("으아악...");
-                var pos = [...plantList.values()][0];
-                this.garden.availablePlants.push({
-                    type: request.reward,
-                    owner: request.owner,
-                    level: 0,
-                    position: { x: pos % 3, y: Math.floor(pos / 3) }
-                });
-            },
-            pick(x, y) {
-                if (!this.findPlantInPosition(x, y, 1)) return;
-                var flag = 0;
-                this.garden.availablePlants.forEach(plant => {
-                    if (plant.position.x == x && plant.position.y == y) {
-                        if (
-                            !this.pickedPlant.includes(flag) &&
-                            !this.pickedPlant.includes(plant)
-                        ) {
-                            this.pickedPlant.push(plant);
-                            var item = this.garden.availablePlants.splice(flag, 1)[0];
-                            item.level = 1;
-                            this.garden.availablePlants.splice(flag, 0, item);
+      this.garden.plants = this.garden.plants.map(plant => {
+        return {
+          ...plant,
+          // lvl <= max
+          level: Math.min(plant.level + 1, getMaxLevel(plant.type))
+        };
+      });
+    },
+    findPlantInPosition(px, py, flag) {
+      if (flag == 0)
+        return this.garden.plants.find(
+          ({ position: { x, y } }) => x === px && y === py
+        );
+      else if (flag == 1)
+        return this.garden.availablePlants.find(
+          ({ position: { x, y } }) => x === px && y === py
+        );
+    },
+    addSeedToBox(request) {
+      // this.watering = false;
+      const plantList = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+      this.garden.availablePlants.forEach(plant => {
+        plantList.delete(plant.position.y * 3 + plant.position.x);
+      });
+      if (plantList.size == 0) alert("으아악...");
+      var pos = [...plantList.values()][0];
+      this.garden.availablePlants.push({
+        type: request.reward,
+        owner: request.owner,
+        level: 0,
+        position: { x: pos % 3, y: Math.floor(pos / 3) }
+      });
+    },
+    pick(x, y) {
+      if (!this.findPlantInPosition(x, y, 1)) return;
+      var flag = 0;
+      this.garden.availablePlants.forEach(plant => {
+        if (plant.position.x == x && plant.position.y == y) {
+          if (
+            !this.pickedPlant.includes(flag) &&
+            !this.pickedPlant.includes(plant)
+          ) {
+            this.pickedPlant.push(plant);
+            var item = this.garden.availablePlants.splice(flag, 1)[0];
+            item.level = 1;
+            this.garden.availablePlants.splice(flag, 0, item);
 
                             this.toggleAll(true);
 
