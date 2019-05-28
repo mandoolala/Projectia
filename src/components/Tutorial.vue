@@ -21,7 +21,7 @@
                             class="d-block img-fluid w-100"
                             width="1024"
                             height="720"
-                            src="../assets/tutorial1.png"
+                            src="../assets/t1.png"
                             alt="image slot"
                     >
                 </b-carousel-slide>
@@ -33,7 +33,7 @@
                             class="d-block img-fluid w-100"
                             width="1024"
                             height="720"
-                            src="../assets/tutorial2.png"
+                            src="../assets/t2.png"
                             alt="image slot"
                     >
                 </b-carousel-slide>
@@ -45,7 +45,7 @@
                             class="d-block img-fluid w-100"
                             width="1024"
                             height="720"
-                            src="../assets/tutorial3.png"
+                            src="../assets/t3.png"
                             alt="image slot"
                     >
                 </b-carousel-slide>
@@ -58,7 +58,7 @@
                             class="d-block img-fluid w-100"
                             width="1024"
                             height="720"
-                            src="../assets/tutorial4.png"
+                            src="../assets/t4.png"
                             alt="image slot"
                     >
                 </b-carousel-slide>
@@ -68,7 +68,17 @@
                             class="d-block img-fluid w-100"
                             width="1024"
                             height="720"
-                            src="../assets/tutorial5.png"
+                            src="../assets/t5.png"
+                            alt="image slot"
+                    >
+                </b-carousel-slide>
+                <b-carousel-slide>
+                    <img
+                            slot="img"
+                            class="d-block img-fluid w-100"
+                            width="1024"
+                            height="720"
+                            src="../assets/t6.png"
                             alt="image slot"
                     >
                 </b-carousel-slide>
