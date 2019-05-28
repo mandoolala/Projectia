@@ -3,21 +3,43 @@
     <h3 slot="header">GitHub Controller</h3>
     <div class="main-content" slot="body">
       <div class="create-pr" v-if="create">
-        <git-hub-page-title>
-          <span slot="title">Compare Changes</span>
-        </git-hub-page-title>
-        <div class="branch-list">
-          <div class="header">BRANCHES TO COMPARE</div>
-          <div class="item" v-for="br in unpulledRequests">
-            <img
-              src="../assets/git-branch-512.png"
-              style="height: 2rem; margin-right: 6px"
-            />
-            {{ br.branch }}
+        <div v-if="!selectedBranch">
+          <git-hub-page-title>
+            <span slot="title">Compare Changes</span>
+          </git-hub-page-title>
+          <div class="branch-list">
+            <div class="header">BRANCHES TO COMPARE</div>
+            <div class="item" v-for="br in unpulledRequests">
+              <img
+                src="../assets/git-branch-512.png"
+                style="height: 2rem; margin-right: 6px"
+              />
+              <router-link :to="'/github/create/' + br.id">{{
+                br.branch
+              }}</router-link>
+            </div>
           </div>
         </div>
+        <div class="create" v-else>
+          <git-hub-page-title>
+            <span slot="title">Comparing Changes</span>
+          </git-hub-page-title>
+          <div class="form">
+            <input
+              class="title"
+              placeholder="Write the title of your pull request"
+            />
+            <textarea class="description"></textarea>
+          </div>
+          <iframe
+            class="diff"
+            :src="diffUrls[String((selectedBranch.id % 2) + 1)].src"
+          >
+          </iframe>
+        </div>
       </div>
-      <div class="pr-list" v-else-if="!selectedPR">
+
+      <div class="pr-list" v-else-if="!selectedBranch">
         <git-hub-page-title>
           <span slot="title">Pull Requests</span>
           <GitHubButton
@@ -55,6 +77,7 @@
             >
           </div>
         </div>
+
         <div v-else>
           No
         </div>
@@ -66,7 +89,7 @@
           <h4 style="font-size: 2rem;">
             <img
               :src="require('../assets/merged.png')"
-              v-if="selectedPR.isMerged"
+              v-if="selectedBranch.isMerged"
               style="height: 2.3rem;"
             />
             <img
@@ -74,9 +97,9 @@
               v-else
               style="height: 2.3rem;"
             />
-            {{ selectedPR.name }} #{{ selectedPR.id }}
+            {{ selectedBranch.name }} #{{ selectedBranch.id }}
           </h4>
-          <div v-if="selectedPR.isPulled">
+          <div v-if="selectedBranch.isPulled">
             <GitHubButton @click="$router.push('/github')">
               <span slot="text">Request for Change</span>
             </GitHubButton>
@@ -84,7 +107,7 @@
             <GitHubButton
               highlight
               @click="
-                merge(selectedPR);
+                merge(selectedBranch);
                 $router.push('/github');
               "
             >
@@ -92,13 +115,18 @@
             </GitHubButton>
           </div>
         </div>
-        <iframe class="diff" src="/diff1.html"> </iframe>
+        <iframe
+          class="diff"
+          :src="diffUrls[String((selectedBranch.id % 2) + 1)].src"
+        >
+        </iframe>
       </div>
     </div>
   </modal>
 </template>
 
 <script>
+import { diffUrls } from "../constants";
 import lodash from "lodash";
 
 import store from "../store";
@@ -124,6 +152,9 @@ export default {
     modal
   },
   computed: {
+    diffUrls() {
+      return diffUrls;
+    },
     branchList() {
       return store.state.branchList;
     },
@@ -139,7 +170,7 @@ export default {
       const merged = branchList.filter(branch => branch.isMerged);
       return requested.concat(lodash.sortBy(merged, m => m.mergedAt).reverse());
     },
-    selectedPR() {
+    selectedBranch() {
       const id = this.$route.params.id;
       if (!id) return;
       return store.state.branchList.find(b => String(b.id) === id);
@@ -205,5 +236,26 @@ export default {
 .diff {
   width: 100%;
   min-height: 60vh;
+}
+
+.create-pr .create .form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.create-pr .create .form > .title {
+  margin-top: 1rem;
+  padding: 6px;
+  background: #ffffff;
+  border: 1px solid #b8b8b8;
+  border-radius: 2px;
+}
+
+.create-pr .create .form > .description {
+  margin-top: 1rem;
+  background: #ffffff;
+  border: 1px solid #b8b8b8;
+  border-radius: 2px;
 }
 </style>

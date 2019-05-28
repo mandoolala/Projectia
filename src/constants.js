@@ -84,3 +84,12 @@ export const defaultBranches = [
     reward_src:require("./assets/rewards/dottoritree.png")
   }
 ];
+
+export const diffUrls = {
+  1: {
+    src: require('file-loader!./assets/diffs/1.html'),
+  },
+  2: {
+    src: require('file-loader!./assets/diffs/2.html'),
+  }
+};
