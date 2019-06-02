@@ -8,7 +8,7 @@
           <button class="button" v-on:click="visibility = 'merged'" :class="{ selected: visibility === 'merged' }">Merged</button>
       </div>
 
-    <div>
+    <div  style="width:510px; height:350px; overflow:auto;">
         <div class="pullrequestcard"
                 v-bind:key="pullrequest.id"
                 v-bind:reward="pullrequest.reward"

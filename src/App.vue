@@ -45,7 +45,7 @@
               <div class="pullrequests">
                 <p class="componenttitle" style="font-weight: 500; font-size: 23.5px; margin-right: 100px;">Contributions</p>
               </div>
-              <PullRequestList style="color:#2c3e50; margin-left:30px; width;510px; height:350px; overflow:auto;"
+              <PullRequestList style="color:#2c3e50; margin-left:30px; width;510px;"
                       v-on:grow="grow"
                       v-on:addPlant="addSeedToBox"
                       v-bind:pullRequests="branchList"
