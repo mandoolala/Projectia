@@ -96,7 +96,7 @@
               v-if="mouseOnCanvas2 && selectedPlant"
               v-bind:style="{ left: this.pointerX+'px', top: this.pointerY+'px'}"
       >
-        <span class="tooltipname">{{ selectedPlant.owner }}'s {{ selectedPlant.type }}</span>
+        <span class="tooltipname">{{ selectedPlant.owner }}'s {{ selectedPlant.name }}</span>
       </div>
       <div
               class="tooltip1"
@@ -132,7 +132,7 @@ import GotoGitHub from "./components/GotoGitHub";
 import forestv from "./components/Forestv0.vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import { getMaxLevel } from "./plants";
+import { getMaxLevel, plantRepresentation } from "./plants";
 import PlantBook from "./components/PlantBook";
 import Tutorial from "./components/Tutorial.vue";
 import { defaultBranches } from "./constants";
@@ -188,7 +188,8 @@ export default {
       );
       if (!planted) return;
       // console.log(planted.owner);
-      return planted;
+      
+      return { ...planted, name: plantRepresentation[planted.type].name};
     },
     selectedAvailablePlant() {
       const planted = this.garden.availablePlants.find(
