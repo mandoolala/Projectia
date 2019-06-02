@@ -1,17 +1,21 @@
+
+export const branch_work_in_progress = 'work_in_progress';
+export const branch_merge_requested = 'merge_requested';
+export const branch_merged = 'merged';
+
 export const defaultBranches = [
   {
     id: 1,
     branch: "Karl-bugfix-branch",
     owner: "Karl",
     name: "Fix bugs in PullRequestList.vue",
-    isPulled: false,
-    isMerged: false,
+    status: branch_work_in_progress,
+
     pulledAt: null,
     mergedAt: null,
     collect_status:"Collect",
     water_status: "Water",
     reward: "cherry_blossom",
-    status_src: require("./assets/open.png"),
     reward_src: require("./assets/rewards/cherryblossom.png")
   },
   {
@@ -19,14 +23,13 @@ export const defaultBranches = [
     branch:"Karl-new-feature-branch",
     owner: "Karl",
     name:"",
-    isPulled: false,
-    isMerged: false,
+    status: branch_work_in_progress,
+
     pulledAt: null,
     mergedAt: null,
     collect_status:"Collect",
     water_status: "Water",
     reward: "flower",
-    status_src: require("./assets/open.png"),
     reward_src:require("./assets/rewards/Jangmigrown.png")
   },
   {
@@ -34,14 +37,13 @@ export const defaultBranches = [
     branch:"Karl-performance-branch",
     owner: "Karl",
     name:"",
-    isPulled: false,
-    isMerged: false,
+    status: branch_work_in_progress,
+
     pulledAt: null,
     mergedAt: null,
     collect_status:"Collect",
     water_status: "Water",
     reward: "cherry_blossom",
-    status_src: require("./assets/open.png"),
     reward_src:require("./assets/rewards/cherryblossom.png")
   },
   {
@@ -49,14 +51,13 @@ export const defaultBranches = [
     branch:"Kar-dotori-branch",
     owner: "Karl",
     name:"",
-    isPulled: false,
-    isMerged: false,
+    status: branch_work_in_progress,
+
     pulledAt: null,
     mergedAt: null,
     collect_status:"Collect",
     water_status: "Water",
     reward: "dotori",
-    status_src: require("./assets/open.png"),
     reward_src:require("./assets/rewards/dottoritree.png")
   },
   {
@@ -64,14 +65,13 @@ export const defaultBranches = [
     branch:"Karl-branch",
     owner: "Karl",
     name: "Integrate Super Fancy State Management Library",
-    isPulled: true,
-    isMerged: true,
+    status: branch_merged,
+
     pulledAt: null,
     mergedAt: new Date().getTime(),
     collect_status:"Collect",
     water_status: "Water",
     reward: "dotori",
-    status_src: require("./assets/open.png"),
     reward_src:require("./assets/rewards/dottoritree.png")
   },
   {
@@ -79,14 +79,13 @@ export const defaultBranches = [
     branch:"Emma-branch",
     owner: "Emma",
     name: "Refactor dashboard component",
-    isPulled: true,
-    isMerged: false,
+    status: branch_merge_requested,
+
     pulledAt: new Date().getTime(),
     mergedAt: null,
     collect_status: "Collect",
     water_status: "Water",
     reward: "cherry_blossom",
-    status_src: require("./assets/open.png"),
     reward_src:require("./assets/rewards/dottoritree.png")
   }
 ];

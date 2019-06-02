@@ -96,7 +96,7 @@
           <h4 style="font-size: 2rem;">
             <img
               :src="require('../assets/merged.png')"
-              v-if="selectedBranch.isMerged"
+              v-if="selectedBranch.status === 'merged'"
               style="height: 2.3rem;"
             />
             <img
@@ -106,7 +106,7 @@
             />
             {{ selectedBranch.name }} #{{ selectedBranch.id }}
           </h4>
-          <div v-if="selectedBranch.isPulled && !selectedBranch.isMerged">
+          <div v-if="selectedBranch.status === 'merge_requested'">
             <GitHubButton @click="$router.push('/github')">
               <span slot="text">Request for Change</span>
             </GitHubButton>
@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { diffUrls } from "../constants";
+  import {branch_merge_requested, branch_merged, branch_work_in_progress, diffUrls} from "../constants";
 import lodash from "lodash";
 
 import store from "../store";
@@ -170,15 +170,15 @@ export default {
     },
     unpulledRequests() {
       const branchList = store.state.branchList;
-      return branchList.filter(b => !b.isPulled);
+      return branchList.filter(b => b.status === branch_work_in_progress);
     },
     pullRequests() {
       const branchList = store.state.branchList;
-      const requested = branchList.filter(
-        branch => branch.isPulled && !branch.isMerged
-      );
-      const merged = branchList.filter(branch => branch.isMerged);
-      return lodash.sortBy(requested, m => m.pulledAt).concat(lodash.sortBy(merged, m => m.mergedAt).reverse());
+
+      const requested = branchList.filter(branch => branch.status === branch_merge_requested);
+
+      const merged = branchList.filter(branch => branch.status === branch_merged);
+      return lodash.sortBy(requested, m => m.pulledAt).reverse().concat(lodash.sortBy(merged, m => m.mergedAt).reverse());
     },
     selectedBranch() {
       const id = this.$route.params.id;
