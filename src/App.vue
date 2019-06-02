@@ -14,29 +14,48 @@
       </div>
     </div>
     <div class="projectContainer">
-      <h1>Code-Avengers/Projectia</h1>
+      <div style="display: flex; flex-direction:row; justify-content: left; ">
+        <h1>Code-Avengers/Projectia</h1>
+        <goto-git-hub v-bind:branchList="branchList"></goto-git-hub>
+      </div>
       <plant-book></plant-book>
       <Tutorial></Tutorial>
       <div id="forestcontainer">
         <div class="fore">
-          <div style="display:flex; flex-direction: column; ">
+          <div>
+          <div class = "seedbox">
+            <div style="display:flex; flex-direction: column; ">
+              <div>
+                <p class="componenttitle" style="margin-left: 30px;">Seed-Box</p>
+                <forestv
+                        class="forestv"
+                        len="3"
+                        :plants="garden.availablePlants"
+                        @click="pick"
+                        @mousemove="mousemove"
+                        @mouseenter="mouseenter"
+                        @mouseleave="mouseleave"
+                        ground="29"
+                ></forestv>
+              </div>
+            </div>
+            <img style="width:130px; height: 120px; align-self: flex-end; margin-left: 70px;" src="./assets/bigarrow.png" />
+          </div>
             <div>
-              <p class="componenttitle" style="margin-left: 30px;">Seed-Box</p>
-              <forestv
-                class="forestv"
-                len="3"
-                :plants="garden.availablePlants"
-                @click="pick"
-                @mousemove="mousemove"
-                @mouseenter="mouseenter"
-                @mouseleave="mouseleave"
-                ground="29"
-              ></forestv>
+              <div class="pullrequests">
+                <p class="componenttitle" style="font-weight: 500; font-size: 23.5px; margin-right: 100px;">Contributions</p>
+              </div>
+              <PullRequestList style="color:#2c3e50; margin-left:30px;"
+                      v-on:grow="grow"
+                      v-on:addPlant="addSeedToBox"
+                      v-bind:pullRequests="branchList"
+              ></PullRequestList>
+            </div>
             </div>
           </div>
-          <img style="width:100px;" src="./assets/bigarrow.png" />
+
           <div>
-            <div>
+            <div class ="teamgarden">
               <div
                 style="display:flex; flex-direction:row; justify-content: space-between;"
               >
@@ -74,7 +93,7 @@
                       @change="toggleAll"
                       button
                       button-variant="outline-dark"
-                      style="margin-left: 30px;"
+                      style="margin-left: 30px; background-color: #f7f7f7;"
                       >All</b-form-checkbox
                     >
                     <b-form-checkbox-group
@@ -85,7 +104,7 @@
                       buttons
                       id="userbutton"
                       button-variant="outline-secondary"
-                      style="margin-left: 18px; "
+                      style="margin-left: 18px; background-color: #f7f7f7;"
                     ></b-form-checkbox-group>
                   </b-form-group>
                 </div>
@@ -131,20 +150,7 @@
         </div>
         <!-- end -->
       </div>
-      <div>
-        <div
-                style="display: flex; justify-content: flex-start; margin-top: 30px; margin-left:20px;"
-        >
-          <h1>Pull Requests</h1>
-          <goto-git-hub v-bind:branchList="branchList"></goto-git-hub>
-        </div>
-        <PullRequestList
-                v-on:grow="grow"
-                v-on:addPlant="addSeedToBox"
-                v-bind:pullRequests="branchList"
-        ></PullRequestList>
-      </div>
-    </div>
+
     <router-view></router-view>
   </div>
 </template>
@@ -377,6 +383,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  background-color: #fcfcfc;
+
 }
 
 .main {
@@ -393,6 +401,7 @@ export default {
 
 .projectContainer {
   padding: 4rem;
+  padding-top:2.5rem;
   flex: 1;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -404,10 +413,15 @@ h1 {
 }
 
 #forestcontainer {
-  background-color: #ebebeb;
+  /*background-color: #ebebeb;*/
+  background-color: #eeeeee;
   padding-top: 30px;
-  width: 900px;
+  padding-bottom: 30px;
+  width: 1150px;
+  display: flex;
+  flex-direction: row;
 }
+
 .users {
   display: flex;
   flex-direction: row;
@@ -443,11 +457,31 @@ h1 {
   /* width: 30%;
       margin: 0 auto; */
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: green;
-  font-size: 100px;
+  justify-content: space-between;
+  margin-right: 30px;
+
 }
+
+.seedbox{
+  display:flex;
+  flex-direction: row;
+  margin-left: 30px;
+  margin-top: 18px;
+}
+
+.pullrequests{
+  display: flex;
+  margin-top: 60px;
+  margin-left: 60px;
+
+}
+
+.teamgarden{
+
+  margin-right: 30px;
+
+}
+
 
 #plantbook {
   font-size: 15px;

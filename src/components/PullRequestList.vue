@@ -118,10 +118,8 @@ export default {
     box-sizing: border-box;
     vertical-align: middle;
     display: inline-block;
-    margin-top:10px ;
-    margin-bottom: 40px;
     margin-left: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .filters>.button{
@@ -129,14 +127,16 @@ export default {
     position: relative;
     border: 1px solid #DCDFE6;
     background: #FFF;
+    background-color: #fdfdfd;
     color: #606266;
     outline: 0;
     margin: 0;
     display: inline-block;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 0.8;
     white-space: nowrap;
     padding: 10px 30px;
+    margin-top: 10px;
     font-size: 16px;
     border-radius: 4px;
     cursor: pointer;
@@ -173,13 +173,15 @@ export default {
 }
 
 .pullrequestcard {
-    width: 850px;
-    height: 80px;
+    width: 480px;
+    height: 100px;
     margin: 10px;
     padding: 10px;
-    font-size: 20px;
+    font-size: 10px;
+    line-height: 1.5em;
     box-shadow: 0 2px 10px 0 rgba(0,0,0,.1);
     border-radius: 4px;
+    background-color: #fbfbfb;
     border: 1px solid #ebeef5;
 
     display: flex;
@@ -197,14 +199,15 @@ export default {
 
 .status{
     height: 28px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 2px;
+    margin-right: 5px;
 }
 
 .issue {
     color: #555555;
-    font-size: 18px;
+    font-size: 15px;
     align-self: center;
+    margin-left:5px;
 }
 
 .titleblur{
@@ -232,7 +235,7 @@ export default {
     padding: 10px 18px;
     font-size: 16px;
     border-radius: 4px;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 

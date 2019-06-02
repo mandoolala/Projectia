@@ -25,7 +25,7 @@ export default {
 #show-modal {
   margin-top: 5px;
   padding-top: 5px;
-  margin-left: 430px;
+  margin-left: 30px;
 
   font-size: 18px;
   font-weight: 900;
