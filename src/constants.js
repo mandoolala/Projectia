@@ -6,6 +6,7 @@ export const defaultBranches = [
     name: "Fix bugs in PullRequestList.vue",
     isPulled: false,
     isMerged: false,
+    pulledAt: null,
     mergedAt: null,
     collect_status:"Collect",
     water_status: "Water",
@@ -20,6 +21,7 @@ export const defaultBranches = [
     name:"",
     isPulled: false,
     isMerged: false,
+    pulledAt: null,
     mergedAt: null,
     collect_status:"Collect",
     water_status: "Water",
@@ -34,6 +36,7 @@ export const defaultBranches = [
     name:"",
     isPulled: false,
     isMerged: false,
+    pulledAt: null,
     mergedAt: null,
     collect_status:"Collect",
     water_status: "Water",
@@ -48,6 +51,7 @@ export const defaultBranches = [
     name:"",
     isPulled: false,
     isMerged: false,
+    pulledAt: null,
     mergedAt: null,
     collect_status:"Collect",
     water_status: "Water",
@@ -62,6 +66,7 @@ export const defaultBranches = [
     name: "Integrate Super Fancy State Management Library",
     isPulled: true,
     isMerged: true,
+    pulledAt: null,
     mergedAt: new Date().getTime(),
     collect_status:"Collect",
     water_status: "Water",
@@ -76,6 +81,7 @@ export const defaultBranches = [
     name: "Refactor dashboard component",
     isPulled: true,
     isMerged: false,
+    pulledAt: new Date().getTime(),
     mergedAt: null,
     collect_status: "Collect",
     water_status: "Water",
@@ -84,3 +90,12 @@ export const defaultBranches = [
     reward_src:require("./assets/rewards/dottoritree.png")
   }
 ];
+
+export const diffUrls = {
+  1: {
+    src: require('file-loader!./assets/diffs/1.html'),
+  },
+  2: {
+    src: require('file-loader!./assets/diffs/2.html'),
+  }
+};
