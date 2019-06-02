@@ -26,11 +26,7 @@
             <GitHubButton
               slot="actions"
               highlight
-              @click="
-                if (!title) return;
-                pull(selectedBranch, title);
-                $router.push('/github');
-              "
+              @click="clickMerge()"
             >
               <span slot="text">Create pull request</span>
             </GitHubButton>
@@ -110,7 +106,7 @@
             />
             {{ selectedBranch.name }} #{{ selectedBranch.id }}
           </h4>
-          <div v-if="selectedBranch.isPulled">
+          <div v-if="selectedBranch.isPulled && !selectedBranch.isMerged">
             <GitHubButton @click="$router.push('/github')">
               <span slot="text">Request for Change</span>
             </GitHubButton>
@@ -196,6 +192,14 @@ export default {
     },
     merge: function(branch) {
       store.commit("merge", branch);
+    },
+    clickMerge() {
+      if (!this.title) {
+        alert('Please write the title for request');
+        return;
+      }
+      this.pull(this.selectedBranch, this.title);
+      this.$router.push('/github');
     }
   },
   watch: {
