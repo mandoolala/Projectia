@@ -31,7 +31,7 @@
                     </b-modal>
                 </div>
                 <div>
-                    <button v-if="!pullrequest.isMerged" class="collectbutton disabled"> Water </button>
+                    <button v-if="pullrequest.status === branch_merged" class="collectbutton disabled"> Water </button>
                     <button v-else v-on:click="waterForest(pullrequest)" class="collectbutton" v-bind:class=pullrequest.water_status> Water </button>
                 </div>
             </div>
@@ -44,24 +44,38 @@
 
 <script>
 import { plantRepresentation } from '../plants';
+import {branch_merge_requested, branch_merged, branch_work_in_progress} from "../constants";
 
 var filters = {
     all: function (pullrequests) {
         return pullrequests.filter(function(pullrequest){
-            return pullrequest.isPulled
+            return pullrequest.status !== branch_work_in_progress
         })
     },
     waiting: function (pullrequests) {
         return pullrequests.filter(function (pullrequest) {
-            return pullrequest.isPulled && !pullrequest.isMerged
+            return pullrequest.status === branch_merge_requested
         })
     },
     merged: function (pullrequests) {
         return pullrequests.filter(function (pullrequest) {
-            return pullrequest.isPulled && pullrequest.isMerged
+            return pullrequest.status === branch_merged
         })
     }
 };
+
+const displayableByBranchStatus = {
+  [branch_work_in_progress]: {
+  },
+  [branch_merge_requested]: {
+    status_src: require("../assets/open.png"),
+  },
+  [branch_merged]: {
+    status_src: require("../assets/merged.png")
+  }
+};
+
+
 
 
 export default {
@@ -77,7 +91,12 @@ export default {
     computed: {
         filteredPullRequests: function () {
             return filters[this.visibility](this.pullRequests)
-        }
+              .map(pr => ({ ...pr, status_src: displayableByBranchStatus[pr.status].status_src}))
+        },
+
+          branch_merged() { return branch_merged; },
+          branch_merge_requested() { return branch_merge_requested; },
+          branch_work_in_progress() { return branch_work_in_progress; }
     },
     methods: {
         getModalId: function(id) {
