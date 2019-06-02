@@ -119,7 +119,7 @@
       >
         <span
                 class="tooltipname"
-        >{{ selectedAvailablePlant.owner }}'s {{ selectedAvailablePlant.type }}</span>
+        >{{ selectedAvailablePlant.owner }}'s {{ selectedAvailablePlant.name }}</span>
       </div>
       <div>
         <div
@@ -211,7 +211,7 @@ export default {
       );
       if (!planted) return;
       // console.log(planted.owner);
-      return planted;
+      return { ...planted, name: plantRepresentation[planted.type].name};
     }
   },
   methods: {
