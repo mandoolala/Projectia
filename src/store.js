@@ -32,7 +32,6 @@ const store = new Vuex.Store({
           branch.status = branch_merged;
           branch.mergedAt = new Date().getTime();
           branch.water_status = "Water";
-          branch.status_src = require("./assets/merged.png");
         }
       }
     }
