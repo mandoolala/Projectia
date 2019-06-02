@@ -27,7 +27,10 @@
               slot="actions"
               highlight
               @click="
-                if (!title) return;
+                if (!title) {
+                  alert('Please write the title for request');
+                  return;
+                }
                 pull(selectedBranch, title);
                 $router.push('/github');
               "
@@ -110,7 +113,7 @@
             />
             {{ selectedBranch.name }} #{{ selectedBranch.id }}
           </h4>
-          <div v-if="selectedBranch.isPulled">
+          <div v-if="selectedBranch.isPulled && !selectedBranch.isMerged">
             <GitHubButton @click="$router.push('/github')">
               <span slot="text">Request for Change</span>
             </GitHubButton>
