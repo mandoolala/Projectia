@@ -293,80 +293,80 @@ export default {
             item.level = 1;
             this.garden.availablePlants.splice(flag, 0, item);
 
-            this.toggleAll(true);
+                            this.toggleAll(true);
 
-            //console.log('pick plant'+this.garden.availablePlants);
-            return;
-          }
+                            //console.log('pick plant'+this.garden.availablePlants);
+                            return;
+                        }
+                    }
+                    flag = flag + 1;
+                });
+            },
+            plant(x, y) {
+                console.log(x, y);
+                if (this.pickedPlant.length == 0 || this.findPlantInPosition(x, y, 0))
+                    return;
+                var item = this.pickedPlant.pop();
+                var flag = 0;
+                console.log(item);
+                this.garden.availablePlants.forEach(plant => {
+                    if (
+                        plant.position.x == item.position.x &&
+                        plant.position.y == item.position.y
+                    ) {
+                        this.garden.availablePlants.splice(flag, 1);
+                    }
+                    flag = flag + 1;
+                });
+                item.level = 2;
+                item.position = { x, y };
+                this.garden.plants.push(item);
+            },
+            mousemove: function(x, y) {
+                if (this.lastMouseTileX === x && this.lastMouseTileY === y) return;
+                // const root = document.documentElement;
+                // root.style.setProperty('--mouse-x',event.clientX);
+                // root.style.setProperty('--mouse-y',event.clientY);
+
+                this.pointerX = event.clientX;
+                this.pointerY = event.clientY + 40;
+
+                this.lastMouseTileX = x;
+                this.lastMouseTileY = y;
+                console.log(this.pointerX, this.pointerY);
+            },
+            mouseenter() {
+                this.mouseOnCanvas = true;
+                // console.log(this.mouseOnCanvas)
+            },
+            mouseleave() {
+                this.mouseOnCanvas = false;
+            },
+            mouseenter2() {
+                this.mouseOnCanvas2 = true;
+                // console.log(this.mouseOnCanvas)
+            },
+            mouseleave2() {
+                this.mouseOnCanvas2 = false;
+            }
+        },
+        mounted: function() {
+            this.$tours["myTour"].start();
+        },
+
+        watch: {
+            selected(newVal, oldVal) {
+                // Handle changes in individual checkboxes
+                if (newVal.length === 0) {
+                    this.allSelected = false;
+                } else if (newVal.length === this.contributors.length) {
+                    this.allSelected = true;
+                } else {
+                    this.allSelected = false;
+                }
+            }
         }
-        flag = flag + 1;
-      });
-    },
-    plant(x, y) {
-      console.log(x, y);
-      if (this.pickedPlant.length == 0 || this.findPlantInPosition(x, y, 0))
-        return;
-      var item = this.pickedPlant.pop();
-      var flag = 0;
-      console.log(item);
-      this.garden.availablePlants.forEach(plant => {
-        if (
-          plant.position.x == item.position.x &&
-          plant.position.y == item.position.y
-        ) {
-          this.garden.availablePlants.splice(flag, 1);
-        }
-        flag = flag + 1;
-      });
-      item.level = 2;
-      item.position = { x, y };
-      this.garden.plants.push(item);
-    },
-    mousemove: function(x, y) {
-      if (this.lastMouseTileX === x && this.lastMouseTileY === y) return;
-      // const root = document.documentElement;
-      // root.style.setProperty('--mouse-x',event.clientX);
-      // root.style.setProperty('--mouse-y',event.clientY);
-
-      this.pointerX = event.clientX;
-      this.pointerY = event.clientY + 40;
-
-      this.lastMouseTileX = x;
-      this.lastMouseTileY = y;
-      console.log(this.pointerX, this.pointerY);
-    },
-    mouseenter() {
-      this.mouseOnCanvas = true;
-      // console.log(this.mouseOnCanvas)
-    },
-    mouseleave() {
-      this.mouseOnCanvas = false;
-    },
-    mouseenter2() {
-      this.mouseOnCanvas2 = true;
-      // console.log(this.mouseOnCanvas)
-    },
-    mouseleave2() {
-      this.mouseOnCanvas2 = false;
-    }
-  },
-  mounted: function() {
-    this.$tours["myTour"].start();
-  },
-
-  watch: {
-    selected(newVal, oldVal) {
-      // Handle changes in individual checkboxes
-      if (newVal.length === 0) {
-        this.allSelected = false;
-      } else if (newVal.length === this.contributors.length) {
-        this.allSelected = true;
-      } else {
-        this.allSelected = false;
-      }
-    }
-  }
-};
+    };
 </script>
 
 <style scoped>
