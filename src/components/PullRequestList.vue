@@ -1,6 +1,6 @@
 <template>
   <!-- import CSS -->
-  <div id="pull-request">
+  <div id="pull-request" >
 
       <div class="filters" style="display:flex">
           <button class="button" v-on:click="visibility = 'all'" :class="{ selected: visibility === 'all' }">All</button>
@@ -111,7 +111,9 @@ export default {
 #pull_request {
   display: flex;
   flex-direction: column;
-
+  /* width: 510px;
+  height: 510px;
+  overflow: auto; */
 }
 
 .filters {
