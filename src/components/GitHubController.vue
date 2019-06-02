@@ -61,7 +61,7 @@
           <div class="list-item" v-for="pullRequest in pullRequests">
             <div>
               <MergeIcon
-                v-if="pullRequest.isMerged"
+                v-if="pullRequest.status === branch_merged"
                 fill="#6f42c1"
                 style="width: 1.5rem; height: 1.5rem;"
               ></MergeIcon>
@@ -96,7 +96,7 @@
           <h4 style="font-size: 2rem;">
             <img
               :src="require('../assets/merged.png')"
-              v-if="selectedBranch.status === 'merged'"
+              v-if="selectedBranch.status === branch_merged"
               style="height: 2.3rem;"
             />
             <img
@@ -106,7 +106,7 @@
             />
             {{ selectedBranch.name }} #{{ selectedBranch.id }}
           </h4>
-          <div v-if="selectedBranch.status === 'merge_requested'">
+          <div v-if="selectedBranch.status === branch_merge_requested">
             <GitHubButton @click="$router.push('/github')">
               <span slot="text">Request for Change</span>
             </GitHubButton>
@@ -184,7 +184,10 @@ export default {
       const id = this.$route.params.id;
       if (!id) return;
       return store.state.branchList.find(b => String(b.id) === id);
-    }
+    },
+    branch_merged() { return branch_merged; },
+    branch_merge_requested() { return branch_merge_requested; },
+    branch_work_in_progress() { return branch_work_in_progress; }
   },
   methods: {
     pull: function(branch, title) {
