@@ -204,9 +204,19 @@ export default {
   methods: {
     pull: function(branch, title) {
       store.commit("pull", { branch, title });
+      this.$bvToast.toast(`Your team got a new seed by the new contribution!`, {
+        title: 'Projectia',
+        variant: 'success',
+        autoHideDelay: 5000,
+      })
     },
     merge: function(branch) {
       store.commit("merge", branch);
+      this.$bvToast.toast(`Now your team can water all the plant!`, {
+        title: 'Projectia',
+        variant: 'success',
+        autoHideDelay: 5000,
+      })
     },
     clickMerge() {
       if (!this.title) {
@@ -273,9 +283,6 @@ export default {
   font-family: "Roboto", "Helvetica";
 }
 
-.diff {
-  width: 100%;
-}
 
 .compare-pr .create .form {
   display: flex;
