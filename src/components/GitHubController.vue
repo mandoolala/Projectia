@@ -23,11 +23,7 @@
         <div class="create" v-else>
           <git-hub-page-title>
             <span slot="title">Comparing Changes</span>
-            <GitHubButton
-              slot="actions"
-              highlight
-              @click="clickMerge()"
-            >
+            <GitHubButton slot="actions" highlight @click="clickMerge()">
               <span slot="text">Create pull request</span>
             </GitHubButton>
           </git-hub-page-title>
@@ -39,7 +35,7 @@
             />
           </div>
           <iframe
-                  ref="diff"
+            ref="diff"
             class="diff"
             frameborder="0"
             :src="diffUrls[String((selectedBranch.id % 2) + 1)].src"
@@ -138,7 +134,12 @@
 </template>
 
 <script>
-  import {branch_merge_requested, branch_merged, branch_work_in_progress, diffUrls} from "../constants";
+import {
+  branch_merge_requested,
+  branch_merged,
+  branch_work_in_progress,
+  diffUrls
+} from "../constants";
 import lodash from "lodash";
 
 import store from "../store";
@@ -180,19 +181,32 @@ export default {
     pullRequests() {
       const branchList = store.state.branchList;
 
-      const requested = branchList.filter(branch => branch.status === branch_merge_requested);
+      const requested = branchList.filter(
+        branch => branch.status === branch_merge_requested
+      );
 
-      const merged = branchList.filter(branch => branch.status === branch_merged);
-      return lodash.sortBy(requested, m => m.pulledAt).reverse().concat(lodash.sortBy(merged, m => m.mergedAt).reverse());
+      const merged = branchList.filter(
+        branch => branch.status === branch_merged
+      );
+      return lodash
+        .sortBy(requested, m => m.pulledAt)
+        .reverse()
+        .concat(lodash.sortBy(merged, m => m.mergedAt).reverse());
     },
     selectedBranch() {
       const id = this.$route.params.id;
       if (!id) return;
       return store.state.branchList.find(b => String(b.id) === id);
     },
-    branch_merged() { return branch_merged; },
-    branch_merge_requested() { return branch_merge_requested; },
-    branch_work_in_progress() { return branch_work_in_progress; }
+    branch_merged() {
+      return branch_merged;
+    },
+    branch_merge_requested() {
+      return branch_merge_requested;
+    },
+    branch_work_in_progress() {
+      return branch_work_in_progress;
+    }
   },
   methods: {
     pull: function(branch, title) {
@@ -203,23 +217,24 @@ export default {
     },
     clickMerge() {
       if (!this.title) {
-        alert('Please write the title for request');
+        alert("Please write the title for request");
         return;
       }
       this.pull(this.selectedBranch, this.title);
-      this.$router.push('/github');
+      this.$router.push("/github");
     },
     updateDiffHeight() {
-      this.diffHeight = this.$refs.diff.contentWindow.document.body.scrollHeight + 100;
+      this.diffHeight =
+        this.$refs.diff.contentWindow.document.body.scrollHeight + 100;
     }
   },
   watch: {
     compare(to) {
       if (to) {
-        this.title = '';
+        this.title = "";
       }
     }
-  },
+  }
 };
 </script>
 
