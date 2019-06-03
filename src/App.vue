@@ -23,122 +23,136 @@
       <div id="forestcontainer">
         <div class="fore">
           <div>
-          <div class = "seedbox">
-            <div style="display:flex; flex-direction: column; ">
-              <div>
-                <p class="componenttitle" style="margin-left: 30px;">Seed-Box</p>
-                <forestv
-                        class="forestv"
-                        len="3"
-                        :plants="garden.availablePlants"
-                        @click="pick"
-                        @mousemove="mousemove"
-                        @mouseenter="mouseenter"
-                        @mouseleave="mouseleave"
-                        ground="29"
-                ></forestv>
+            <div class="seedbox">
+              <div style="display:flex; flex-direction: column; ">
+                <div>
+                  <p class="componenttitle" style="margin-left: 30px;">
+                    Seed-Box
+                  </p>
+                  <forestv
+                    class="forestv"
+                    len="3"
+                    :plants="garden.availablePlants"
+                    @click="pick"
+                    @mousemove="mousemove"
+                    @mouseenter="mouseenter"
+                    @mouseleave="mouseleave"
+                    ground="29"
+                  ></forestv>
+                </div>
               </div>
+              <img
+                style="width:130px; height: 120px; align-self: flex-end; margin-left: 70px;"
+                src="./assets/bigarrow.png"
+              />
             </div>
-            <img style="width:130px; height: 120px; align-self: flex-end; margin-left: 70px;" src="./assets/bigarrow.png" />
-          </div>
             <div>
               <div class="pullrequests">
-                <p class="componenttitle" style="font-weight: 500; font-size: 23.5px; margin-right: 100px;">Contributions</p>
-              </div>
-              <PullRequestList style="color:#2c3e50; margin-left:30px; width;510px;"
-                      v-on:grow="grow"
-                      v-on:addPlant="addSeedToBox"
-              ></PullRequestList>
-            </div>
-            </div>
-          </div>
-
-          <div>
-            <div class ="teamgarden">
-              <div
-                style="display:flex; flex-direction:row; justify-content: space-between;"
-              >
                 <p
                   class="componenttitle"
-                  style="margin-left: 20px; margin-top: 20px;"
+                  style="font-weight: 500; font-size: 23.5px; margin-right: 100px;"
                 >
-                  Team Garden
+                  Contributions
                 </p>
-                <div
-                  style="display:flex; flex-direction:row; align-items: center; "
-                >
-                  <button id="plantbook" @click="$bvModal.show('plant-book')">
-                    <img
-                      style="width:35px; margin-bottom: 5px;"
-                      src="./assets/plantbook.png"
-                    />
-                    Plant Book
-                  </button>
-                </div>
               </div>
-              <div>
-                <div class="users">
-                  <img class="user" src="./assets/user1.png" />
-                  <img class="user" src="./assets/user2.png" />
-                  <img class="user" src="./assets/user3.png" />
-                  <img class="user" src="./assets/user4.png" />
-                </div>
-                <div>
-                  <b-form-group id="userselect">
-                    <b-form-checkbox
-                      v-model="allSelected"
-                      aria-describedby="contributors"
-                      aria-controls="contributors"
-                      @change="toggleAll"
-                      button
-                      button-variant="outline-dark"
-                      style="margin-left: 30px; background-color: #f7f7f7;"
-                      >All</b-form-checkbox
-                    >
-                    <b-form-checkbox-group
-                      v-model="selected"
-                      :options="contributors"
-                      size="m"
-                      @change="filterPlants"
-                      buttons
-                      id="userbutton"
-                      button-variant="outline-secondary"
-                      style="margin-left: 18px; background-color: #f7f7f7;"
-                    ></b-form-checkbox-group>
-                  </b-form-group>
-                </div>
-              </div>
-              <forestv
-                class="forestv"
-                len="8"
-                :plants="garden.visiblePlants"
-                @click="plant"
-                @mousemove="mousemove"
-                @mouseenter="mouseenter2"
-                @mouseleave="mouseleave2"
-                ground="1"
-              ></forestv>
+              <PullRequestList
+                style="color:#2c3e50; margin-left:30px; width;510px;"
+                v-on:grow="grow"
+                v-on:addPlant="addSeedToBox"
+              ></PullRequestList>
             </div>
           </div>
         </div>
+
+        <div>
+          <div class="teamgarden">
+            <div
+              style="display:flex; flex-direction:row; justify-content: space-between;"
+            >
+              <p
+                class="componenttitle"
+                style="margin-left: 20px; margin-top: 20px;"
+              >
+                Team Garden
+              </p>
+              <div
+                style="display:flex; flex-direction:row; align-items: center; "
+              >
+                <button id="plantbook" @click="$bvModal.show('plant-book')">
+                  <img
+                    style="width:35px; margin-bottom: 5px;"
+                    src="./assets/plantbook.png"
+                  />
+                  Plant Book
+                </button>
+              </div>
+            </div>
+            <div>
+              <div class="users">
+                <img class="user" src="./assets/user1.png" />
+                <img class="user" src="./assets/user2.png" />
+                <img class="user" src="./assets/user3.png" />
+                <img class="user" src="./assets/user4.png" />
+              </div>
+              <div>
+                <b-form-group id="userselect">
+                  <b-form-checkbox
+                    v-model="allSelected"
+                    aria-describedby="contributors"
+                    aria-controls="contributors"
+                    @change="toggleAll"
+                    button
+                    button-variant="outline-dark"
+                    style="margin-left: 30px; background-color: #f7f7f7;"
+                    >All</b-form-checkbox
+                  >
+                  <b-form-checkbox-group
+                    v-model="selected"
+                    :options="contributors"
+                    size="m"
+                    @change="filterPlants"
+                    buttons
+                    id="userbutton"
+                    button-variant="outline-secondary"
+                    style="margin-left: 18px; background-color: #f7f7f7;"
+                  ></b-form-checkbox-group>
+                </b-form-group>
+              </div>
+            </div>
+            <forestv
+              class="forestv"
+              len="8"
+              :plants="garden.visiblePlants"
+              @click="plant"
+              @mousemove="mousemove"
+              @mouseenter="mouseenter2"
+              @mouseleave="mouseleave2"
+              ground="1"
+            ></forestv>
+          </div>
+        </div>
       </div>
-      <!-- start -->
-      <div
-              class="tooltip1"
-              v-if="mouseOnCanvas2 && selectedPlant"
-              v-bind:style="{ left: this.pointerX+'px', top: this.pointerY+'px'}"
+    </div>
+    <!-- start -->
+    <div
+      class="tooltip1"
+      v-if="mouseOnCanvas2 && selectedPlant"
+      v-bind:style="{ left: this.pointerX + 'px', top: this.pointerY + 'px' }"
+    >
+      <span class="tooltipname"
+        >{{ selectedPlant.owner }}'s {{ selectedPlant.name }}</span
       >
-        <span class="tooltipname">{{ selectedPlant.owner }}'s {{ selectedPlant.name }}</span>
-      </div>
-      <div
-              class="tooltip1"
-              v-if="mouseOnCanvas && selectedAvailablePlant"
-              v-bind:style="{ left: this.pointerX+'px', top: this.pointerY +'px'}"
+    </div>
+    <div
+      class="tooltip1"
+      v-if="mouseOnCanvas && selectedAvailablePlant"
+      v-bind:style="{ left: this.pointerX + 'px', top: this.pointerY + 'px' }"
+    >
+      <span class="tooltipname"
+        >{{ selectedAvailablePlant.owner }}'s
+        {{ selectedAvailablePlant.name }}</span
       >
-        <span
-                class="tooltipname"
-        >{{ selectedAvailablePlant.owner }}'s {{ selectedAvailablePlant.name }}</span>
-      </div>
+    </div>
 
     <router-view></router-view>
   </div>
@@ -153,7 +167,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import { getMaxLevel, plantRepresentation } from "./plants";
 import PlantBook from "./components/PlantBook";
 import Tutorial from "./components/Tutorial.vue";
-import store from './store';
+import store from "./store";
 
 export default {
   name: "app",
@@ -208,8 +222,8 @@ export default {
       );
       if (!planted) return;
       // console.log(planted.owner);
-      
-      return { ...planted, name: plantRepresentation[planted.type].name};
+
+      return { ...planted, name: plantRepresentation[planted.type].name };
     },
     selectedAvailablePlant() {
       const planted = this.garden.availablePlants.find(
@@ -218,7 +232,7 @@ export default {
       );
       if (!planted) return;
       // console.log(planted.owner);
-      return { ...planted, name: plantRepresentation[planted.type].name};
+      return { ...planted, name: plantRepresentation[planted.type].name };
     }
   },
   methods: {
@@ -291,80 +305,80 @@ export default {
             item.level = 1;
             this.garden.availablePlants.splice(flag, 0, item);
 
-                            this.toggleAll(true);
+            this.toggleAll(true);
 
-                            //console.log('pick plant'+this.garden.availablePlants);
-                            return;
-                        }
-                    }
-                    flag = flag + 1;
-                });
-            },
-            plant(x, y) {
-                console.log(x, y);
-                if (this.pickedPlant.length == 0 || this.findPlantInPosition(x, y, 0))
-                    return;
-                var item = this.pickedPlant.pop();
-                var flag = 0;
-                console.log(item);
-                this.garden.availablePlants.forEach(plant => {
-                    if (
-                        plant.position.x == item.position.x &&
-                        plant.position.y == item.position.y
-                    ) {
-                        this.garden.availablePlants.splice(flag, 1);
-                    }
-                    flag = flag + 1;
-                });
-                item.level = 2;
-                item.position = { x, y };
-                this.garden.plants.push(item);
-            },
-            mousemove: function(x, y) {
-                if (this.lastMouseTileX === x && this.lastMouseTileY === y) return;
-                // const root = document.documentElement;
-                // root.style.setProperty('--mouse-x',event.clientX);
-                // root.style.setProperty('--mouse-y',event.clientY);
-
-                this.pointerX = event.clientX;
-                this.pointerY = event.clientY + 40;
-
-                this.lastMouseTileX = x;
-                this.lastMouseTileY = y;
-                console.log(this.pointerX, this.pointerY);
-            },
-            mouseenter() {
-                this.mouseOnCanvas = true;
-                // console.log(this.mouseOnCanvas)
-            },
-            mouseleave() {
-                this.mouseOnCanvas = false;
-            },
-            mouseenter2() {
-                this.mouseOnCanvas2 = true;
-                // console.log(this.mouseOnCanvas)
-            },
-            mouseleave2() {
-                this.mouseOnCanvas2 = false;
-            }
-        },
-        mounted: function() {
-            this.$tours["myTour"].start();
-        },
-
-        watch: {
-            selected(newVal, oldVal) {
-                // Handle changes in individual checkboxes
-                if (newVal.length === 0) {
-                    this.allSelected = false;
-                } else if (newVal.length === this.contributors.length) {
-                    this.allSelected = true;
-                } else {
-                    this.allSelected = false;
-                }
-            }
+            //console.log('pick plant'+this.garden.availablePlants);
+            return;
+          }
         }
-    };
+        flag = flag + 1;
+      });
+    },
+    plant(x, y) {
+      console.log(x, y);
+      if (this.pickedPlant.length == 0 || this.findPlantInPosition(x, y, 0))
+        return;
+      var item = this.pickedPlant.pop();
+      var flag = 0;
+      console.log(item);
+      this.garden.availablePlants.forEach(plant => {
+        if (
+          plant.position.x == item.position.x &&
+          plant.position.y == item.position.y
+        ) {
+          this.garden.availablePlants.splice(flag, 1);
+        }
+        flag = flag + 1;
+      });
+      item.level = 2;
+      item.position = { x, y };
+      this.garden.plants.push(item);
+    },
+    mousemove: function(x, y) {
+      if (this.lastMouseTileX === x && this.lastMouseTileY === y) return;
+      // const root = document.documentElement;
+      // root.style.setProperty('--mouse-x',event.clientX);
+      // root.style.setProperty('--mouse-y',event.clientY);
+
+      this.pointerX = event.clientX;
+      this.pointerY = event.clientY + 40;
+
+      this.lastMouseTileX = x;
+      this.lastMouseTileY = y;
+      console.log(this.pointerX, this.pointerY);
+    },
+    mouseenter() {
+      this.mouseOnCanvas = true;
+      // console.log(this.mouseOnCanvas)
+    },
+    mouseleave() {
+      this.mouseOnCanvas = false;
+    },
+    mouseenter2() {
+      this.mouseOnCanvas2 = true;
+      // console.log(this.mouseOnCanvas)
+    },
+    mouseleave2() {
+      this.mouseOnCanvas2 = false;
+    }
+  },
+  mounted: function() {
+    this.$tours["myTour"].start();
+  },
+
+  watch: {
+    selected(newVal, oldVal) {
+      // Handle changes in individual checkboxes
+      if (newVal.length === 0) {
+        this.allSelected = false;
+      } else if (newVal.length === this.contributors.length) {
+        this.allSelected = true;
+      } else {
+        this.allSelected = false;
+      }
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -376,7 +390,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   background-color: #fcfcfc;
-
 }
 
 .main {
@@ -393,7 +406,7 @@ export default {
 
 .projectContainer {
   padding: 4rem;
-  padding-top:2.5rem;
+  padding-top: 2.5rem;
   flex: 1;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -451,29 +464,24 @@ h1 {
   display: flex;
   justify-content: space-between;
   margin-right: 30px;
-
 }
 
-.seedbox{
-  display:flex;
+.seedbox {
+  display: flex;
   flex-direction: row;
   margin-left: 30px;
   margin-top: 18px;
 }
 
-.pullrequests{
+.pullrequests {
   display: flex;
   margin-top: 60px;
   margin-left: 60px;
-
 }
 
-.teamgarden{
-
+.teamgarden {
   margin-right: 30px;
-
 }
-
 
 #plantbook {
   font-size: 15px;
