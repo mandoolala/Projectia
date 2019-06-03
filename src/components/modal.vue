@@ -4,7 +4,7 @@
       <div class="modal-wrapper" @click="$emit('close')">
         <div class="modal-container" @click.stop>
           <button class="modal-default-button" @click="$emit('close')">
-            X
+            Go back to Projectia
           </button>
           <h4><b> ※ This is a mock-up GitHub controller for testing. </b></h4>
 
@@ -52,6 +52,7 @@ export default {
 .modal-container {
 
   width: 100vw;
+  min-height: 100vh;
 
   display: flex;
   flex-direction: column;
