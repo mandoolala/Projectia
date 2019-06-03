@@ -39,7 +39,9 @@
             />
           </div>
           <iframe
+                  ref="diff"
             class="diff"
+            frameborder="0"
             :src="diffUrls[String((selectedBranch.id % 2) + 1)].src"
           >
           </iframe>
@@ -123,8 +125,11 @@
           </div>
         </div>
         <iframe
-          class="diff"
+          ref="diff"
+          frameborder="0"
+          :style="{ width: '100%', height: diffHeight + 'px' }"
           :src="diffUrls[String((selectedBranch.id % 2) + 1)].src"
+          @load="updateDiffHeight()"
         >
         </iframe>
       </div>
@@ -152,7 +157,7 @@ export default {
     }
   },
   data() {
-    return { title: "" };
+    return { title: "", diffHeight: 0, timer: null };
   },
   components: {
     GitHubPageTitle,
@@ -203,6 +208,9 @@ export default {
       }
       this.pull(this.selectedBranch, this.title);
       this.$router.push('/github');
+    },
+    updateDiffHeight() {
+      this.diffHeight = this.$refs.diff.contentWindow.document.body.scrollHeight + 100;
     }
   },
   watch: {
@@ -211,7 +219,7 @@ export default {
         this.title = '';
       }
     }
-  }
+  },
 };
 </script>
 
@@ -263,7 +271,6 @@ export default {
 
 .diff {
   width: 100%;
-  min-height: 60vh;
 }
 
 .compare-pr .create .form {

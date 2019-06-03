@@ -34,6 +34,19 @@ const store = new Vuex.Store({
           branch.water_status = "Water";
         }
       }
+    },
+    collect: function(state, branch) {
+      const request = state.branchList.find(b => b.id === branch.id)
+      if (!request) return;
+
+      request.collect_status = "Collected";
+    },
+    water: function(state, branch) {
+      const request = state.branchList.find(b => b.id === branch.id)
+      if (!request) return;
+
+      request.water_status = "Watered";
+
     }
   }
 });
