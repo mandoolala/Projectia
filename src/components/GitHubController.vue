@@ -34,13 +34,9 @@
               placeholder="Write the title of your pull request"
             />
           </div>
-          <iframe
-            ref="diff"
-            class="diff"
-            frameborder="0"
+          <GitHubDiff
             :src="diffUrls[String((selectedBranch.id % 2) + 1)].src"
-          >
-          </iframe>
+          ></GitHubDiff>
         </div>
       </div>
 
@@ -120,14 +116,9 @@
             </GitHubButton>
           </div>
         </div>
-        <iframe
-          ref="diff"
-          frameborder="0"
-          :style="{ width: '100%', height: diffHeight + 'px' }"
+        <GitHubDiff
           :src="diffUrls[String((selectedBranch.id % 2) + 1)].src"
-          @load="updateDiffHeight()"
-        >
-        </iframe>
+        ></GitHubDiff>
       </div>
     </div>
   </modal>
@@ -148,6 +139,7 @@ import MergeIcon from "./MergeIcon";
 import GitHubButton from "./GitHubButton";
 import modal from "./modal";
 import GitHubPageTitle from "./GitHubPageTitle";
+import GitHubDiff from "./GitHubDiff";
 
 export default {
   name: "GitHubController",
@@ -158,14 +150,15 @@ export default {
     }
   },
   data() {
-    return { title: "", diffHeight: 0, timer: null };
+    return { title: "" };
   },
   components: {
     GitHubPageTitle,
     PullIcon,
     MergeIcon,
     GitHubButton,
-    modal
+    modal,
+    GitHubDiff
   },
   computed: {
     diffUrls() {
@@ -222,10 +215,6 @@ export default {
       }
       this.pull(this.selectedBranch, this.title);
       this.$router.push("/github");
-    },
-    updateDiffHeight() {
-      this.diffHeight =
-        this.$refs.diff.contentWindow.document.body.scrollHeight + 100;
     }
   },
   watch: {
