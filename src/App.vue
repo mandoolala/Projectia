@@ -16,7 +16,7 @@
     <div class="projectContainer">
       <div style="display: flex; flex-direction:row; justify-content: left; ">
         <h1>Code-Avengers/Projectia</h1>
-        <goto-git-hub v-bind:branchList="branchList"></goto-git-hub>
+        <goto-git-hub></goto-git-hub>
       </div>
       <plant-book></plant-book>
       <Tutorial></Tutorial>
@@ -48,7 +48,6 @@
               <PullRequestList style="color:#2c3e50; margin-left:30px; width;510px;"
                       v-on:grow="grow"
                       v-on:addPlant="addSeedToBox"
-                      v-bind:pullRequests="branchList"
               ></PullRequestList>
             </div>
             </div>
@@ -154,7 +153,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import { getMaxLevel, plantRepresentation } from "./plants";
 import PlantBook from "./components/PlantBook";
 import Tutorial from "./components/Tutorial.vue";
-import { defaultBranches } from "./constants";
+import store from './store';
 
 export default {
   name: "app",
@@ -171,7 +170,6 @@ export default {
       pointerX: -1,
       pointerY: -1,
       pickedPlant: [],
-      branchList: defaultBranches,
       lastMouseTileX: -1,
       lastMouseTileY: -1,
       mouseOnCanvas: false,
@@ -200,6 +198,9 @@ export default {
     };
   },
   computed: {
+    branchList() {
+      return store.state.branchList;
+    },
     selectedPlant() {
       const planted = this.garden.plants.find(
         ({ position: { x, y } }) =>

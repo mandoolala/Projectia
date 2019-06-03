@@ -15,13 +15,13 @@
                 v-for="(pullrequest) in filteredPullRequests">
 
             <div class="title" v-bind:class="{ titleblur: pullrequest.water_status === 'Watered'}">
-                <img class="status" v-bind:src="pullrequest.status_src">
+                <img class="status" :src="pullrequest.collect_status === 'Collected' && pullrequest.status !== branch_merged ? require('../assets/waiting.png') : pullrequest.status_src">
                 <a class="issue">{{pullrequest.name}}</a>
             </div>
 
             <div class="buttons">
                 <div>
-                    <b-button @click="$bvModal.show(getModalId(pullrequest.id))" class="collectbutton" v-bind:class=pullrequest.collect_status> Collect </b-button>
+                    <b-button @click="$bvModal.show(getModalId(pullrequest.id))" class="collectbutton" v-bind:class="{ [pullrequest.collect_status]: true }"> Collect </b-button>
                     <b-modal :id="getModalId(pullrequest.id)" size="sm" title="Congratulations!" style="align-self: center" hide-header-close>
                         <h6>You have earned {{plantRepresentation[pullrequest.reward].name}} seed! </h6>
                         <img class="reward" v-bind:src="pullrequest.reward_src">
@@ -31,7 +31,7 @@
                     </b-modal>
                 </div>
                 <div>
-                    <button v-if="pullrequest.status === branch_merged" class="collectbutton disabled"> Water </button>
+                    <button v-if="pullrequest.status !== branch_merged" class="collectbutton disabled"> Water </button>
                     <button v-else v-on:click="waterForest(pullrequest)" class="collectbutton" v-bind:class=pullrequest.water_status> Water </button>
                 </div>
             </div>
@@ -45,6 +45,7 @@
 <script>
 import { plantRepresentation } from '../plants';
 import {branch_merge_requested, branch_merged, branch_work_in_progress} from "../constants";
+import store from "../store";
 
 var filters = {
     all: function (pullrequests) {
@@ -80,7 +81,6 @@ const displayableByBranchStatus = {
 
 export default {
     el: "#pullrequest",
-    props: ['pullRequests'],
     data(){
         return {
             visibility: 'all',
@@ -89,6 +89,10 @@ export default {
         }
     },
     computed: {
+
+      pullRequests() {
+        return store.state.branchList;
+      },
         filteredPullRequests: function () {
             return filters[this.visibility](this.pullRequests)
               .map(pr => ({ ...pr, status_src: displayableByBranchStatus[pr.status].status_src}))
@@ -103,16 +107,14 @@ export default {
           return 'modal-' + id;
         },
         collectItem: function(request){
-            request.collect_status = "Collected";
-            if (!request.isMerged){
-                request.status_src = require("../assets/waiting.png");
-            }
+            store.commit('collect', request);
             this.$emit("addPlant", request);
             //move collected reward to container
         },
         waterForest: function(request){
-            request.water_status = "Watered";
-            request.status_src = require("../assets/merged.png");
+          store.commit('water', request);
+            // request.water_status = "Watered";
+            // request.status_src = require("../assets/merged.png");
 
             //water forest
             this.$emit("grow");
