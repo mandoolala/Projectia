@@ -38,6 +38,15 @@ const flower_tree_s = { source: plants, index: 20 };
 const flower_tree_m = { source: plants, index: 21 };
 const flower_tree_l  = { source: plants, index: 22 };
 
+//cactus
+const cactus_hi = { source: plants, index: 33};
+const cactus_wait = { source: plants, index: 38};
+const cactus_seedling = { source: plants, index: 33};
+const cactus_seedling2 = { source: plants, index: 34};
+const cactus_tree_s = { source: plants, index: 35};
+const cactus_tree_m = { source: plants, index: 36};
+const cactus_tree_l = { source: plants, index: 37};
+
 
 
 
@@ -83,6 +92,20 @@ export const plantRepresentation = {
     ],
     description: "Flower... But which flower??\n No one knows",
     growing_image: require('./assets/plant_description/flower.png')
+  },
+  "cactus": {
+    name: "Cactus",
+    levels: [
+      [seed_box3, plant_me, cactus_hi],
+      [seed_box3, plant_me, cactus_wait],
+      [dirt, dirt, cactus_seedling],
+      [dirt, dirt, cactus_seedling2],
+      [healthy_dirt, grass, cactus_tree_s],
+      [healthy_dirt, grass, cactus_tree_m],
+      [green_dirt, grass, cactus_tree_l]
+    ],
+    description: "Cactus, a.k.a Dayuk, is cute. But be careful, there are thorns.",
+    growing_image: require('./assets/plant_description/cactus.png')
   }
 };
 

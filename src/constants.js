@@ -87,6 +87,21 @@ export const defaultBranches = [
     water_status: "Water",
     reward: "cherry_blossom",
     reward_src:require("./assets/rewards/dottoritree.png")
+  },
+  {
+    id: 7,
+    branch:"Karl-branch",
+    owner: "Karl",
+    name: "small fix for bug",
+    status: branch_work_in_progress,
+
+    pulledAt: new Date().getTime(),
+    mergedAt: null,
+    collect_status: "Collect",
+    water_status: "Water",
+    reward: "cactus",
+    reward_src:require("./assets/rewards/cactus.png")
+
   }
 ];
 
