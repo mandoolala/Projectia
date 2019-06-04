@@ -256,7 +256,8 @@ export default {
       // this.watering = true;
       setTimeout(() => {
         this.toggleAll(true);
-      }, 1000);
+      }, 100);
+
 
       this.garden.plants = this.garden.plants.map(plant => {
         return {
