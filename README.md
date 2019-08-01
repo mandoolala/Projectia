@@ -20,6 +20,11 @@ Several components like the tiled canvas and the mock-up GitHub modal included i
 
 [https://mandoolala.github.io/Projectia/](https://mandoolala.github.io/Projectia/)
 
+Video URL: [https://youtu.be/Sd0XsxDFacs](https://youtu.be/Sd0XsxDFacs)
+
+![Preview](https://raw.githubusercontent.com/mandoolala/Projectia/master/screenshot.png)
+
+
 # Installation
 
 ## Project setup
